@@ -1,0 +1,6 @@
+$(MAKE) all
+       mcopy ./bin/kernel.bin a:boot/ -o
+       cp bin/kernel.bin bin/kernel.s
+       qemu -usb -s -p 5000 -m 32 -fda img/tpe.img -no-kqemu &
+       sleep 2
+       gdb bin/kernel.s --eval-command="target remote localhost:5000" --eval-command="b kmain"  --eval-command="c"
