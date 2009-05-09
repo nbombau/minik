@@ -1,0 +1,54 @@
+/**********************
+ kc.h
+**********************/
+#include "defs.h"
+
+#ifndef _kc_
+#define _kc_
+
+/* Inicializa la entrada del IDT */
+void setup_IDT_entry (DESCR_INT *item, byte selector, dword offset, byte access,
+			 byte cero);
+
+int probarMemoria(int argc, char **argv);
+
+int ProcesoExiste(int pid);
+
+proceso_t * TraerProcesoPorPid(int pid);
+
+proceso_t * TraerProcesoPorIndice(int i);
+
+proceso_t *  TraerProcesoPorNombre(char *proceso) ;
+
+int NoHayProcesos (void) ;
+
+int NuevoPid (void) ;
+
+void exec (char *nombre, int (*proceso) (int argc, char **argv), int enBackground) ;
+
+void CrearProceso (char *nombre, int (*proceso) (int argc, char **argv), int argc, 
+                   char **argv, int prioridad, int enBackground, int stacksize);   
+
+int Halt (int argc, char **argv);
+
+int EstaBloqueado(int pid);
+
+int BloqueaProceso (int pid, int bloqCode);
+    
+int DesbloqueaProceso (int pid);
+
+void Kill (int pid);
+
+int Init(int argc, char ** argv);
+
+void * Malloc (int size);
+    
+void GuardarESP (int ESP) ;
+int SiguienteProceso (int esp);
+proceso_t * SiguienteTarea (void) ;
+
+int CargarESP (proceso_t * proc) ;
+
+void IniciarMultiTarea (void) ;
+    
+#endif
