@@ -15,7 +15,7 @@ int numlock=0,caps=0,scrolllock=0,shift=0,altgr=0;
 
 /* Contador del cursor */
 int counter=0;
-
+char *video = (char *) 0xb8000;
 void
 int_08()
 {
@@ -28,6 +28,7 @@ int_09_US(unsigned char code)
 		 *globales, en caso de ser las teclas scrolllock,capslock
 		 *o numlock */
 	    char ascii;
+		printf("Interrumpio\n");
 	    if( code==LSHIFT || code==RSHIFT)
 			shift=1;
 		else if( code==(LSHIFT | MASK) || code==(RSHIFT | MASK) )
@@ -88,7 +89,7 @@ static void
 s_write(const void* buff, int size)
 {
     int i;
-    char *video = (char *) 0xb8000;
+    //char *video = (char *) 0xb8000;
 
     _Cli();
     for(i = 0; i < size; i++)

@@ -187,11 +187,9 @@ de directorio de la tabla de paginas a la cual pertenece esa pagina */
 /* siguiente proceso a ejecutar */
 int
 SiguienteProceso (int esp) {
-  printf("en siguiente proceso");
     proceso_t *temporal;
     GuardarESP (esp);
     temporal = SiguienteTarea();
-    
    // bajarPaginasAnterior(pidActual);
    
     pidActual = temporal->pid;
@@ -216,25 +214,21 @@ SiguienteTarea (void) {
                 desbloqueaProceso (peticionesDormir[i].pid);
 }
 }*/
-    
     if (NoHayProcesos ()) {
         ultimos100[indice] = INIT;
         indice = (indice + 1) % 100;
         return &procesos[INIT];
 }
 
-    printf("mitad de siguiente tarea");
     i = ((actual + 1) % MAXPROCESOS < 1) ? 1 : (actual + 1) % MAXPROCESOS;
     
     while (!tengoProceso) {
-      if (!procesos[i].free_slot && procesos[i].estado!=BLOQUEADO && procesos[i].estado!=ESPERANDO_HIJO ) {
-            if (i != INIT) {
+      if (!procesos[i].free_slot) {
                 actual = i;
                 ultimos100[indice] = i;
                 indice = (indice + 1) % 100;
                 return &procesos[i];
-            }
-        }   
+        }  
         cant++;
         i = (i + 1) % MAXPROCESOS < 1 ? 1 : (i + 1) % MAXPROCESOS;
     }

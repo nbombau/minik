@@ -130,6 +130,12 @@ typedef struct {
   dword base;
 } IDTR;
 
+typedef struct 
+{
+	word limit;
+	dword base;
+}GDTR;
+
 typedef int FileDesc;
 
 

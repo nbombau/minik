@@ -14,6 +14,8 @@ Funciones de bajo nivel
 unsigned int    _read_msw();
 
 void            _lidt (IDTR *idtr);
+void            _lgdt (void);
+void		_getgdt(void);
 
 void		_mascaraPIC1 (byte mascara);  /* Escribe mascara de PIC1 */
 void		_mascaraPIC2 (byte mascara);  /* Escribe mascara de PIC2 */
