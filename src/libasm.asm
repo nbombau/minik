@@ -1,4 +1,6 @@
 GLOBAL  _read_msw,_lidt
+GLOBAL  _lgdt
+GLOBAL  _getgdt
 GLOBAL  _int_08_hand, _int_80_hand, write, read, _int_09_hand_US,_int_09_hand_LAT
 GLOBAL myin, myout, myinw, myoutw, myinl, myoutl
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
@@ -198,20 +200,20 @@ ArmaStackFrame:
     popfd
     retn
 
+
 _int_08_hand:
     cli
     pusha
     push esp
     call SiguienteProceso
-    ;call scheduler
     pop esp
     mov esp, eax
     mov al, 20h
     out 20h, al
     popa
     sti
+   iret
 
-    iret
 
 _Cli:
 	cli			; limpia flag de interrupciones
@@ -254,6 +256,13 @@ _lidt:				; Carga el IDTR
         pop     ebp
         retn
 
+_lgdt:
+	lgdt [0x1234]
+	retn
+
+_getgdt:
+	sgdt [0x1234]
+	retn
 
 ;_int_08_hand:				; Handler de INT 8 ( Timer tick)
  ;       push    ds

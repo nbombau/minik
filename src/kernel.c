@@ -9,7 +9,7 @@
 
 DESCR_INT idt[0x81];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
-
+GDTR* gdtr = (GDTR*)0x1234;
 proceso_t procesos[MAXPROCESOS];
 proceso_t init;
 
@@ -70,21 +70,25 @@ kmain()
 
         _lidt (&idtr);
 
-        
+	_getgdt();
+       	setup_GDT_entry ((DESCR_SEG*)(gdtr->base + gdtr->limit + 1), ((dword)0x10)<<4, 0x00FF, ACS_STACK, 0xC0);
+	setup_GDT_entry ((DESCR_SEG*)(gdtr->base + gdtr->limit + 9), 0, 0xFFFFF, ACS_STACK & 0x7F, 0xC0);
+	gdtr->limit += 16;
+	_lgdt();
 
         /* Habilito interrupcion del teclado */
 
-		byte aux = 0xFD;
+        byte aux = 0xFC; //aca habia un FD, lo cual bloqueaba la int8
         write(PICM1,&aux,1 );
         aux = 0xFF;
         write(PICM2,&aux,1 );
-
+	
+	CrearProceso ("INIT", Init, 0, (char **)0, 2, 0, 0x4096);
         CrearProceso ("shell", shell, 0, (char **) 0, 2, 0, 0x256);
-
-      //  CrearProceso ("INIT", Init, 0, (char **)0, 2, 0, 0x4096);
-      //  desbloqueaProceso(INIT);
-        probarMemoria(0, (char ** )0);
-        _Sti();
+	desbloqueaProceso(INIT);
+        //probarMemoria(0, (char ** )0);
+	_Sti();
+        
 
 
         while (1) {

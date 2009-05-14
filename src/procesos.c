@@ -1,5 +1,6 @@
 #include "../include/defs.h"
 #include "../include/kc.h"
+#include "../include/string.h"
 
 
 #define STACK_USUARIOS  0x1000
@@ -19,6 +20,7 @@ int probarMemoria(int argc, char **argv)
    int i = 0;
    while( i < 99999)
         a[i++] = 'a';
+return 0;
 
 }
 
@@ -66,7 +68,7 @@ TraerProcesoPorNombre (char *proceso) {
     len1 = strlen (proceso);
 
     for (i = 0; i < MAXPROCESOS; i++) {
-        len2 = strlen (procesos[i].nombre);
+        len2 = strlen(procesos[i].nombre);
 
         if (strncmp (proceso, procesos[i].nombre, len1) == 0 && len1 == len2
             && !procesos[i].free_slot) {
@@ -82,9 +84,9 @@ NoHayProcesos (void) {
     int i;
 
     for (i = 0; i < MAXPROCESOS; i++) {
-        if (i == INIT)
-            continue;
-        if (procesos[i].free_slot == 0 && !procesos[i].estado)
+       // if (i == INIT)
+        //    continue;
+        if (procesos[i].free_slot == 0 )
             return 0;
     }
     return 1;
