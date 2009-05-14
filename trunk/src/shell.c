@@ -76,7 +76,6 @@ bash(char *line  )
 int
 shell(int argc, char ** argv)
 {
-  _Cli();
 	/* Buffer de almacenamiento de caracteres */
 	char in_buffer[MAX_CHARS];
 
@@ -92,6 +91,6 @@ shell(int argc, char ** argv)
 		bash(in_buffer);
 	}
 
-    _Sti();
 	return 1 ;
 }
+

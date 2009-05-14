@@ -28,7 +28,6 @@ int_09_US(unsigned char code)
 		 *globales, en caso de ser las teclas scrolllock,capslock
 		 *o numlock */
 	    char ascii;
-		printf("Interrumpio\n");
 	    if( code==LSHIFT || code==RSHIFT)
 			shift=1;
 		else if( code==(LSHIFT | MASK) || code==(RSHIFT | MASK) )
