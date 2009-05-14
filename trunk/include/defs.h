@@ -75,6 +75,13 @@ typedef enum { SCREEN, KEYBOARD, PCI, CURSOR1, CURSOR2,  SCREENNL, PIC, PICM1, P
 */
 #define DEF_PRIO    3
 
+/* Constante de tiempo que representa el tiempo del timer tick
+*  Se utiliza para que la funcion sleep utilice los segundos
+*  como medida de tiempo.
+*/
+
+#define TIMER_TICK 18
+
 /*
 * Estados de Procesos
 */
@@ -83,6 +90,10 @@ typedef enum { SCREEN, KEYBOARD, PCI, CURSOR1, CURSOR2,  SCREENNL, PIC, PICM1, P
 #define EJECUTANDO 3
 #define ESPERANDO_HIJO 4
 #define BLOQUEADO 5
+
+#define TRUE   1
+#define FALSE  0
+#define ERROR -1
 
 /* Procesos 
 */
@@ -98,6 +109,7 @@ typedef struct {
   int stackstart;
   int stacksize;
   int nextfree;
+  long sleep;
 } proceso_t;
 
 

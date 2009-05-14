@@ -24,6 +24,88 @@ GuardarESP (int ESP) {
     temporal->ESP = ESP;
     return;
 }
+
+
+/* siguiente proceso a ejecutar */
+int
+SiguienteProceso (int esp) {
+    proceso_t *temporal;
+    GuardarESP (esp);
+    temporal = SiguienteTarea();
+   // bajarPaginasAnterior(pidActual);
+   
+    pidActual = temporal->pid;
+//    levantaPaginasNuevo(pidActual);
+    return temporal->ESP;
+}
+
+/* la papota */
+
+proceso_t *
+SiguienteTarea (void) {
+    int i;
+    int tengoProceso = 0;
+    int cant = 0;
+
+    /* Se decrementa el tiempo a dormir de los procesos
+    */
+    for(i = 0; i < MAXPROCESOS; i++)
+    {
+	if(procesos[i].sleep > 0)
+	{
+	    //printf("Noooooooooo");
+	    if(--procesos[i].sleep == 0)
+	    {
+		//printf("hola");
+		procesos[i].estado = LISTO;
+	    }
+	}	
+    }
+    
+    if (NoHayProcesos ()) {
+        ultimos100[indice] = INIT;
+        indice = (indice + 1) % 100;
+        return &procesos[INIT];
+    }
+
+    i = ((actual + 1) % MAXPROCESOS < 1) ? 1 : (actual + 1) % MAXPROCESOS;
+    
+    while (!tengoProceso) {
+      if (!procesos[i].free_slot && procesos[i].estado ==LISTO ) {
+                actual = i;
+                ultimos100[indice] = i;
+                indice = (indice + 1) % 100;
+                return &procesos[i];
+        }  
+        cant++;
+        i = (i + 1) % MAXPROCESOS < 1 ? 1 : (i + 1) % MAXPROCESOS;
+    }
+}
+
+int
+CargarESP (proceso_t * proc) {
+    return proc->ESP;
+}
+
+void
+IniciarMultiTarea (void) {
+    int i;
+
+ //   void *stack = Malloc (512);
+   /*Hay que busfcar una direccion perteneciente a la zona de kernel*/
+    void *stack = (void *)0x300000;
+    
+    /* todos los slots estan libres */
+    for (i = 0; i < MAXPROCESOS; i++)
+        procesos[i].free_slot = TRUE;
+
+    /* no hay procesos en la lista de sleep 
+    for (i = 0; i < MAXPROCESOS; i++)
+    peticionesDormir[i].time = 0;*/
+
+}
+
+
 /*
 int
 bajarPaginasAnterior (int pid) {
@@ -183,76 +265,3 @@ de directorio de la tabla de paginas a la cual pertenece esa pagina */
 }
 
 */
-
-/* siguiente proceso a ejecutar */
-int
-SiguienteProceso (int esp) {
-    proceso_t *temporal;
-    GuardarESP (esp);
-    temporal = SiguienteTarea();
-   // bajarPaginasAnterior(pidActual);
-   
-    pidActual = temporal->pid;
-   
-//    levantaPaginasNuevo(pidActual);
-    return temporal->ESP;
-}
-int yaPase=0;
-int primero=1;
-int elPrimero=0;
-/* la papota */
-
-proceso_t *
-SiguienteTarea (void) {
-    int i;
-    int tengoProceso = 0;
-    int cant = 0;
-
- /*   for (i = 0; i < MAXPROCESOS; i++) {
-        if (peticionesDormir[i].time != 0) {
-            if (--peticionesDormir[i].time == 0)
-                desbloqueaProceso (peticionesDormir[i].pid);
-}
-}*/
-    if (NoHayProcesos ()) {
-        ultimos100[indice] = INIT;
-        indice = (indice + 1) % 100;
-        return &procesos[INIT];
-}
-
-    i = ((actual + 1) % MAXPROCESOS < 1) ? 1 : (actual + 1) % MAXPROCESOS;
-    
-    while (!tengoProceso) {
-      if (!procesos[i].free_slot) {
-                actual = i;
-                ultimos100[indice] = i;
-                indice = (indice + 1) % 100;
-                return &procesos[i];
-        }  
-        cant++;
-        i = (i + 1) % MAXPROCESOS < 1 ? 1 : (i + 1) % MAXPROCESOS;
-    }
-}
-
-int
-CargarESP (proceso_t * proc) {
-    return proc->ESP;
-}
-
-void
-IniciarMultiTarea (void) {
-    int i;
-
- //   void *stack = Malloc (512);
-   /*Hay que busfcar una direccion perteneciente a la zona de kernel*/
-    void *stack = (void *)0x300000;
-    
-    /* todos los slots estan libres */
-    for (i = 0; i < MAXPROCESOS; i++)
-        procesos[i].free_slot = 1;
-
-    /* no hay procesos en la lista de sleep 
-    for (i = 0; i < MAXPROCESOS; i++)
-    peticionesDormir[i].time = 0;*/
-
-}

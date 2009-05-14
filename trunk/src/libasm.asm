@@ -6,6 +6,7 @@ GLOBAL myin, myout, myinw, myoutw, myinl, myoutl
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
 GLOBAL _DelCursor
+GLOBAL switch_manual
 GLOBAL _Fault
 GLOBAL  ArmaStackFrame
 
@@ -214,6 +215,14 @@ _int_08_hand:
     sti
    iret
 
+
+switch_manual:
+    push ebp
+    mov ebp, esp
+    int 0x08
+    mov esp, ebp
+    pop ebp
+    ret
 
 _Cli:
 	cli			; limpia flag de interrupciones

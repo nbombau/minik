@@ -161,10 +161,12 @@ help()
 void
 printf(char *string)
 {
+	_Cli();
 	while( *string != '\0' ) {
 		putchar(*string);
 		string++;
 	}
+	_Sti();
 }
 
 void
