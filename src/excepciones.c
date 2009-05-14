@@ -3,9 +3,7 @@
 void
 Div0(void)
 {
-
     printf("Error division por cero.\n");
-
 } 
 
 void

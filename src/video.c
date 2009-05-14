@@ -133,9 +133,9 @@ void
 welcome()
 {
     printf(" __  __ _       _ _  __    ____________________________________________\n");
-    printf("|  \\/  (_)_ __ (_) |/ /    Minikernel v1.0                             \n");
-    printf("| |\\/| | | '_ \\| | ' /     Version: November-08                        \n");
-    printf("| |  | | | | | | | . \\     ITBA - Arquitectura de Computadoras         \n");
+    printf("|  \\/  (_)_ __ (_) |/ /    Minikernel v2.0                             \n");
+    printf("| |\\/| | | '_ \\| | ' /     Version: Mayo-09                        \n");
+    printf("| |  | | | | | | | . \\     ITBA - Sistemas Operativos         \n");
     printf("|_|  |_|_|_| |_|_|_|\\_\\    ____________________________________________\n");
     printf("                      	                                                       \n");
     printf("type ? for help                                                                \n");
