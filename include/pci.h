@@ -49,7 +49,7 @@ unsigned short lspci (void);
 #define USBPORTSC_PR		0x0200	/* Port Reset */
 #define USBPORTSC_SUSP	0x1000	/* Suspend */
 
-#define NULL 0
+
 #define FALSE 0
 #define TRUE 1
 

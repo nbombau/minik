@@ -46,7 +46,7 @@ proceso_t *
 TraerProcesoPorPid (int pid) {
     int i;
 
-    for (i = 0; i < MAXPROCESOS; i++) {
+    for (i = 1; i < MAXPROCESOS; i++) {
         if (procesos[i].pid == pid && !procesos[i].free_slot)
             return &procesos[i];
     }
@@ -84,9 +84,9 @@ NoHayProcesos (void) {
     int i;
 
     for (i = 0; i < MAXPROCESOS; i++) {
-       // if (i == INIT)
-        //    continue;
-        if (procesos[i].free_slot == 0 )
+        if (procesos[i].pid == INIT)
+            continue;
+        if (!procesos[i].free_slot)
             return 0;
     }
     return 1;
@@ -113,9 +113,9 @@ Limpia (void) {
 
   if (temporal->padre != INIT) {
     padre = TraerProcesoPorPid (temporal->padre);
-    padre->estado = 0;
+    padre->estado = LISTO;
   }
-  temporal->free_slot = 1;
+  temporal->free_slot = TRUE;
   while (1) {
     asm volatile ("hlt");
   }
@@ -133,14 +133,14 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
  
     //stack = (void *)Malloc (stacksize);
     stack = (void *)(0xF00000 + (veces * 1024)) ;
-    for (i = 1; i < MAXPROCESOS; i++) {
+    for (i = 0; i < MAXPROCESOS; i++) {
 
 
         if (procesos[i].free_slot)
             break;
     }
 
-
+    veces++;
     procesos[i].pid = NuevoPid ();
     procesos[i].background = enBackground;
     procesos[i].prioridad = prioridad;
@@ -148,6 +148,7 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
     procesos[i].estado = LISTO;
     procesos[i].stacksize = stacksize;
     procesos[i].stackstart = (int) stack + stacksize - 1;
+    procesos[i].sleep = 0;
  //   procesos[i].nextfree = (int) heap;
     
     /*Levanto las paginas de este proceso para poder armar stack*/         
@@ -167,8 +168,21 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
         proc->estado = ESPERANDO_HIJO;
        // procesos[i].padre = pidActual;
     }
-    procesos[i].free_slot = 0;  
+    procesos[i].free_slot = FALSE;  
   
+}
+
+void sleep(int segundos)
+{
+    _Cli();
+    long ticks = (long)(segundos * TIMER_TICK);    
+    proceso_t * tmp = TraerProcesoPorPid(pidActual);
+    tmp->sleep = ticks;
+    tmp->estado = BLOQUEADO;
+        
+    
+    switch_manual();
+    _Sti();
 }
 
 void

@@ -5,6 +5,7 @@
 #include "../include/pci.h"
 #include "../include/video.h"
 #include "../include/shell.h"
+#include "../include/programas.h"
 
 
 DESCR_INT idt[0x81];			/* IDT de 10 entradas*/
@@ -16,7 +17,7 @@ proceso_t init;
 
 
 int pidActual = 0;
-int proxPid = 1;
+int proxPid = 0;
 int maxmem;
 
 /**********************************************
@@ -72,7 +73,8 @@ kmain()
 
 	_getgdt();
        	setup_GDT_entry ((DESCR_SEG*)(gdtr->base + gdtr->limit + 1), ((dword)0x10)<<4, 0x00FF, ACS_STACK, 0xC0);
-	setup_GDT_entry ((DESCR_SEG*)(gdtr->base + gdtr->limit + 9), 0, 0xFFFFF, ACS_STACK & 0x7F, 0xC0);
+	setup_GDT_entry ((DESCR_SEG*)(gdtr->base + gdtr->limit + 9), 0, 0xFFFFF, ACS_STACK & 0x7F, 0xC0);
+
 	gdtr->limit += 16;
 	_lgdt();
 
@@ -83,9 +85,11 @@ kmain()
         aux = 0xFF;
         write(PICM2,&aux,1 );
 	
-	CrearProceso ("INIT", Init, 0, (char **)0, 2, 0, 0x4096);
-        CrearProceso ("shell", shell, 0, (char **) 0, 2, 0, 0x256);
-	desbloqueaProceso(INIT);
+	CrearProceso ("INIT", Init, 0, (char **)0, 2, 0, 0x1000);
+        CrearProceso ("shell", shell, 0, (char **) 0, 2, 0, 0x1000);
+	CrearProceso ("ImprimeLetraA", ImprimeLetras, 0, (char **) 0, 2, 0, 0x1000);
+
+	//desbloqueaProceso(INIT);
         //probarMemoria(0, (char ** )0);
 	_Sti();
         
