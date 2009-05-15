@@ -8,4 +8,8 @@
 int
 ImprimeLetras(int argc, char ** argv);
 
+int
+ImprimeLetras4Ever(int argc, char ** argv);
+
 #endif
+

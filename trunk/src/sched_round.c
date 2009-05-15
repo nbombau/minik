@@ -49,7 +49,7 @@ SiguienteTarea (void) {
 
     /* Se decrementa el tiempo a dormir de los procesos
     */
-    for(i = 0; i < MAXPROCESOS; i++)
+    for(i = 1; i < MAXPROCESOS; i++)
     {
 	if(procesos[i].sleep > 0)
 	{
@@ -63,6 +63,7 @@ SiguienteTarea (void) {
     }
     
     if (NoHayProcesos ()) {
+
         ultimos100[indice] = INIT;
         indice = (indice + 1) % 100;
         return &procesos[INIT];
@@ -265,3 +266,4 @@ de directorio de la tabla de paginas a la cual pertenece esa pagina */
 }
 
 */
+

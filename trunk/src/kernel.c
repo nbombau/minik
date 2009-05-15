@@ -28,7 +28,7 @@ Punto de entrada de cóo C.
 int Init(int argc, char **argv)
 {
   while(1) {
-    asm volatile ("hlt");
+    //asm volatile ("hlt");
   }
 }
 
@@ -87,7 +87,7 @@ kmain()
 	
 	CrearProceso ("INIT", Init, 0, (char **)0, 2, 0, 0x1000);
         CrearProceso ("shell", shell, 0, (char **) 0, 2, 0, 0x1000);
-	CrearProceso ("ImprimeLetraA", ImprimeLetras, 0, (char **) 0, 2, 0, 0x1000);
+//	CrearProceso ("ImprimeLetraA", ImprimeLetras, 0, (char **) 0, 2, 0, 0x1000);
 
 	//desbloqueaProceso(INIT);
         //probarMemoria(0, (char ** )0);
