@@ -86,7 +86,7 @@ NoHayProcesos (void) {
     for (i = 0; i < MAXPROCESOS; i++) {
         if (procesos[i].pid == INIT)
             continue;
-        if (!procesos[i].free_slot)
+        if (!procesos[i].free_slot && procesos[i].estado == LISTO)
             return 0;
     }
     return 1;
@@ -108,7 +108,7 @@ Limpia (void) {
   /* deberia matar al proceso y toda la bola */
   proceso_t *temporal;
   proceso_t *padre;
-
+  _Cli();
   temporal = TraerProcesoPorPid (pidActual);
 
   if (temporal->padre != INIT) {
@@ -116,6 +116,7 @@ Limpia (void) {
     padre->estado = LISTO;
   }
   temporal->free_slot = TRUE;
+  _Sti();
   while (1) {
     asm volatile ("hlt");
   }
@@ -166,7 +167,7 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
         proceso_t *proc = TraerProcesoPorPid (pidActual);
         /* bloqueado esperando que termine su hijo */
         proc->estado = ESPERANDO_HIJO;
-       // procesos[i].padre = pidActual;
+        procesos[i].padre = pidActual;
     }
     procesos[i].free_slot = FALSE;  
   
@@ -186,48 +187,45 @@ void sleep(int segundos)
 }
 
 void
-    Kill (int pid) {/*
-    PROCESO * proc;
-    PROCESO * padre;
-    if (pid != GOD) {
-        proc = GetProcessByPid (pid);
+Kill (int pid) {
+    proceso_t * proc;
+    proceso_t * padre;
+    if (pid != INIT) {
+        proc = (proceso_t*)TraerProcesoPorPid (pid);
         if (proc != 0) {
             printf ("El proceso ", 11);
             printf (proc->nombre, strlen (proc->nombre));
             printf (" fue eliminado.\n", 16);
             proc->free_slot = 1;
-            proc->bloqueado = 0;
+            proc->estado = 0;
             proc->pid = -1;
-            matarHijos (pid);
+            //MatarHijos (pid);
             if(proc->padre!=0)
             {
-                padre = GetProcessByPid (proc->padre);
-                if (proc->padre != GOD )
-                {
-                    if(padre->padre != 0 && !proc->background )
-                        desbloqueaProceso(proc->padre);
-                    else if(padre->terminal==terminalActual && !proc->background )
-                        desbloqueaProceso(proc->padre);
-                    else
-                    { 
-                           if( ! proc->background )
-                   {
-                desbloqueaProceso(proc->padre);
-                            bloqueaProceso (proc->padre, 1);
-               }
-                    }
+                padre = (proceso_t*)TraerProcesoPorPid (proc->padre);
+
+                if(padre->padre != 0 && !proc->background )
+                    desbloqueaProceso(proc->padre);
+                else
+                { 
+                        if( ! proc->background )
+                        {
+                            desbloqueaProceso(proc->padre);
+                            //bloqueaProceso (proc->padre, 1);
+                        }
                 }
+                
             }
-            else if (proc->padre != GOD)
+            else if (proc->padre != INIT)
                 desbloqueaProceso(proc->padre);
         }
         else
             printf ("Proceso no encontrado.\n", 23);
     }
     else {
-        printf ("Proceso protegido.\n", 19);
+        printf ("Acceso denegado (lero lero).\n", 19);
     }
-    return;*/
+    return;
 }
 
 int

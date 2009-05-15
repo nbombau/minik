@@ -75,6 +75,11 @@ typedef enum { SCREEN, KEYBOARD, PCI, CURSOR1, CURSOR2,  SCREENNL, PIC, PICM1, P
 */
 #define DEF_PRIO    3
 
+/* Tamaño Default del Stack
+*/
+
+#define DEF_STACKSIZE 0x1000
+
 /* Constante de tiempo que representa el tiempo del timer tick
 *  Se utiliza para que la funcion sleep utilice los segundos
 *  como medida de tiempo.
