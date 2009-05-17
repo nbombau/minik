@@ -62,7 +62,7 @@ atoi (char *string) {
     int digito, numero = 0, i = 0;
     char c;
 
-    while ((c = string[i++]) != '\n') {
+    while ((c = string[i++]) != '\n' && (c != '\0')) {
         if (c >= '0' && c <= '9') {
             digito = c - '0';
         }

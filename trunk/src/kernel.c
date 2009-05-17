@@ -6,7 +6,7 @@
 #include "../include/video.h"
 #include "../include/shell.h"
 #include "../include/programas.h"
-
+#include "../include/stdio.h"
 
 DESCR_INT idt[0x81];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */

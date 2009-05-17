@@ -23,7 +23,7 @@ int getNLChar();
 void welcome();
 
 /* Imprime un string */
-void printf(char *string);
+void print(char *string);
 
 /* Levanta una linea a buffer desde el teclado, con max de longitud maxima*/
 void getline(char *buffer, int max);

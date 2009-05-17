@@ -159,7 +159,7 @@ help()
 }
 
 void
-printf(char *string)
+print(char *string)
 {
 	_Cli();
 	while( *string != '\0' ) {

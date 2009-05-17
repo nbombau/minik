@@ -2,7 +2,7 @@
  kc.h
 **********************/
 #include "defs.h"
-
+#include "stdio.h"
 #ifndef _kc_
 #define _kc_
 
@@ -50,6 +50,11 @@ proceso_t * SiguienteTarea (void) ;
 
 int CargarESP (proceso_t * proc) ;
 
+void ActualizarPorcentajesCPU(void);
+int CantidadDeProcesos(void);
+
+
+void ReiniciarPorcentajes(void);
 void IniciarMultiTarea (void) ;
     
 #endif

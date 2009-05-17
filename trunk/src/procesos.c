@@ -42,6 +42,29 @@ ProcesoExiste(int pid)
 
 }
 
+int
+CantidadDeProcesos(void)
+{
+    int i, cant = 0;
+    for(i = 0; i < MAXPROCESOS; i++)
+    {
+        if(!procesos[i].free_slot)
+            cant++;
+    }
+    return cant;
+}
+
+void
+ReiniciarPorcentajes(void)
+{
+    int i;
+    for(i = 0; i < MAXPROCESOS; i++)
+    {
+        procesos[i].cpu = 0;
+    }
+}
+
+
 proceso_t *
 TraerProcesoPorPid (int pid) {
     int i;
