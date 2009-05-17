@@ -18,4 +18,5 @@ gcc -g -c -m32 ../src/excepciones.c -o excepciones.o -fno-builtin
 gcc -g -c -m32 ../src/string.c -o string.o -fno-builtin
 gcc -g -c -m32 ../src/sched_round.c -o sched_round.o -fno-builtin
 gcc -g -c -m32 ../src/programas.c -o programas.o -fno-builtin
-ld  -T ../src/link.ld -melf_i386 -o kernel.bin kernel.o kstart.o programas.o libc.o libasm.o ints.o shell.o video.o buffer.o procesos.o string.o excepciones.o sched_round.o keyboardLAT.o keyboardUS.o pci.o
+gcc -g -c -m32 ../src/stdio.c -o stdio.o -fno-builtin
+ld  -T ../src/link.ld -melf_i386 -o kernel.bin kernel.o kstart.o stdio.o programas.o libc.o libasm.o ints.o shell.o video.o buffer.o procesos.o string.o excepciones.o sched_round.o keyboardLAT.o keyboardUS.o pci.o

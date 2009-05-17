@@ -115,6 +115,7 @@ typedef struct {
   int stacksize;
   int nextfree;
   long sleep;
+  int cpu;
 } proceso_t;
 
 

@@ -4,6 +4,7 @@
 #include "../include/pci.h"
 #include "../include/kasm.h"
 #include "../include/programas.h"
+#include "../include/string.h"
 
 
 enum {  VOID=-1, 
@@ -18,10 +19,10 @@ enum {  VOID=-1,
         IMPRIME4EVER,
         IMPRIME4EVER_BK,
         KILL,
-        NOTFOUND, 
+        TOP,
+        NOTFOUND,
      };
-        
-#define NCOM 12
+#define NCOM 13
 
 int
 strcmp(char* s1, char* s2)
@@ -43,12 +44,21 @@ strcmp(char* s1, char* s2)
 		return 1;
 }
 
+int 
+ParsearArgumentos(char * line)
+{
+    int pid;
+    pid = atoi(line + 5);
+    return pid;
+
+}
+
 int
 command(char *line )
 {
-  char * comlist[] = { "clear", "loadkeys la", "loadkeys us", "lspci", "?", "reboot", "imprime", "imprime&", "imprime4ever", "imprime4ever&", "kill" };
+  char * comlist[] = { "clear", "loadkeys la", "loadkeys us", "lspci", "?", "reboot", "imprime", "imprime&", "imprime4ever", "imprime4ever&", "kill", "top" };
 
-
+        int pid;
 	if( line[0] == '\0' )
 		return VOID;
 
@@ -57,6 +67,17 @@ command(char *line )
 		if( strcmp(line,comlist[i]) == 0 )
 			return i;
 	}
+
+        if(strncmp(line, "kill ", 5 ) == 0)
+        {
+            pid = ParsearArgumentos(line);
+            if(pid >= 0 )
+                Kill(pid);
+            else
+                printf("bash: kill only accepts a positive integer as argument.\n");
+
+            return KILL;
+        }
 
 	return NOTFOUND;
 }
@@ -83,23 +104,26 @@ bash(char *line  )
 	case REBOOT: reboot();
     
     case IMPRIMELETRA: 
-                CrearProceso ("ImprimeLetra", ImprimeLetras, 0, 
-                    (char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);   
+                CrearProceso ("ImprimeLetra", ImprimeLetras, 0,
+                    (char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
                 break;
       case IMPRIMELETRA_BK:
         CrearProceso ("ImprimeLetraBK", ImprimeLetras, 0, 
-                      (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);   
+                      (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
         break;
       case IMPRIME4EVER: 
-        CrearProceso ("ImprimeLetra4ever", ImprimeLetras4Ever, 0, 
-                      (char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);   
+        CrearProceso ("ImprimeLetra4ever", ImprimeLetras4Ever, 0,
+                      (char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
         break;
       case IMPRIME4EVER_BK:
         CrearProceso ("ImprimeLetraBK", ImprimeLetras4Ever, 0, 
-                      (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);   
+                      (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
         break;
+            case TOP:
+                CrearProceso("Top", Top, 0, (char**)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
+                break;
     case KILL:
-                Kill(2);    
+         printf("Kill v1.1 : Kill expects arg0 valid process_id\n");
                 break;
     
     

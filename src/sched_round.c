@@ -17,6 +17,18 @@ int vuelta = 0;
 //extern unsigned long *page_directory;
 
 void
+ActualizarPorcentajesCPU(void)
+{
+    int i,j;
+    proceso_t * proceso;
+    ReiniciarPorcentajes();
+    for(i = 0;i<100;i++)
+    {
+        procesos[ultimos100[i]].cpu++;
+    }
+}
+
+void
 GuardarESP (int ESP) {
 
     proceso_t *temporal;
@@ -77,7 +89,7 @@ SiguienteTarea (void) {
                 ultimos100[indice] = i;
                 indice = (indice + 1) % 100;
                 return &procesos[i];
-        }  
+        }
         cant++;
         i = (i + 1) % MAXPROCESOS < 1 ? 1 : (i + 1) % MAXPROCESOS;
     }
@@ -99,11 +111,6 @@ IniciarMultiTarea (void) {
     /* todos los slots estan libres */
     for (i = 0; i < MAXPROCESOS; i++)
         procesos[i].free_slot = TRUE;
-
-    /* no hay procesos en la lista de sleep 
-    for (i = 0; i < MAXPROCESOS; i++)
-    peticionesDormir[i].time = 0;*/
-
 }
 
 

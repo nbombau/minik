@@ -38,7 +38,7 @@ Stacksf(void)
 
 }
 
-void    
+void
 GpFault(void)
 {
 
