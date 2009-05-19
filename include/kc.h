@@ -42,7 +42,7 @@ void Kill (int pid);
 
 int Init(int argc, char ** argv);
 
-void * Malloc (int size);
+
     
 void GuardarESP (int ESP) ;
 int SiguienteProceso (int esp);
@@ -58,4 +58,8 @@ void ReiniciarPorcentajes(void);
 void IniciarMultiTarea (void) ;
 int EstoyEnBackground();
 int TraerIndiceProceso(int pid);
+
+void KFree(int nPagina, int cantPaginas);
+void * KRealloc(proceso_t * proc, int cantPaginas);
+void * KMalloc (proceso_t * proc);
 #endif

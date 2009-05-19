@@ -9,4 +9,6 @@ int     strncmp(char *s1, char *s2, int num);
 int atoi(char * string);
 int getLine(char * buffer, int cant);
 void    itoa( int num,char* number);
+void * memcpy(void * dest, const void * src, unsigned int n);
+void * memset(void * s, int c, unsigned int n);
 #endif

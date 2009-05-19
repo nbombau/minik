@@ -7,14 +7,14 @@
 #include "../include/shell.h"
 #include "../include/programas.h"
 #include "../include/stdio.h"
-
+#include "../include/string.h"
 DESCR_INT idt[0x81];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
 GDTR* gdtr = (GDTR*)0x1234;
 proceso_t procesos[MAXPROCESOS];
 proceso_t init;
 
-
+int mem[MAX_PAGES];
 
 int pidActual = 0;
 int proxPid = 0;
@@ -32,6 +32,15 @@ int Init(int argc, char **argv)
   }
 }
 
+void
+InicializarMemUsuario(void)
+{
+    int i;
+    for(i = 0; i<MAX_PAGES; i++)
+    {
+        mem[i] = -1;
+    }
+}
 
 kmain()
 {
@@ -41,6 +50,7 @@ kmain()
         int vendor = 0xffff;
         _Cli();
         IniciarMultiTarea();
+        InicializarMemUsuario();
 /* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0 y IRQ1   */
         // Timer Tick
         setup_IDT_entry (&idt[0x08], 0x08, (dword)&_int_08_hand, ACS_INT, 0);
