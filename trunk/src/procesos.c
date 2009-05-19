@@ -103,6 +103,18 @@ TraerProcesoPorNombre (char *proceso) {
 }
 
 int
+TraerIndiceProceso(int pid)
+{
+    int i;
+    for(i = 1; i < MAXPROCESOS; i++)
+    {
+        if(procesos[i].pid == pid)
+            return i;
+    }
+    return -1;
+}
+
+int
 NoHayProcesos (void) {
     int i;
 
@@ -113,6 +125,13 @@ NoHayProcesos (void) {
             return 0;
     }
     return 1;
+}
+
+int
+EstoyEnBackground()
+{
+    proceso_t * p = TraerProcesoPorPid(pidActual);
+    return p->background;
 }
 
 int
@@ -173,7 +192,6 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
     procesos[i].stacksize = stacksize;
     procesos[i].stackstart = (int) stack + stacksize - 1;
     procesos[i].sleep = 0;
- //   procesos[i].nextfree = (int) heap;
     
     /*Levanto las paginas de este proceso para poder armar stack*/         
   //  levantaPaginas((PROCESO *)&procesos[i]);
@@ -192,7 +210,7 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
         proc->estado = ESPERANDO_HIJO;
         procesos[i].padre = pidActual;
     }
-    procesos[i].free_slot = FALSE;  
+    procesos[i].free_slot = FALSE;
   
 }
 
@@ -213,7 +231,7 @@ void
 Kill (int pid) {
     proceso_t * proc;
     proceso_t * padre;
-    if (pid != INIT) {
+    if (pid != INIT && pid !=1) {
         proc = (proceso_t*)TraerProcesoPorPid (pid);
         if (proc != 0) {
             printf ("El proceso ", 11);
@@ -237,7 +255,7 @@ Kill (int pid) {
                             //bloqueaProceso (proc->padre, 1);
                         }
                 }
-                
+
             }
             else if (proc->padre != INIT)
                 desbloqueaProceso(proc->padre);

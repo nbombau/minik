@@ -5,7 +5,8 @@
 #include "string.h"
 #include "kc.h"
 #include "stdio.h"
-
+#include "buffer.h"
+#include "random.h"
 int
 Top(int argc, char ** argv);
 

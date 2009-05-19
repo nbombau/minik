@@ -27,6 +27,8 @@ GLOBAL ssf_hand
 GLOBAL generalPfault_hand
 GLOBAL pageFault_hand
 
+GLOBAL  _leo_reloj
+
 
 EXTERN  Div0
 EXTERN  Bounds
@@ -288,7 +290,32 @@ _getgdt:
   ;      pop     ds
    ;     iret
 
-
+_leo_reloj:
+	push	ecx ; Se salvan los registros
+	push	edx
+        push	ebx
+	push	sp
+	push	bp
+	push   	si
+	push	di
+	push    ds
+        push	es
+	
+	mov 	eax,00000000h
+	mov 	al,00h
+	out	70h,al
+	in	al,71h
+		
+	pop	es
+	pop	ds
+	pop	di
+	pop	si
+	pop	bp
+	pop	sp
+	pop	ebx
+	pop	edx
+	pop	ecx
+	ret
 
 _int_80_hand:
 	push	ds

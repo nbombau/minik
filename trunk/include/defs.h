@@ -73,7 +73,11 @@ typedef enum { SCREEN, KEYBOARD, PCI, CURSOR1, CURSOR2,  SCREENNL, PIC, PICM1, P
 
 /*Prioridad Default
 */
-#define DEF_PRIO    3
+#define DEF_PRIO    2
+
+/* Constante para scheduler por prioridades
+*/
+#define AJUSTE_PRIO  5
 
 /* Tamaño Default del Stack
 */

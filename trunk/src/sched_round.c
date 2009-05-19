@@ -45,7 +45,7 @@ SiguienteProceso (int esp) {
     GuardarESP (esp);
     temporal = SiguienteTarea();
    // bajarPaginasAnterior(pidActual);
-   
+
     pidActual = temporal->pid;
 //    levantaPaginasNuevo(pidActual);
     return temporal->ESP;
@@ -84,7 +84,7 @@ SiguienteTarea (void) {
     i = ((actual + 1) % MAXPROCESOS < 1) ? 1 : (actual + 1) % MAXPROCESOS;
     
     while (!tengoProceso) {
-      if (!procesos[i].free_slot && procesos[i].estado ==LISTO ) {
+      if (!procesos[i].free_slot && procesos[i].estado ==LISTO && procesos[i].pid != INIT) {
                 actual = i;
                 ultimos100[indice] = i;
                 indice = (indice + 1) % 100;
