@@ -20,9 +20,10 @@ enum {  VOID=-1,
         IMPRIME4EVER_BK,
         KILL,
         TOP,
+        TOP_BK,
         NOTFOUND,
      };
-#define NCOM 13
+#define NCOM 14
 
 int
 strcmp(char* s1, char* s2)
@@ -56,7 +57,7 @@ ParsearArgumentos(char * line)
 int
 command(char *line )
 {
-  char * comlist[] = { "clear", "loadkeys la", "loadkeys us", "lspci", "?", "reboot", "imprime", "imprime&", "imprime4ever", "imprime4ever&", "kill", "top" };
+  char * comlist[] = { "clear", "loadkeys la", "loadkeys us", "lspci", "?", "reboot", "imprime", "imprime&", "imprime4ever", "imprime4ever&", "kill", "top", "top&" };
 
         int pid;
 	if( line[0] == '\0' )
@@ -108,7 +109,7 @@ bash(char *line  )
                     (char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
                 break;
       case IMPRIMELETRA_BK:
-        CrearProceso ("ImprimeLetraBK", ImprimeLetras, 0, 
+        CrearProceso ("ImprimeLetra", ImprimeLetras, 0, 
                       (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
         break;
       case IMPRIME4EVER: 
@@ -116,11 +117,14 @@ bash(char *line  )
                       (char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
         break;
       case IMPRIME4EVER_BK:
-        CrearProceso ("ImprimeLetraBK", ImprimeLetras4Ever, 0, 
+        CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, 
                       (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
         break;
-            case TOP:
+        case TOP:
                 CrearProceso("Top", Top, 0, (char**)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
+                break;
+            case TOP_BK:
+                CrearProceso("Top", Top, 0, (char**)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
                 break;
     case KILL:
          printf("Kill v1.1 : Kill expects arg0 valid process_id\n");

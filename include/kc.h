@@ -56,5 +56,6 @@ int CantidadDeProcesos(void);
 
 void ReiniciarPorcentajes(void);
 void IniciarMultiTarea (void) ;
-    
+int EstoyEnBackground();
+int TraerIndiceProceso(int pid);
 #endif

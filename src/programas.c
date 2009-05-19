@@ -3,18 +3,21 @@
 int
 Top(int argc, char ** argv)
 {
+    char c;
     int i;
     proceso_t * proc;
-
-    while(1)
+    int salgo = FALSE;
+    while(!salgo)
     {
+        _Sti();
         clear_screen();
+
         ActualizarPorcentajesCPU();
         printf("\t\t------------------ TOP ----------------------\n");
         printf("\t\t---------------------------------------------\n\n");
         printf("\t\t     PID         Command         CPU      \n");
         printf("\t\t---------------------------------------------\n\n");
-        _Sti();
+
         for(i = 0; i < MAXPROCESOS; i++)
         {
             proc = TraerProcesoPorIndice(i);
@@ -24,14 +27,39 @@ Top(int argc, char ** argv)
             }
         }
         _Cli();
-       // sleep(10);
+       // sleep(1);NumerosRandom
         int k,j;
         for(j = 0;j<31000;j++)
             for(k = 0; k<100;k++)
                 ;
+
+       if(!EstoyEnBackground())
+       {
+           if(!BufferIsEmpty())
+               salgo = TRUE;
+       }
+
     }
 }
 
+
+int
+NumerosRandom(int argc, char ** argv)
+{
+    int i;
+    int k,j;
+    printf("\n\n\n\n\n\n\n\n\n");
+    while(1)
+    {
+      /*  for(j = 0;j<31000;j++)
+            for(k = 0; k<10;k++)
+                ;*/
+        i = random(100);
+        for(j = 0;j<310;j++)
+            ;
+        printf("%d\n", i);
+    }
+}
 
 
 /* TODO: permitirle que reciba por linea de comandos

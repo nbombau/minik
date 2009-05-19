@@ -3,14 +3,14 @@
 void
 Div0(void)
 {
-    printf("Error division por cero.\n");
+    printf("Exception: Division by Zero.\n");
 } 
 
 void
 Bounds(void)
 {
 
-    printf("Bounds Error.\n");
+    printf("Exception: Bounds Error.\n");
 
 }
 
@@ -18,7 +18,7 @@ void
 opCode(void)
 {
 
-    printf("Opcode invalido.\n");
+    printf("Exception: Invalid Operation Code.\n");
 
 }
 
@@ -26,7 +26,7 @@ void
 SnoPresent(void)
 {
 
-    printf("Segmento no presente.\n");
+    printf("Exception: Segment No Present.\n");
 
 }
 
@@ -34,7 +34,7 @@ void
 Stacksf(void)
 {
 
-    printf("Saturacion del segmento de pila.\n");
+    printf("Exception: Stack Segment Overhead.\n");
 
 }
 
@@ -42,7 +42,7 @@ void
 GpFault(void)
 {
 
-    printf("General Protection Fault.\n");
+    printf("Exception: General Protection Fault.\n");
 
 }
 
@@ -50,6 +50,6 @@ void
 PageFault(void)
 {
 
-    printf("Page Fault.\n");
+    printf("Exception: Page Fault.\n");
 
 }
