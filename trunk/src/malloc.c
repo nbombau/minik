@@ -1,40 +1,89 @@
-
+#include "../include/defs.h"
 #include "../include/kc.h"
-/* Apartir de 8 mb */
-int nextfree = 8192 * 1024 ;
 
-int nextshmem = 0x0;
-
+extern int veces;
 extern int pidActual;
 extern int maxmem;
-
-int initshmem = 0;
-
+extern int mem[MAX_PAGES];
 void *
-Malloc (int size) {
-    void *temp = (void *) nextfree;
+KMalloc (proceso_t * proc) {
 
-    /* alinear a 4k */
-    nextfree = nextfree + 2 * size + 4096 - (size % 4096);
+    void * resp = 0x0;
+    int i;
+    for(i = 0; i < MAX_PAGES; i++)
+    {
+        if(mem[i] == -1)
+        {
+            resp = (void *)(FIRST_USER_PAGE + i * PAGE_SIZE);
+            mem[i] = proc->pid;
 
-    /* si ya era multiplo de 4k ocupe una pagina de mas */
-    if (size % 4096 == 0)
-        nextfree = nextfree - 4096;
-
-    return temp;
+            return resp;
+        }
+    }
+    return resp;
 }
 
-void *
-userMalloc (int size) {
-    PROCESO *tmp;
-    tmp = GetProcessByPid(pidActual);
-    void *temp = 0x0;
 
-    if ((tmp->nextfree + size) < (tmp->heapstart + tmp->heapsize)) {
-        temp = (void *) tmp->nextfree;
-        tmp->nextfree += size;
+void *
+KRealloc(proceso_t * proc, int cantPaginas)
+{
+
+    /* primero buscamos las paginas del proceso
+    */
+    void * resp = 0x0;
+    int i,j,k,salgo=0,pos=-1, libere= FALSE;
+    int marca;
+    for(i = 0; i < MAX_PAGES && !libere; i++)
+    {
+        if(mem[i] == proc->pid)
+        {
+            marca = i;
+            libere = TRUE;
+        }
     }
 
-    return temp;
+    for(j=0;j<(MAX_PAGES - cantPaginas) && pos==-1;j++)
+    {
+        for(k=0,salgo=0; /*mem[j]==-1 &&*/ k<cantPaginas && !salgo ;k++)
+        {
+            if(mem[j+k]!=-1)
+                salgo=1;
+        }
+        if(!salgo)
+            pos=j;
+    }
+    if(pos == -1)
+        return 0x0;
+   /*levantar nuevas*/
+    resp = (void *)(FIRST_USER_PAGE + pos * PAGE_SIZE);
+    for(i=0;i<cantPaginas-1;i++)
+        mem[pos+i] = proc->pid;
+    memcpy(resp+cantPaginas*PAGE_SIZE-proc->stacksize,proc->stackstart,proc->stacksize);
+    
+    KFree(marca, (int)(proc->stacksize/PAGE_SIZE));
+    /*bajar paginas viejas*/
+    /*bajar dichas paginas*/
+
+
+    
+
+    printf("\nREALLOQUIE!\n");
+
+    return resp;
 }
+
+void
+KFree(int nPagina, int cantPaginas)
+{
+    int i;
+    for(i = 0; i < cantPaginas; i++)
+    {
+        mem[nPagina+i] = -1;
+    }
+}
+
+
+
+
+
 

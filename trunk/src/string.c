@@ -151,3 +151,48 @@ resto (int *num, int divisor) {
     return resto;
 
 }
+
+void * 
+memcpy(void * dest, const void * src, unsigned int n)
+{
+    int i;
+    unsigned char * current;
+
+    if (dest == 0x0 || src == 0x0 || n <= 0)
+        return 0x0;
+
+    for (i = 0 ; i < n ; i++)
+    {
+        /* Si hay memory overlap (dest interseccion src != vacio, falla la copia */
+        if ( (unsigned char *)dest + i * sizeof(char) == ( (unsigned char *)src ) + i * sizeof(char) )
+            return 0x0;
+
+        /* Obtiene la direccion del byte a donde tiene que escribir */
+        current = (unsigned char *)dest + i * sizeof(char);
+
+        /* escribe sobre esa posicion de memoria */
+        *current = *((unsigned char *)src + i * sizeof(char));
+    }
+
+    return dest;
+}
+
+
+void *
+memset(void * s, int c, unsigned int n)
+{
+    int i;
+    unsigned char * current;
+
+    if (s == 0x0 || n <= 0)
+        return 0x0;
+
+    for (i = 0 ; i < n ; i++)
+    {
+        current = (unsigned char *)s + i * sizeof(unsigned char);
+        *current = (unsigned char)c;
+    }
+
+    return s;
+}
+

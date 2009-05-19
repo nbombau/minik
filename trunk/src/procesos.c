@@ -128,7 +128,7 @@ NoHayProcesos (void) {
 }
 
 int
-EstoyEnBackground()
+EstoyEnBackground(void)
 {
     proceso_t * p = TraerProcesoPorPid(pidActual);
     return p->background;
@@ -169,30 +169,33 @@ void
 CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
               int argc, char **argv, int prioridad, int enBackground,
               int stacksize) {
+    _Cli();
     int i;
 
     void *stack;
 
- 
-    //stack = (void *)Malloc (stacksize);
-    stack = (void *)(0xF00000 + (veces * 1024)) ;
     for (i = 0; i < MAXPROCESOS; i++) {
-
-
         if (procesos[i].free_slot)
             break;
     }
 
     veces++;
+strncpy (procesos[i].nombre, nombre, strlen (nombre)+1);
     procesos[i].pid = NuevoPid ();
+    procesos[i].stacksize = PAGE_SIZE;
+    //stack = (void *)(0xF00000 + (veces * 1024)) ;
+    stack = (void *)KMalloc (&procesos[i]);
+    stack = (void *) KRealloc(&procesos[i], 3);
+    //if(veces>1)
+      procesos[i].stacksize = 3*PAGE_SIZE;
     procesos[i].background = enBackground;
     procesos[i].prioridad = prioridad;
-    strncpy (procesos[i].nombre, nombre, strlen (nombre)+1);
-    procesos[i].estado = LISTO;
-    procesos[i].stacksize = stacksize;
-    procesos[i].stackstart = (int) stack + stacksize - 1;
-    procesos[i].sleep = 0;
     
+    procesos[i].estado = LISTO;
+
+    procesos[i].stackstart = (int) (stack +3*PAGE_SIZE - 1);
+    procesos[i].sleep = 0;
+ 
     /*Levanto las paginas de este proceso para poder armar stack*/         
   //  levantaPaginas((PROCESO *)&procesos[i]);
     
@@ -211,7 +214,7 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
         procesos[i].padre = pidActual;
     }
     procesos[i].free_slot = FALSE;
-  
+    _Sli();
 }
 
 void sleep(int segundos)
