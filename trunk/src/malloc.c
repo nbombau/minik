@@ -1,10 +1,13 @@
 #include "../include/defs.h"
 #include "../include/kc.h"
+#include "../include/paging.h"
 
 extern int veces;
 extern int pidActual;
 extern int maxmem;
 extern int mem[MAX_PAGES];
+
+
 void *
 KMalloc (proceso_t * proc) {
 
@@ -13,10 +16,10 @@ KMalloc (proceso_t * proc) {
     for(i = 0; i < MAX_PAGES; i++)
     {
         if(mem[i] == -1)
-        {
-            resp = (void *)(FIRST_USER_PAGE + i * PAGE_SIZE);
+        {	
+	    /*resp=(void*)(8 * 1024 * 1024 + 4096*i);*/
+            resp = (void *)(FIRST_USER_PAGE + i * PAGE_SIZE-7);
             mem[i] = proc->pid;
-
             return resp;
         }
     }
@@ -81,9 +84,3 @@ KFree(int nPagina, int cantPaginas)
         mem[nPagina+i] = -1;
     }
 }
-
-
-
-
-
-

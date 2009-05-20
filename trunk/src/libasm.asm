@@ -208,7 +208,9 @@ _int_08_hand:
     cli
     pusha
     push esp
+    
     call SiguienteProceso
+    
     pop esp
     mov esp, eax
     mov al, 20h

@@ -21,4 +21,5 @@ gcc -g -c -m32 ../src/programas.c -o programas.o -fno-builtin
 gcc -g -c -m32 ../src/stdio.c -o stdio.o -fno-builtin
 gcc -g -c -m32 ../src/random.c -o random.o -fno-builtin
 gcc -g -c -m32 ../src/malloc.c -o malloc.o -fno-builtin
-ld  -T ../src/link.ld -melf_i386 -o kernel.bin kernel.o kstart.o stdio.o malloc.o programas.o libc.o random.o libasm.o ints.o shell.o video.o buffer.o procesos.o string.o excepciones.o sched_round.o keyboardLAT.o keyboardUS.o pci.o
+gcc -g -c -m32 ../src/paging.c -o paging.o -fno-builtin
+ld  -T ../src/link.ld -melf_i386 -o kernel.bin kernel.o kstart.o stdio.o malloc.o programas.o libc.o random.o libasm.o ints.o shell.o video.o buffer.o procesos.o string.o excepciones.o sched_round.o keyboardLAT.o keyboardUS.o pci.o paging.o

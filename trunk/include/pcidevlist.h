@@ -13,8 +13,8 @@ typedef struct _PCI_DEVTABLE
 
 PCI_DEVTABLE PciDevTable [] =
 {
-/*	{ 0x165C, 0x0002, "FT232BL", "FT232BL" } ,
-	{ 0x16AE, 0x1141, "SafeXcel-1141", "???" } ,
+	{ 0x165C, 0x0002, "FT232BL", "FT232BL" } ,
+	/*{ 0x16AE, 0x1141, "SafeXcel-1141", "???" } ,
 	{ 0x11DB, 0x1234, "", "Dreamcast Broadband Adapter" } ,
 	{ 0x11DE, 0x6057, "ZR36057/36067", "AV PCI Controller" } ,
 	{ 0x11DE, 0x6120, "ZR36120PQC", "MPEG VideoBVPSXI Capture Card" } ,
