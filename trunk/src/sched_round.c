@@ -44,7 +44,6 @@ SiguienteProceso (int esp) {
     proceso_t *temporal;
     GuardarESP (esp);
     temporal = SiguienteTarea();
-
     deshabilitarPagina(TraerProcesoPorPid(pidActual));
 
     pidActual = temporal->pid;
