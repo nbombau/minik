@@ -221,11 +221,13 @@ _int_08_hand:
 
 
 switch_manual:
+    cli
     push ebp
     mov ebp, esp
     int 0x08
     mov esp, ebp
     pop ebp
+    sti
     ret
 
 _Cli:

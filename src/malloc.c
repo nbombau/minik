@@ -16,8 +16,7 @@ KMalloc (proceso_t * proc) {
     for(i = 0; i < MAX_PAGES; i++)
     {
         if(mem[i] == -1)
-        {	
-	    /*resp=(void*)(8 * 1024 * 1024 + 4096*i);*/
+        {
             resp = (void *)(FIRST_USER_PAGE + i * PAGE_SIZE-7);
             mem[i] = proc->pid;
             return resp;
@@ -58,15 +57,31 @@ KRealloc(proceso_t * proc, int cantPaginas)
     if(pos == -1)
         return 0x0;
    /*levantar nuevas*/
+   habilitarPagina(proc);
     resp = (void *)(FIRST_USER_PAGE + pos * PAGE_SIZE);
     for(i=0;i<cantPaginas-1;i++)
         mem[pos+i] = proc->pid;
     memcpy(resp+cantPaginas*PAGE_SIZE-proc->stacksize,proc->stackstart,proc->stacksize);
-    
+    deshabilitarPagina(proc);
     KFree(marca, (int)(proc->stacksize/PAGE_SIZE));
+    
     /*bajar paginas viejas*/
-    /*bajar dichas paginas*/
-
+    /*i=0;
+    while(i<pos&&mem[i]!=-1)
+    {
+	if(mem[i]==proc->pid)
+	    deshabilitarPagina(proc);
+	i++;
+    }*/
+    
+    /*bajar paginas recien creadas*/
+    /*i=pos;
+    while(i<MAX_PAGES && mem[i]!=-1)
+    {
+	if(mem[i]==proc->pid)
+	    deshabilitarPagina(proc);
+	i++;
+    }*/
 
     
 

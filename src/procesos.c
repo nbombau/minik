@@ -147,21 +147,21 @@ exec (char *nombre, int (*proceso) (int argc, char **argv), int enBackground) {
 
 void
 Limpia (void) {
-  /* deberia matar al proceso y toda la bola */
-  proceso_t *temporal;
-  proceso_t *padre;
-  _Cli();
-  temporal = TraerProcesoPorPid (pidActual);
+    /* deberia matar al proceso y toda la bola */
+    proceso_t *temporal;
+    proceso_t *padre;
+    _Cli();
+    temporal = TraerProcesoPorPid (pidActual);
 
-  if (temporal->padre != INIT) {
-    padre = TraerProcesoPorPid (temporal->padre);
-    padre->estado = LISTO;
-  }
-  temporal->free_slot = TRUE;
-  _Sti();
-  while (1) {
-    asm volatile ("hlt");
-  }
+    if (temporal->padre != INIT) {
+	padre = TraerProcesoPorPid (temporal->padre);
+	padre->estado = LISTO;
+    }
+    temporal->free_slot = TRUE;
+    _Sti();
+    while (1) {
+	asm volatile ("hlt");
+    }
 }
 
     
@@ -225,8 +225,7 @@ void sleep(int segundos)
     proceso_t * tmp = TraerProcesoPorPid(pidActual);
     tmp->sleep = ticks;
     tmp->estado = BLOQUEADO;
-        
-    
+
     switch_manual();
     _Sti();
 }
