@@ -169,7 +169,6 @@ void
 CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
               int argc, char **argv, int prioridad, int enBackground,
               int stacksize) {
-    _Cli();
     int i;
 
     void *stack;
@@ -180,31 +179,33 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
     }
 
     veces++;
-strncpy (procesos[i].nombre, nombre, strlen (nombre)+1);
+    strncpy (procesos[i].nombre, nombre, strlen (nombre)+1);
     procesos[i].pid = NuevoPid ();
     procesos[i].stacksize = PAGE_SIZE;
     //stack = (void *)(0xF00000 + (veces * 1024)) ;
     stack = (void *)KMalloc (&procesos[i]);
-    stack = (void *) KRealloc(&procesos[i], 3);
-    //if(veces>1)
-      procesos[i].stacksize = 3*PAGE_SIZE;
+
     procesos[i].background = enBackground;
     procesos[i].prioridad = prioridad;
     
     procesos[i].estado = LISTO;
 
-    procesos[i].stackstart = (int) (stack +3*PAGE_SIZE - 1);
+    procesos[i].stackstart = (int) (stack +PAGE_SIZE - 1);
     procesos[i].sleep = 0;
  
     /*Levanto las paginas de este proceso para poder armar stack*/         
   //  levantaPaginas((PROCESO *)&procesos[i]);
+  
+    
+    habilitarPagina(&procesos[i]);
     
     procesos[i].ESP = ArmaStackFrame (proceso, procesos[i].stackstart, Limpia);
-
+     
      /*Bajo las paginas para evitar que cualquier otro proceso escriba 
     en la zona de este*/
    // bajarPaginas((PROCESO*)&procesos[i]);
-    
+   deshabilitarPagina(&procesos[i]);
+   
     procesos[i].padre = pidActual;
 
     if (!enBackground && pidActual > 0) {
@@ -214,7 +215,7 @@ strncpy (procesos[i].nombre, nombre, strlen (nombre)+1);
         procesos[i].padre = pidActual;
     }
     procesos[i].free_slot = FALSE;
-    _Sli();
+    
 }
 
 void sleep(int segundos)

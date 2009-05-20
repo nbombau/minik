@@ -16,7 +16,7 @@ typedef struct _PCI_VENTABLE
 PCI_VENTABLE PciVenTable [] =
 {
 	{ 0x0033, "", "Paradyne Corp." } ,
-/*	{ 0x003D, "well", "master" } ,
+	/*{ 0x003D, "well", "master" } ,
 	{ 0x0070, "Hauppauge1", "Hauppauge Computer Works Inc." } ,
 	{ 0x0100, "ncipher", "Ncipher Corp. Ltd" } ,
 	{ 0x0123, "", "General Dynamics" } ,
@@ -1527,8 +1527,8 @@ typedef struct uhciDevice
 
 uhciDevice uhciDevices[] =
 {
-    {0x0E11, 0x7020, "USB Controller"},
-   /* {0x1000, 0x0901, "61C102USB Controller"},
+    /*{0x0E11, 0x7020, "USB Controller"},
+    {0x1000, 0x0901, "61C102USB Controller"},
     {0x100B, 0x0012, "USB Controller"},
     {0x100B, 0x002F, "GeodeUSB Controller"},
     {0x1022, 0x2096, "Number: CS5536CS5536 USB Device Controller"},

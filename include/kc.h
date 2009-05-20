@@ -62,4 +62,7 @@ int TraerIndiceProceso(int pid);
 void KFree(int nPagina, int cantPaginas);
 void * KRealloc(proceso_t * proc, int cantPaginas);
 void * KMalloc (proceso_t * proc);
+
+void habilitarPagina(proceso_t * proc);
+void deshabilitarPagina(proceso_t * proc);
 #endif

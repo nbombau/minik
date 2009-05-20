@@ -144,12 +144,10 @@ shell(int argc, char ** argv)
 {
 	/* Buffer de almacenamiento de caracteres */
 	char in_buffer[MAX_CHARS];
-
+	
 	set_screen();
-
 	clear_screen();
 	welcome();
-
 	while(1) {
 		prompt();
 		getline(in_buffer,MAX_CHARS);

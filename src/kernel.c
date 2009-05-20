@@ -8,17 +8,19 @@
 #include "../include/programas.h"
 #include "../include/stdio.h"
 #include "../include/string.h"
+#include "../include/paging.h"
 DESCR_INT idt[0x81];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
 GDTR* gdtr = (GDTR*)0x1234;
 proceso_t procesos[MAXPROCESOS];
 proceso_t init;
 
-int mem[MAX_PAGES];
+
+
 
 int pidActual = 0;
 int proxPid = 0;
-int maxmem;
+
 
 /**********************************************
 kmain()
@@ -33,15 +35,6 @@ int Init(int argc, char **argv)
 }
 
 void
-InicializarMemUsuario(void)
-{
-    int i;
-    for(i = 0; i<MAX_PAGES; i++)
-    {
-        mem[i] = -1;
-    }
-}
-
 kmain()
 {
 
@@ -51,6 +44,7 @@ kmain()
         _Cli();
         IniciarMultiTarea();
         InicializarMemUsuario();
+	
 /* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0 y IRQ1   */
         // Timer Tick
         setup_IDT_entry (&idt[0x08], 0x08, (dword)&_int_08_hand, ACS_INT, 0);
@@ -95,16 +89,20 @@ kmain()
         aux = 0xFF;
         write(PICM2,&aux,1 );
 	
-	CrearProceso ("INIT", Init, 0, (char **)0, 2, 0, 0x1000);
+	InitPaging();
+	CrearProceso("INIT", Init, 0, (char **)0, 2, 0, 0x1000);
+	
         CrearProceso ("shell", shell, 0, (char **) 0, 2, 0, 0x1000);
-        //NumerosRandom();
-//	CrearProceso ("ImprimeLetraA", ImprimeLetras, 0, (char **) 0, 2, 0, 0x1000);
 
+        //NumerosRandom();
+	//CrearProceso ("ImprimeLetraA", ImprimeLetras, 0, (char **) 0, 2, 0, 0x1000);
+	
 	//desbloqueaProceso(INIT);
         //probarMemoria(0, (char ** )0);
+	//for(i=0;i<15;i++)
+	 //   printf("Valor %d: \n",i);
 	_Sti();
         
-
 
         while (1) {
         }

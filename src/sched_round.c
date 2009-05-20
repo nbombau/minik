@@ -44,10 +44,13 @@ SiguienteProceso (int esp) {
     proceso_t *temporal;
     GuardarESP (esp);
     temporal = SiguienteTarea();
-   // bajarPaginasAnterior(pidActual);
+
+    deshabilitarPagina(TraerProcesoPorPid(pidActual));
 
     pidActual = temporal->pid;
-//    levantaPaginasNuevo(pidActual);
+    
+    habilitarPagina(temporal);
+
     return temporal->ESP;
 }
 
@@ -106,7 +109,7 @@ IniciarMultiTarea (void) {
 
  //   void *stack = Malloc (512);
    /*Hay que busfcar una direccion perteneciente a la zona de kernel*/
-    void *stack = (void *)0x300000;
+    //void *stack = (void *)0x300000;
     
     /* todos los slots estan libres */
     for (i = 0; i < MAXPROCESOS; i++)
