@@ -150,10 +150,17 @@ help()
 	printf("\n");
 	printf("                              Comandos disponibles                             \n");
 	printf("\n");
-	printf(" clear            : limpia la pantalla                                         \n");
-	printf(" lspci            : lista los dispositivos pci disponibles                     \n");
-	printf(" loadkeys [us,la] : cambia el idioma del teclado                               \n");
-	printf(" reboot           : reinicia el sistema                                        \n");
+	printf(" clear            : limpia la pantalla  \n");
+	printf(" lspci            : lista los dispositivos pci disponibles \n");
+	printf(" fortune          : imprime una frase que puede salvar tu dia.\n");
+	printf(" top              : muestra los procesos en ejecucion y su consumo de CPU.\n");
+        printf(" kill             : mata a un proceso.\n");
+	printf(" calcula1         : hace calculos. proceso con baja prioridad. \n");
+        printf(" calcula2         : hace calculos. proceso con media prioridad. \n");
+        printf(" calcula3         : hace calculos. proceso con alta prioridad.  \n");
+	printf(" imprime          : imprime 10 mensajes en pantalla espaciados un tiempo fijo.                               \n");
+	printf(" imprime4ever     : imprime mensajes en pantalla indefinidamente.  \n");
+	printf(" reboot           : reinicia el sistema  \n");
 	printf("_______________________________________________________________________________\n");
 	printf("\n");
 }
