@@ -31,7 +31,8 @@ enum {  VOID=-1,
         RECURSIVO_BK,
         DIVIDIRCERO,
         FORTUNE,
-        NOTFOUND,
+	PAGEFAULT,
+	NOTFOUND,
      };
 #define NCOM 24
 
@@ -69,7 +70,7 @@ command(char *line )
 {
   char * comlist[] = { "clear", "loadkeys la", "loadkeys us", "lspci", "?", "reboot", "imprime", "imprime&", "imprime4ever", "imprime4ever&", "kill", "top", "top&", "calcula1",
     "calcula1&", "calcula2", "calcula2&", "calcula3", "calcula3&","recursivo", "recursivo&",
-"dividirporcero","fortune"};
+"dividirporcero","fortune","pagefault"};
 
         int pid;
 	if( line[0] == '\0' )
@@ -102,7 +103,7 @@ shell(int argc, char ** argv)
 {
 	/* Buffer de almacenamiento de caracteres */
 	char in_buffer[MAX_CHARS];
-	
+	char caca[2];
 	set_screen();
 	clear_screen();
 	welcome();
@@ -149,18 +150,68 @@ bash(char *line  )
             CrearProceso ("ImprimeLetra4ever", ImprimeLetras4Ever, 0,
                       (char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
         break;
-      case IMPRIME4EVER_BK:
-            CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, 
-                      (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+    case IMPRIME4EVER_BK:
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
                 break;
-        case TOP:
-                CrearProceso("Top", Top, 0, (char**)0, 1, FALSE, DEF_STACKSIZE);
-                break;
-            case TOP_BK:
-                CrearProceso("Top", Top, 0, (char**)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
-                break;
+    case TOP:
+		CrearProceso("Top", Top, 0, (char**)0, 1, FALSE, DEF_STACKSIZE);
+		break;
+    case TOP_BK:
+		CrearProceso("Top", Top, 0, (char**)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+		break;
     case KILL:
-         printf("Kill: Kill expects arg0 valid process_id\n");
+		printf("Kill: Kill expects arg0 valid process_id\n");
                 break;
     case CALCULA1:
                 CrearProceso("calculaLowPrio", Calcula, 0,(char**)0, 4, FALSE, DEF_STACKSIZE);
@@ -187,14 +238,17 @@ bash(char *line  )
                 CrearProceso("recursivo", Recursivo, 0,(char**)0, 1, TRUE, DEF_STACKSIZE);
                 break;
     case FORTUNE:
-                Fortune();
+		CrearProceso("Fortune", Fortune, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
                 break;
     case DIVIDIRCERO:
-                DividirPorCero();
+		CrearProceso("DividirPorCero", DividirPorCero, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
                 break;
-	default: 	printf("bash: ");
-				printf(line);
-				printf(": command not found -- Try ? for help\n");
+    case PAGEFAULT:
+		CrearProceso("PageFault", PageFaultTest, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
+		break;
+    default: 	printf("bash: ");
+		printf(line);
+		printf(": command not found -- Try ? for help\n");
 	}
 
 }

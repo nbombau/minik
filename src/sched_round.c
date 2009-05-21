@@ -5,16 +5,13 @@
 
 extern proceso_t procesos[];
 extern int pidActual;
-extern  int maxmem;
+extern int maxmem;
 
 int indice = 0;
 int ultimos100[100] = { 0 };
 int nivelActual = 0;
 int actual = 0;
 int vuelta = 0;
-
-//extern unsigned long *page_table;
-//extern unsigned long *page_directory;
 
 void
 ActualizarPorcentajesCPU(void)
@@ -29,7 +26,8 @@ ActualizarPorcentajesCPU(void)
 }
 
 void
-GuardarESP (int ESP) {
+GuardarESP (int ESP)
+{
 
     proceso_t *temporal;
     temporal = TraerProcesoPorPid(pidActual);
@@ -37,23 +35,27 @@ GuardarESP (int ESP) {
     return;
 }
 
-
-/* siguiente proceso a ejecutar */
 int
-SiguienteProceso (int esp) {
+CargarESP (proceso_t * proc)
+{
+    return proc->ESP;
+}
+
+int
+SiguienteProceso (int esp)
+{
     proceso_t *temporal;
     GuardarESP (esp);
     temporal = SiguienteTarea();
-    deshabilitarPagina(TraerProcesoPorPid(pidActual));
+    
+    //deshabilitarPagina(TraerProcesoPorPid(pidActual));
 
     pidActual = temporal->pid;
     
-    habilitarPagina(temporal);
+    //habilitarPagina(temporal);
 
     return temporal->ESP;
 }
-
-/* la papota */
 
 proceso_t *
 SiguienteTarea (void) {
@@ -61,21 +63,19 @@ SiguienteTarea (void) {
     int tengoProceso = 0;
     int cant = 0;
 
-    /* Se decrementa el tiempo a dormir de los procesos
-    */
+    /* Se decrementa el tiempo a dormir de los procesos*/
     for(i = 1; i < MAXPROCESOS; i++)
     {
 	if(procesos[i].sleep > 0)
 	{
-	    //printf("Noooooooooo");
 	    if(--procesos[i].sleep == 0)
 	    {
-		//printf("hola");
 		procesos[i].estado = LISTO;
 	    }
 	}	
     }
     
+    /*Si no hay ningun proceso listo para ser ejecutado devuelve al proceso INIT.*/
     if (NoHayProcesos ()) {
 
         ultimos100[indice] = INIT;
@@ -85,6 +85,7 @@ SiguienteTarea (void) {
 
     i = ((actual + 1) % MAXPROCESOS < 1) ? 1 : (actual + 1) % MAXPROCESOS;
     
+    /*Devuelvo el siguiente proceso que esta listo para ejecutarse.*/
     while (!tengoProceso) {
       if (!procesos[i].free_slot && procesos[i].estado ==LISTO && procesos[i].pid != INIT) {
                 actual = i;
@@ -97,182 +98,10 @@ SiguienteTarea (void) {
     }
 }
 
-int
-CargarESP (proceso_t * proc) {
-    return proc->ESP;
-}
-
 void
 IniciarMultiTarea (void) {
     int i;
-
- //   void *stack = Malloc (512);
-   /*Hay que busfcar una direccion perteneciente a la zona de kernel*/
-    //void *stack = (void *)0x300000;
-    
-    /* todos los slots estan libres */
+    /*Marco todos los slots como libres*/
     for (i = 0; i < MAXPROCESOS; i++)
         procesos[i].free_slot = TRUE;
 }
-
-
-/*
-int
-bajarPaginasAnterior (int pid) {
-    PROCESO *myProcess;
-    int io, il,j,i;
-
-
-   if( pid == 0 )
-     return 0;
-
-    myProcess = GetProcessByPid (pid);
-
-    if( pid == TEMP )
-{
-    bajarPaginas(NULL);
-}
-    
-    bajarPaginas(myProcess);
-    
-    return 0;
-
-}
-
-int
-levantaPaginasNuevo (int pid) {
-
-
-    PROCESO *myProcess;
-    int io, il,j,i;
-     
-
-    if( pid == 0 )
-     return 0;
-
-    myProcess = GetProcessByPid (pid);
-       
-       /* Temp es de temporal, se usa por lo pronto para levantar gran parte de las paginas ya que en creaProceso se llama a malloc y este esta tocando la memoria de 
-       alguna manera, ergo explota si no estan levantadas */
- /*      
-    if( pid == TEMP  )
-{
-        levantaPaginas(NULL);
-}
-     
-     levantaPaginas(myProcess);
-   
-    return 0;
-}
-
-
-
-int bajarPaginas(PROCESO * myProcess)
-{
-    int io, il,j,i;
-     
-      if( myProcess == NULL  )
-{
-       io = INITIAL_PAGE;
-       il = maxmem/4; // Da la ultima pagina a levantar
-}
-     else{
-      
-       io =  (int) (myProcess->heapstart -
-                               (myProcess->stacksize +
-                                myProcess->heapsize)) / 4096;
-       il =  (int) myProcess->heapstart / 4096;
-       
-}  
-     
-   
-
-   /* La posicion de la pagina dividido 1024 nos da la posicion en la tabla
-de directorio de la tabla de paginas a la cual pertenece esa pagina */
- /*   for( i = io/1024; i <= il/1024 ; i++)
-{
-      int upTo;
-      
-      page_table = page_directory + 4096 * (i+1);
-     
-      if( i != io/1024 )
-          j = 0;
-      else 
-          j = io%1024;
-           
-     
-      if( i == il/1024) 
-       upTo = (il-io)%1024+io%1024;
-      else upTo = 1024;
-       
-       
-       for(; j <  upTo ; j++)
-         page_table[j] = page_table[j] & 0xFFFFFFFE;
-    
-       page_directory[i] = (unsigned long)page_table;
-       page_directory[i] = page_directory[i] & 0xFFFFFFFE;;
-
-} 
-    
-    
-    return 0;
-   
-}
-
-
-int
-levantaPaginas(PROCESO * myProcess) {
-
-    int io, il,j,i;
-   
-   
-     
-   if( myProcess == NULL  )
-{
-       io = INITIAL_PAGE;
-       il = maxmem/4; // Da la ultima pagina a levantar
-}
-     else{
-      
-       io =  (int) (myProcess->heapstart -
-                               (myProcess->stacksize +
-                                myProcess->heapsize)) / 4096;
-       il =  (int) myProcess->heapstart / 4096;
-       
-}  
-     
-   
-
-   /* La posicion de la pagina dividido 1024 nos da la posicion en la tabla
-de directorio de la tabla de paginas a la cual pertenece esa pagina */
-  /*  for( i = io/1024; i <= il/1024 ; i++)
-{
-      int upTo;
-      
-      page_table = page_directory + 4096 * (i+1);
-     
-      if( i != io/1024 )
-          j = 0;
-      else 
-          j = io%1024;
-           
-     
-      if( i == il/1024) 
-       upTo = (il-io)%1024+io%1024;
-      else upTo = 1024;
-       
-       
-       for(; j <  upTo ; j++)
-         page_table[j] = page_table[j] | 7;
-    
-       page_directory[i] = (unsigned long)page_table;
-       page_directory[i] = page_directory[i] | 7;
-
-} 
-    
-    
-    return 0;
-}
-
-*/
-

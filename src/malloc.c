@@ -7,7 +7,10 @@ extern int pidActual;
 extern int maxmem;
 extern int mem[MAX_PAGES];
 
-
+/*Asigna a un proceso una pagina en memoria para que pueda almacenar su stack.
+  maxmem permite saber que pagina de memoria ( a partir de lo 8MB, que son las
+  asignadas a los procesos usuario ) corresponde a cada proceso. Se marca cada
+  pagina con el pid del proceso dueño.*/
 void *
 KMalloc (proceso_t * proc) {
 
@@ -17,7 +20,7 @@ KMalloc (proceso_t * proc) {
     {
         if(mem[i] == -1)
         {
-            resp = (void *)(FIRST_USER_PAGE + i * PAGE_SIZE-7);
+            resp = (void *)(FIRST_USER_PAGE + i * PAGE_SIZE);
             mem[i] = proc->pid;
             return resp;
         }
@@ -90,6 +93,7 @@ KRealloc(proceso_t * proc, int cantPaginas)
     return resp;
 }
 
+/*Setea las paginas como libres. Cuando se solicite malloc podra otorgar estas paginas.*/
 void
 KFree(int nPagina, int cantPaginas)
 {

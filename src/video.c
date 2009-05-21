@@ -158,8 +158,10 @@ help()
 	printf(" calcula1         : hace calculos. proceso con baja prioridad. \n");
         printf(" calcula2         : hace calculos. proceso con media prioridad. \n");
         printf(" calcula3         : hace calculos. proceso con alta prioridad.  \n");
-	printf(" imprime          : imprime 10 mensajes en pantalla espaciados un tiempo fijo.                               \n");
+	printf(" imprime          : imprime 10 mensajes en pantalla espaciados un tiempo fijo.\n");
 	printf(" imprime4ever     : imprime mensajes en pantalla indefinidamente.  \n");
+	printf(" pagefault	  : Testea el manejo de la excepcion del tipo Page Fault. \n");
+	printf(" dividirporcero	  : Testea el manejo de la excepcion del tipo Crto Divide. \n");
 	printf(" reboot           : reinicia el sistema  \n");
 	printf("_______________________________________________________________________________\n");
 	printf("\n");
