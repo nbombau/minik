@@ -81,7 +81,7 @@ kmain()
 	CrearProceso("INIT", Init, 0, (char **)0, 2, 0, 0x1000);
 	
         CrearProceso ("shell", shell, 0, (char **) 0, 2, 0, 0x1000);
-	/*CrearProceso("INIT1", Init, 0, (char **)0, 2, 0, 0x1000);
+	CrearProceso("INIT1", Init, 0, (char **)0, 2, 0, 0x1000);
 CrearProceso("INIT2", Init, 0, (char **)0, 2, 0, 0x1000);
 CrearProceso("INIT3", Init, 0, (char **)0, 2, 0, 0x1000);
 CrearProceso("INIT4", Init, 0, (char **)0, 2, 0, 0x1000);
