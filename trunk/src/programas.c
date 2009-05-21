@@ -30,12 +30,11 @@ Top(int argc, char ** argv)
         sleep(1);
         int k,j;
 
-       if(!EstoyEnBackground())
-       {
-           if(!BufferIsEmpty())
-               salgo = TRUE;
-       }
-
+	if(!EstoyEnBackground())
+	{
+	    if(!BufferIsEmpty())
+		salgo = TRUE;
+	}
     }
 }
 
@@ -48,9 +47,6 @@ NumerosRandom(int argc, char ** argv)
     printf("\n\n\n\n\n\n\n\n\n");
     while(1)
     {
-      /*  for(j = 0;j<31000;j++)
-            for(k = 0; k<10;k++)
-                ;*/
         i = random(100);
         for(j = 0;j<310;j++)
             ;
@@ -65,18 +61,14 @@ NumerosRandom(int argc, char ** argv)
 int
 ImprimeLetras(int argc, char ** argv)
 {
-  long i = 0, j = 0;
-    //while(1)
-    //{ 
+    long i = 0, j = 0;
 
-        for(i = 0; i < 10; i++)
-        {
+    for(i = 0; i < 10; i++)
+    {
 
-	    printf("imprimiendo lalala\n");
-	    sleep(25);
-	}
-
-    //}
+	printf("imprimiendo lalala\n");
+	sleep(25);
+    }
 }
 
 int
@@ -101,6 +93,7 @@ Calcula(int argc, char ** argv)
                 ; 
 }
 
+/*Para probar si anda el realloc del stack.*/
 int
 Recursivo(int argc,char**argv)
 {
@@ -111,8 +104,9 @@ Recursivo(int argc,char**argv)
     return Recursivo(argc, argv);
 }
 
-void
-Fortune(void)
+/*El clasico.*/
+int 
+Fortune(int argc, char **argv)
 {
     int randNum;
 
@@ -126,10 +120,19 @@ Fortune(void)
 
 /* Testeo de Exception Handlers
 */
-void
-DividirPorCero(void)
+int 
+DividirPorCero(int argc, char **argv)
 {
     int i = 0,j;
     j = NUMERO_PRIMO/i;
 }
 
+int
+PageFaultTest(int argc, char **argv)
+{
+    char * a = (char *) 0xF00000;
+    int i = 0;
+    while( i < 99999)
+	a[i++] = 'a';
+
+}

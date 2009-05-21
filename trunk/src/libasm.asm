@@ -219,6 +219,13 @@ _int_08_hand:
     sti
    iret
 
+_lgdt:
+	lgdt [0x1234]
+	retn
+
+_getgdt:
+	sgdt [0x1234]
+	retn
 
 switch_manual:
     cli
@@ -270,29 +277,6 @@ _lidt:				; Carga el IDTR
         pop     ebx
         pop     ebp
         retn
-
-_lgdt:
-	lgdt [0x1234]
-	retn
-
-_getgdt:
-	sgdt [0x1234]
-	retn
-
-;_int_08_hand:				; Handler de INT 8 ( Timer tick)
- ;       push    ds
-  ;      push    es          ; Se salvan los registros
-   ;     pusha               ; Carga de DS y ES con el valor del selector
-    ;    mov     ax, 10h		; a utilizar.
-     ;   mov     ds, ax
-      ;  mov     es, ax
-       ; call    int_08
-       ; mov	al,20h			; Envio de EOI generico al PIC
-;		out	20h,al
-;		popa
- ;       pop     es
-  ;      pop     ds
-   ;     iret
 
 _leo_reloj:
 	push	ecx ; Se salvan los registros
@@ -368,7 +352,7 @@ exit:
 
 write:
 
-		push    ebp
+	push    ebp
     	mov     ebp, esp
 
     	mov     ebx, [ebp+8]    ; fd
@@ -377,13 +361,13 @@ write:
 		mov		al, 04h
     	int     080h
 
-	    mov     esp, ebp
-	    pop     ebp
-	    ret
+	mov     esp, ebp
+	pop     ebp
+	ret
 
 read:
 
-		push    ebp
+	push    ebp
     	mov     ebp, esp
 
     	mov     ebx, [ebp+8]    ; fd
@@ -391,12 +375,9 @@ read:
     	mov     edx, [ebp+16]   ; cant
 		mov		al, 03h
     	int     080h
-
-
-
-	    mov     esp, ebp
-	    pop     ebp
-	    ret
+	mov     esp, ebp
+	pop     ebp
+	ret
 
 myout:
 	push EBP
@@ -409,7 +390,7 @@ myout:
 
 myin:
 	push EBP
-    mov EBP, ESP
+	mov EBP, ESP
 	mov EDX, [EBP+8]
 	mov ECX, [EBP+12]
 	in AL, DX
@@ -428,7 +409,7 @@ myoutw:
 
 myinw:
 	push EBP
-    mov EBP, ESP
+	mov EBP, ESP
 	mov EDX, [EBP+8]
 	mov ECX, [EBP+12]
 	in AX, DX
@@ -475,12 +456,12 @@ vuelve:	mov     ax, 1
 _int_09_hand_LAT:			; Handler de INT 9 ( Teclado ).
 	cli			; Deshabilito las interrupciones
 	push    ds
-    push    es
-    pusha  			; Armo stack frame.
+	push    es
+	pusha  			; Armo stack frame.
 
 	mov     ax, 10h		; Carga en DS y ES con el valor del selector.
-    mov     ds, ax		; a utilizar.
-    mov     es, ax
+	mov     ds, ax		; a utilizar.
+	mov     es, ax
 
 	mov eax,0		; Lee del teclado el scancode y se lo pasa
 	call read_key	; a la funcion int_09 a travez del stack.
@@ -532,9 +513,9 @@ _int_09_hand_US:			; Handler de INT 9 ( Teclado ).
 
 _Lights:
     push	ebp
-	mov		ebp, esp
-	mov		al,[EBP+8]
-	mov		ah,al
+    mov		ebp, esp
+    mov		al,[EBP+8]
+    mov		ah,al
 
     cli                             ; Deshabilito interrupciones
     mov     al,0edh                 ; Cargo el Set/Reset Mode Indicator

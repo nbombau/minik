@@ -31,7 +31,8 @@ ActualizarPorcentajesCPU(void)
 }
 
 void
-GuardarESP (int ESP) {
+GuardarESP (int ESP)
+{
 
     proceso_t *temporal;
     temporal = TraerProcesoPorPid(pidActual);
@@ -44,10 +45,9 @@ GuardarESP (int ESP) {
     return;
 }
 
-
-/* siguiente proceso a ejecutar */
 int
-SiguienteProceso (int esp) {
+SiguienteProceso (int esp)
+{
     proceso_t *temporal;
     GuardarESP (esp);
     temporal = SiguienteTarea();
@@ -57,8 +57,6 @@ SiguienteProceso (int esp) {
     habilitarPagina(temporal);
     return temporal->ESP;
 }
-
-/* la papota */
 
 proceso_t *
 SiguienteTarea (void) {
@@ -91,11 +89,7 @@ SiguienteTarea (void) {
     tickets = CalcularProporciones();
 
     ganador = random(1600);
-    //printf("Ganador:  %d pg %d\n", ganador, posiblesGanadores[ganador]);
-   // int j;
-  //  for(j = 0; j < 100;j=j+2)
-    //    printf("%d \t %d\n", posiblesGanadores[j], posiblesGanadores[j+1]);
-  //  _debug();
+
     //TODO validar q procesoGanador no sea null y q TraerIndiceProceso no de -1.
     procesoGanador = TraerProcesoPorPid(posiblesGanadores[ganador]);
 
@@ -108,12 +102,7 @@ SiguienteTarea (void) {
 void
 IniciarMultiTarea (void) {
     int i;
-
- //   void *stack = Malloc (512);
-   /*Hay que busfcar una direccion perteneciente a la zona de kernel*/
-    void *stack = (void *)0x300000;
-    
-    /* todos los slots estan libres */
+    /*Marco todos los slots como libres*/
     for (i = 0; i < MAXPROCESOS; i++)
         procesos[i].free_slot = TRUE;
 }
@@ -142,9 +131,6 @@ static int CalcularProporciones(void)
             */
             ticketsPorProceso = (int)((((AJUSTE_PRIO - procesos[i].prioridad)*(AJUSTE_PRIO - procesos[i].prioridad))*1600)/ tickets);
 
-//printf("\t\t tickets %d      prio %d\n", tickets,(int)((100*3)/(float)4));
-//printf("\t\t tickPorProceso %d     pid %d\n", ticketsPorProceso, procesos[i].pid);
-
             for(j = 0; j < ticketsPorProceso; j++)
             {
                 posiblesGanadores[ixProporc] = procesos[i].pid;
@@ -152,7 +138,6 @@ static int CalcularProporciones(void)
             }
         }
     }
-//_debug();
     return tickets;
 }
 

@@ -7,20 +7,20 @@
 #include "stdio.h"
 #include "buffer.h"
 #include "random.h"
-int
-Top(int argc, char ** argv);
+int Top(int argc, char ** argv);
 
-int
-ImprimeLetras(int argc, char ** argv);
+int ImprimeLetras(int argc, char ** argv);
 
-int
-ImprimeLetras4Ever(int argc, char ** argv);
+int ImprimeLetras4Ever(int argc, char ** argv);
 
-int
-Calcula(int argc, char ** argv);
+int Calcula(int argc, char ** argv);
 
-int
-Recursivo(int argc,char**argv);
+int Recursivo(int argc,char**argv);
 
+int Fortune(int argc, char **argv);
+
+int DividirPorCero(int argc, char **argv);
+
+int PageFaultTest(int argc, char **argv);
 #endif
 

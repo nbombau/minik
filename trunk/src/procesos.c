@@ -11,8 +11,7 @@ extern proceso_t procesos[];
 extern int pidActual;
 extern int proxPid;
 int veces = 0;
-//extern unsigned long *page_directory;
-//extern unsigned long *page_table;
+
 
 int probarMemoria(int argc, char **argv)
 { 
@@ -66,7 +65,8 @@ ReiniciarPorcentajes(void)
 
 
 proceso_t *
-TraerProcesoPorPid (int pid) {
+TraerProcesoPorPid (int pid)
+{
     int i;
 
     for (i = 0; i < MAXPROCESOS; i++) {
@@ -84,7 +84,8 @@ TraerProcesoPorIndice(int i)
 }
 
 proceso_t *
-TraerProcesoPorNombre (char *proceso) {
+TraerProcesoPorNombre (char *proceso)
+{
     int i;
     int len1, len2;
 
@@ -115,7 +116,8 @@ TraerIndiceProceso(int pid)
 }
 
 int
-NoHayProcesos (void) {
+NoHayProcesos (void)
+{
     int i;
 
     for (i = 0; i < MAXPROCESOS; i++) {
@@ -135,15 +137,16 @@ EstoyEnBackground(void)
 }
 
 int
-NuevoPid (void) {
+NuevoPid (void)
+{
     return proxPid++;
 }
-
+/*
 void
 exec (char *nombre, int (*proceso) (int argc, char **argv), int enBackground) {
     CrearProceso (nombre, proceso, 0, (char **) 0,
                   DEF_PRIORITY, enBackground, STACK_USUARIOS);
-}
+}*/
 
 void
 Limpia (void) {
@@ -172,7 +175,6 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
     int i;
 
     void *stack;
-
     for (i = 0; i < MAXPROCESOS; i++) {
         if (procesos[i].free_slot)
             break;
@@ -182,7 +184,6 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
     strncpy (procesos[i].nombre, nombre, strlen (nombre)+1);
     procesos[i].pid = NuevoPid ();
     procesos[i].stacksize = PAGE_SIZE;
-    //stack = (void *)(0xF00000 + (veces * 1024)) ;
     stack = (void *)KMalloc (&procesos[i]);
 
     procesos[i].background = enBackground;
@@ -190,21 +191,14 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
     
     procesos[i].estado = LISTO;
 
-    procesos[i].stackstart = (int) (stack +PAGE_SIZE - 1);
+    procesos[i].stackstart = (int) (stack +PAGE_SIZE -1);
     procesos[i].sleep = 0;
- 
-    /*Levanto las paginas de este proceso para poder armar stack*/         
-  //  levantaPaginas((PROCESO *)&procesos[i]);
-  
     
     habilitarPagina(&procesos[i]);
     
     procesos[i].ESP = ArmaStackFrame (proceso, procesos[i].stackstart, Limpia);
-     
-     /*Bajo las paginas para evitar que cualquier otro proceso escriba 
-    en la zona de este*/
-   // bajarPaginas((PROCESO*)&procesos[i]);
-   deshabilitarPagina(&procesos[i]);
+
+    deshabilitarPagina(&procesos[i]);
    
     procesos[i].padre = pidActual;
 
@@ -215,10 +209,10 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
         procesos[i].padre = pidActual;
     }
     procesos[i].free_slot = FALSE;
-    
 }
 
-void sleep(int segundos)
+void
+sleep(int segundos)
 {
     _Cli();
     long ticks = (long)(segundos * TIMER_TICK);    
@@ -255,7 +249,6 @@ Kill (int pid) {
                         if( ! proc->background )
                         {
                             desbloqueaProceso(proc->padre);
-                            //bloqueaProceso (proc->padre, 1);
                         }
                 }
 
@@ -282,7 +275,7 @@ MatarHijos(int pid)
             Kill(procesos[i].pid);
     }
 }
-
+/*
 int
 Nada (int argc, char **argv) {
     while (1)
@@ -325,7 +318,7 @@ bloqueaProceso (int pid, int bloqCode) {
     return -1;
 
   return 0;
-    }
+    }*/
 
 int
 desbloqueaProceso (int pid) {
