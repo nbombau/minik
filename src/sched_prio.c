@@ -46,10 +46,10 @@ SiguienteProceso (int esp) {
     proceso_t *temporal;
     GuardarESP (esp);
     temporal = SiguienteTarea();
-   // bajarPaginasAnterior(pidActual);
-   
+    deshabilitarPagina(TraerProcesoPorPid(pidActual));
+
     pidActual = temporal->pid;
-//    levantaPaginasNuevo(pidActual);
+    habilitarPagina(temporal);
     return temporal->ESP;
 }
 
