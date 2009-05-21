@@ -81,7 +81,7 @@ kmain()
 	CrearProceso("INIT", Init, 0, (char **)0, 2, 0, 0x1000);
 	
         CrearProceso ("shell", shell, 0, (char **) 0, 2, 0, 0x1000);
-	CrearProceso("INIT1", Init, 0, (char **)0, 2, 0, 0x1000);
+	/*CrearProceso("INIT1", Init, 0, (char **)0, 2, 0, 0x1000);
 CrearProceso("INIT2", Init, 0, (char **)0, 2, 0, 0x1000);
 CrearProceso("INIT3", Init, 0, (char **)0, 2, 0, 0x1000);
 CrearProceso("INIT4", Init, 0, (char **)0, 2, 0, 0x1000);
@@ -92,7 +92,7 @@ CrearProceso("INIT8", Init, 0, (char **)0, 2, 0, 0x1000);
 CrearProceso("INIT9", Init, 0, (char **)0, 2, 0, 0x1000);
 CrearProceso("INIT10", Init, 0, (char **)0, 2, 0, 0x1000);
 CrearProceso("INIT11", Init, 0, (char **)0, 2, 0, 0x1000);
-/*CrearProceso("INIT12", Init, 0, (char **)0, 2, 0, 0x1000);
+CrearProceso("INIT12", Init, 0, (char **)0, 2, 0, 0x1000);
 CrearProceso("INIT13", Init, 0, (char **)0, 2, 0, 0x1000);
 CrearProceso("INIT14", Init, 0, (char **)0, 2, 0, 0x1000);
 CrearProceso("INIT15", Init, 0, (char **)0, 2, 0, 0x1000);
@@ -139,7 +139,6 @@ CrearProceso("INIT20", Init, 0, (char **)0, 2, 0, 0x1000);
 CrearProceso("INIT21", Init, 0, (char **)0, 2, 0, 0x1000);
 CrearProceso("INIT22", Init, 0, (char **)0, 2, 0, 0x1000);
 CrearProceso("INIT23", Init, 0, (char **)0, 2, 0, 0x1000);*/
-
 
 	_Sti();
 

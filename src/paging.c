@@ -25,7 +25,7 @@ InitPaging(void)
       se mapean en los primeros 8MB de memoria.*/
     for (i = 0; i < 2; i++) {
 	/*Lleno la tabla de paginas con la informacion pertinente.*/
-	page_table = page_table + 4096;
+	
         for (j = 0; j < 1024; j++) {
 	    /*La pagina tendra los siguientes atributos: Nivel supervisor,
 	      read/write y presente. Se representa como 011 en binario.*/
@@ -35,7 +35,7 @@ InitPaging(void)
 	/*Lleno la tabla de directorio de paginas con la informacion pertinente.*/
         page_directory[i] = (unsigned long)page_table;
         page_directory[i] = page_directory[i] | 3;
-	
+	page_table = page_table + 4096;
 
     }
     page_table = page_directory + 8192;
@@ -44,23 +44,23 @@ InitPaging(void)
       nivel usuario*/
     for (i = 2; i < (int)3; i++) {
 	/*Lleno la tabla de paginas con la informacion pertinente.*/
-	page_table = page_table + 4096;
+	
 	for (j = 0; j < 1024; j++) {
 	    /*Marco la pagina como no presente*/
-            page_table1[j] = address |3/*& 0xFFFFFFFE*/;
+            page_table[j] = address |3/*& 0xFFFFFFFE*/;
             address = address + 4096;
         }
 	if(i==2)
 	    page_table1=page_table;
 	/*Lleno la tabla de directorio de paginas con la informacion pertinente.*/
-        page_directory[i] = (unsigned long) page_table1;
+        page_directory[i] = (unsigned long) page_table;
         page_directory[i] = page_directory[i] | 3 ;
-
+	page_table = page_table + 4096;
     }
     
     /*Estas no son usadas por el SO ni las aplicaciones*/
     for (i = 3; i < (int)8; i++) {
-	page_table = page_table + 4096;
+	
         /*Lleno la tabla de paginas con la informacion pertinente.*/
         for (j = 0; j < 1024; j++) {
 
@@ -69,7 +69,7 @@ InitPaging(void)
         }
         page_directory[i] = (unsigned long) page_table;
         page_directory[i] = page_directory[i] & 0xFFFFFFFE;
-
+	page_table = page_table + 4096;
     }
 
     /*En el registro CR3 guardo cual es el directorio de paginas.
@@ -82,6 +82,7 @@ InitPaging(void)
 void
 habilitarPagina(proceso_t * proc)
 {
+    return;
     int i;
     for(i=0;i<MAX_PAGES;i++)
     {
@@ -96,6 +97,7 @@ habilitarPagina(proceso_t * proc)
 void
 deshabilitarPagina(proceso_t * proc)
 {
+    return;
     int i;
     for(i=0;i<MAX_PAGES;i++)
     {
