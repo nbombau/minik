@@ -65,4 +65,7 @@ void * KMalloc (proceso_t * proc);
 
 void habilitarPagina(proceso_t * proc);
 void deshabilitarPagina(proceso_t * proc);
+
+void MatarHijos(int pid);
+void Matrix(void);
 #endif

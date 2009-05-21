@@ -2,13 +2,13 @@
 #include "../include/kc.h"
 #include "../include/random.h"
 
-
 extern proceso_t procesos[];
 extern int pidActual;
 extern  int maxmem;
 
+int tiempoEsperaConsola = 0;
 
-int posiblesGanadores[100] = {0};
+int posiblesGanadores[1600] = {0};
 
 
 int indice = 0;
@@ -35,6 +35,11 @@ GuardarESP (int ESP) {
 
     proceso_t *temporal;
     temporal = TraerProcesoPorPid(pidActual);
+/*    if((ESP - (temporal->stackstart - temporal->stacksize))<500)
+    {
+
+        ESP =(int) KRealloc(temporal, temporal->stacksize/PAGE_SIZE + 1);
+    }*/
     temporal->ESP = ESP;
     return;
 }
@@ -85,7 +90,7 @@ SiguienteTarea (void) {
 
     tickets = CalcularProporciones();
 
-    ganador = random(100);
+    ganador = random(1600);
     //printf("Ganador:  %d pg %d\n", ganador, posiblesGanadores[ganador]);
    // int j;
   //  for(j = 0; j < 100;j=j+2)
@@ -98,11 +103,6 @@ SiguienteTarea (void) {
     indice = (indice + 1)%100;
 
     return procesoGanador;
-}
-
-int
-CargarESP (proceso_t * proc) {
-    return proc->ESP;
 }
 
 void
@@ -127,7 +127,7 @@ static int CalcularProporciones(void)
     {
         if(!procesos[i].free_slot && procesos[i].estado == LISTO)
         {
-            tickets += (AJUSTE_PRIO - procesos[i].prioridad);
+            tickets += ((AJUSTE_PRIO - procesos[i].prioridad)*(AJUSTE_PRIO - procesos[i].prioridad));
         }
     }
 
@@ -140,7 +140,7 @@ static int CalcularProporciones(void)
             *  cada proceso recibe una cantidad de tickets proporcional
             *  a su prioridad.
             */
-            ticketsPorProceso = (int)(((AJUSTE_PRIO - procesos[i].prioridad)/ tickets) * 100);
+            ticketsPorProceso = (int)((((AJUSTE_PRIO - procesos[i].prioridad)*(AJUSTE_PRIO - procesos[i].prioridad))*1600)/ tickets);
 
 //printf("\t\t tickets %d      prio %d\n", tickets,(int)((100*3)/(float)4));
 //printf("\t\t tickPorProceso %d     pid %d\n", ticketsPorProceso, procesos[i].pid);

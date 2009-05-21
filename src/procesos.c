@@ -69,7 +69,7 @@ proceso_t *
 TraerProcesoPorPid (int pid) {
     int i;
 
-    for (i = 1; i < MAXPROCESOS; i++) {
+    for (i = 0; i < MAXPROCESOS; i++) {
         if (procesos[i].pid == pid && !procesos[i].free_slot)
             return &procesos[i];
     }
@@ -243,7 +243,7 @@ Kill (int pid) {
             proc->free_slot = 1;
             proc->estado = 0;
             proc->pid = -1;
-            //MatarHijos (pid);
+            MatarHijos (pid);
             if(proc->padre!=0)
             {
                 padre = (proceso_t*)TraerProcesoPorPid (proc->padre);
@@ -270,6 +270,17 @@ Kill (int pid) {
         printf ("Acceso denegado (lero lero).\n", 19);
     }
     return;
+}
+
+void
+MatarHijos(int pid)
+{
+    int i;
+    for(i = 1;i<MAXPROCESOS;i++)
+    {
+        if(procesos[i].padre == pid)
+            Kill(procesos[i].pid);
+    }
 }
 
 int

@@ -21,9 +21,19 @@ enum {  VOID=-1,
         KILL,
         TOP,
         TOP_BK,
+        CALCULA1,
+        CALCULA1_BK,
+        CALCULA2,
+        CALCULA2_BK,
+        CALCULA3,
+        CALCULA3_BK,
+        RECURSIVO,
+        RECURSIVO_BK,
+        DIVIDIRCERO,
+        FORTUNE,
         NOTFOUND,
      };
-#define NCOM 14
+#define NCOM 24
 
 int
 strcmp(char* s1, char* s2)
@@ -57,7 +67,9 @@ ParsearArgumentos(char * line)
 int
 command(char *line )
 {
-  char * comlist[] = { "clear", "loadkeys la", "loadkeys us", "lspci", "?", "reboot", "imprime", "imprime&", "imprime4ever", "imprime4ever&", "kill", "top", "top&" };
+  char * comlist[] = { "clear", "loadkeys la", "loadkeys us", "lspci", "?", "reboot", "imprime", "imprime&", "imprime4ever", "imprime4ever&", "kill", "top", "top&", "calcula1",
+    "calcula1&", "calcula2", "calcula2&", "calcula3", "calcula3&","recursivo", "recursivo&",
+"dividirporcero","fortune"};
 
         int pid;
 	if( line[0] == '\0' )
@@ -77,10 +89,31 @@ command(char *line )
             else
                 printf("bash: kill only accepts a positive integer as argument.\n");
 
-            return KILL;
+            return VOID;
         }
 
 	return NOTFOUND;
+}
+
+
+
+int
+shell(int argc, char ** argv)
+{
+	/* Buffer de almacenamiento de caracteres */
+	char in_buffer[MAX_CHARS];
+	
+	set_screen();
+	clear_screen();
+	welcome();
+	while(1) {
+		prompt();
+		getline(in_buffer,MAX_CHARS);
+		// proceso el comando almacenado en in_buffer
+		bash(in_buffer);
+	}
+
+	return 1 ;
 }
 
 void
@@ -104,57 +137,64 @@ bash(char *line  )
 		         break;
 	case REBOOT: reboot();
     
-    case IMPRIMELETRA: 
+        case IMPRIMELETRA: 
                 CrearProceso ("ImprimeLetra", ImprimeLetras, 0,
                     (char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
                 break;
-      case IMPRIMELETRA_BK:
-        CrearProceso ("ImprimeLetra", ImprimeLetras, 0, 
+        case IMPRIMELETRA_BK:
+                 CrearProceso ("ImprimeLetra", ImprimeLetras, 0, 
                       (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
-        break;
+                 break;
       case IMPRIME4EVER: 
-        CrearProceso ("ImprimeLetra4ever", ImprimeLetras4Ever, 0,
+            CrearProceso ("ImprimeLetra4ever", ImprimeLetras4Ever, 0,
                       (char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
         break;
       case IMPRIME4EVER_BK:
-        CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, 
+            CrearProceso ("ImprimeLetra", ImprimeLetras4Ever, 0, 
                       (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
-        break;
+                break;
         case TOP:
-                CrearProceso("Top", Top, 0, (char**)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
+                CrearProceso("Top", Top, 0, (char**)0, 1, FALSE, DEF_STACKSIZE);
                 break;
             case TOP_BK:
                 CrearProceso("Top", Top, 0, (char**)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
                 break;
     case KILL:
-         printf("Kill v1.1 : Kill expects arg0 valid process_id\n");
+         printf("Kill: Kill expects arg0 valid process_id\n");
                 break;
-    
-    
-
+    case CALCULA1:
+                CrearProceso("calculaLowPrio", Calcula, 0,(char**)0, 4, FALSE, DEF_STACKSIZE);
+                break;
+    case CALCULA1_BK:
+                CrearProceso("calculaLowPrio", Calcula, 0,(char**)0, 4, TRUE, DEF_STACKSIZE);
+                break;
+    case CALCULA2:
+                CrearProceso("calculaMedPrio", Calcula, 0,(char**)0, 2, FALSE, DEF_STACKSIZE);
+                break;
+    case CALCULA2_BK:
+                CrearProceso("calculaMedPrio", Calcula, 0,(char**)0, 2, TRUE, DEF_STACKSIZE);
+                break;
+    case CALCULA3:
+                CrearProceso("calculaHiPrio", Calcula, 0,(char**)0, 0, FALSE, DEF_STACKSIZE);
+                break;
+    case CALCULA3_BK:
+                CrearProceso("calculaHiPrio", Calcula, 0,(char**)0, 0, TRUE, DEF_STACKSIZE);
+                break;
+    case RECURSIVO:
+                CrearProceso("recursivo", Recursivo, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
+                break;
+    case RECURSIVO_BK:
+                CrearProceso("recursivo", Recursivo, 0,(char**)0, 1, TRUE, DEF_STACKSIZE);
+                break;
+    case FORTUNE:
+                Fortune();
+                break;
+    case DIVIDIRCERO:
+                DividirPorCero();
+                break;
 	default: 	printf("bash: ");
 				printf(line);
 				printf(": command not found -- Try ? for help\n");
 	}
 
 }
-
-int
-shell(int argc, char ** argv)
-{
-	/* Buffer de almacenamiento de caracteres */
-	char in_buffer[MAX_CHARS];
-	
-	set_screen();
-	clear_screen();
-	welcome();
-	while(1) {
-		prompt();
-		getline(in_buffer,MAX_CHARS);
-		// proceso el comando almacenado en in_buffer
-		bash(in_buffer);
-	}
-
-	return 1 ;
-}
-

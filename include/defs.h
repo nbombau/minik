@@ -71,6 +71,8 @@ typedef enum { SCREEN, KEYBOARD, PCI, CURSOR1, CURSOR2,  SCREENNL, PIC, PICM1, P
 */
 #define INIT 0
 
+#define SHELL 1
+
 /*Prioridad Default
 */
 #define DEF_PRIO    2

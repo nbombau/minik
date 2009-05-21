@@ -16,7 +16,7 @@ gcc -g -c -m32 ../src/pci.c -o pci.o -fno-builtin
 gcc -g -c -m32 ../src/procesos.c -o procesos.o -fno-builtin
 gcc -g -c -m32 ../src/excepciones.c -o excepciones.o -fno-builtin
 gcc -g -c -m32 ../src/string.c -o string.o -fno-builtin
-gcc -g -c -m32 ../src/sched_round.c -o sched_round.o -fno-builtin
+gcc -g -c -m32 ../src/sched_prio.c -o sched_round.o -fno-builtin
 gcc -g -c -m32 ../src/programas.c -o programas.o -fno-builtin
 gcc -g -c -m32 ../src/stdio.c -o stdio.o -fno-builtin
 gcc -g -c -m32 ../src/random.c -o random.o -fno-builtin
