@@ -27,11 +27,8 @@ Top(int argc, char ** argv)
             }
         }
         _Cli();
-       // sleep(1);NumerosRandom
+        sleep(1);
         int k,j;
-        for(j = 0;j<31000;j++)
-            for(k = 0; k<100;k++)
-                ;
 
        if(!EstoyEnBackground())
        {
@@ -92,5 +89,47 @@ ImprimeLetras4Ever(int argc, char ** argv)
 
         sleep(50);
     }
+}
+
+int
+Calcula(int argc, char ** argv)
+{
+    int i, j,k;
+    for(i = 0;i<31000;i++)
+        for(j = 0;j<31000;j++)
+            for(k = 0;k<31000;k++)
+                ; 
+}
+
+int
+Recursivo(int argc,char**argv)
+{
+    int i, j;
+    for(i = 0;i<31;i++)
+        for(j = 0;j<31;j++)
+            ;
+    return Recursivo(argc, argv);
+}
+
+void
+Fortune(void)
+{
+    int randNum;
+
+    static char fortunes[3][600] = {
+        "\nSon las 4 de la maniana y yo programando este fortune...\n",
+        "\nVer un mundo en un grano de arena\ny el cielo en una flor silvestre\ncontener el infinito en la palma de la mano\ny la eternidad en una hora\n\n\t William Blake",
+        "\nRTFM\n\n\t Fernando Zunino y muchos mas"
+    };
+    printf("%s\n", fortunes[random(3)]);
+}
+
+/* Testeo de Exception Handlers
+*/
+void
+DividirPorCero(void)
+{
+    int i = 0,j;
+    j = NUMERO_PRIMO/i;
 }
 

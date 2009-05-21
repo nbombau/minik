@@ -16,5 +16,11 @@ ImprimeLetras(int argc, char ** argv);
 int
 ImprimeLetras4Ever(int argc, char ** argv);
 
+int
+Calcula(int argc, char ** argv);
+
+int
+Recursivo(int argc,char**argv);
+
 #endif
 
