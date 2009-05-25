@@ -15,6 +15,7 @@ DESCR_INT idt[0x81];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
 proceso_t procesos[MAXPROCESOS];
 proceso_t init;
+GDTR* gdtr = (GDTR*)0x1234;
 
 
 
@@ -75,70 +76,19 @@ kmain()
         aux = 0xFF;
         write(PICM2,&aux,1 );
 
+	/*_getgdt();
+        setup_GDT_entry ((DESCR_SEG*)(gdtr->base + gdtr->limit + 1), ((dword)0x10)<<4, 0x00FF, ACS_STACK, 0xC0);
+        setup_GDT_entry ((DESCR_SEG*)(gdtr->base + gdtr->limit + 9), 0, 0xFFFFF, ACS_STACK & 0x7F, 0xC0);
+
+        gdtr->limit += 16;
+        _lgdt();*/
 
 	InitPaging();
 	
 	CrearProceso("INIT", Init, 0, (char **)0, 2, 0, 0x1000);
 	
         CrearProceso ("shell", shell, 0, (char **) 0, 2, 0, 0x1000);
-	CrearProceso("INIT1", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT2", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT3", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT4", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT5", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT6", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT7", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT8", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT9", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT10", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT11", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT12", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT13", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT14", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT15", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT16", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT17", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT18", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT19", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT20", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT21", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT22", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT23", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT24", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT25", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT26", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT27", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT28", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT29", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT30", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT31", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT32", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT33", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT34", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT35", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT36", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT2", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT3", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT4", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT5", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT6", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT7", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT8", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT9", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT10", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT11", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT12", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT13", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT14", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT15", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT16", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT17", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT18", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT19", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT20", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT21", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT22", Init, 0, (char **)0, 2, 0, 0x1000);
-CrearProceso("INIT23", Init, 0, (char **)0, 2, 0, 0x1000);*/
+
 
 	_Sti();
 
