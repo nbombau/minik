@@ -48,11 +48,11 @@ SiguienteProceso (int esp)
     GuardarESP (esp);
     temporal = SiguienteTarea();
     
-    deshabilitarPagina(TraerProcesoPorPid(pidActual));
+    DeshabilitarPaginas(TraerProcesoPorPid(pidActual));
 
     pidActual = temporal->pid;
     
-    habilitarPagina(temporal);
+    HabilitarPaginas(temporal);
 
     return temporal->ESP;
 }

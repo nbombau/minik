@@ -173,7 +173,7 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
               int argc, char **argv, int prioridad, int enBackground,
               int stacksize) {
     int i;
-
+    _Cli();
     void *stack;
     for (i = 0; i < MAXPROCESOS; i++) {
         if (procesos[i].free_slot)
@@ -194,11 +194,11 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
     procesos[i].stackstart = (int) (stack +PAGE_SIZE -1);
     procesos[i].sleep = 0;
     
-    habilitarPagina(&procesos[i]);
+    HabilitarPaginaNuevo(&procesos[i]);
     
     procesos[i].ESP = ArmaStackFrame (proceso, procesos[i].stackstart, Limpia);
 
-    deshabilitarPagina(&procesos[i]);
+    DeshabilitarPaginaNuevo(&procesos[i]);
    
     procesos[i].padre = pidActual;
 
@@ -209,6 +209,7 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
         procesos[i].padre = pidActual;
     }
     procesos[i].free_slot = FALSE;
+    _Sti();
 }
 
 void
