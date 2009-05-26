@@ -1,6 +1,7 @@
 #include "../include/defs.h"
 #include "../include/kc.h"
 #include "../include/random.h"
+#include "../include/paging.h"
 
 extern proceso_t procesos[];
 extern int pidActual;
@@ -21,8 +22,7 @@ static int CalcularProporciones(void);
 void
 ActualizarPorcentajesCPU(void)
 {
-    int i,j;
-    proceso_t * proceso;
+    int i;
     ReiniciarPorcentajes();
     for(i = 0;i<100;i++)
     {
@@ -61,8 +61,6 @@ SiguienteProceso (int esp)
 proceso_t *
 SiguienteTarea (void) {
     int i;
-    int tengoProceso = 0;
-    int cant = 0;
     int tickets;
     int ganador;
     proceso_t *procesoGanador;

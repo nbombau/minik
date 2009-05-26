@@ -1,8 +1,7 @@
 #ifndef __STDIO_H__
 #define __STDIO_H__
-
-int
-printf(const char * format, ...);
+#include "../include/kasm.h"
+int printf(const char * format, ...);
 
 #endif
 

@@ -3,7 +3,6 @@
 int
 Top(int argc, char ** argv)
 {
-    char c;
     int i;
     proceso_t * proc;
     int salgo = FALSE;
@@ -28,7 +27,6 @@ Top(int argc, char ** argv)
         }
         _Cli();
         sleep(1);
-        int k,j;
 
 	if(!EstoyEnBackground())
 	{
@@ -36,6 +34,7 @@ Top(int argc, char ** argv)
 		salgo = TRUE;
 	}
     }
+    return 0;
 }
 
 
@@ -43,7 +42,7 @@ int
 NumerosRandom(int argc, char ** argv)
 {
     int i;
-    int k,j;
+    int j;
     printf("\n\n\n\n\n\n\n\n\n");
     while(1)
     {
@@ -52,6 +51,7 @@ NumerosRandom(int argc, char ** argv)
             ;
         printf("%d\n", i);
     }
+    return 0;
 }
 
 
@@ -61,7 +61,7 @@ NumerosRandom(int argc, char ** argv)
 int
 ImprimeLetras(int argc, char ** argv)
 {
-    long i = 0, j = 0;
+    long i = 0;
 
     for(i = 0; i < 10; i++)
     {
@@ -69,18 +69,19 @@ ImprimeLetras(int argc, char ** argv)
 	printf("imprimiendo lalala\n");
 	sleep(25);
     }
+    return 0;
 }
 
 int
 ImprimeLetras4Ever(int argc, char ** argv)
 {
-  long i = 0, j = 0;
     while(1)
     { 
         printf("\n\nasdfqwerty\n\n");
 
         sleep(50);
     }
+    return 0;
 }
 
 int
@@ -91,6 +92,7 @@ Calcula(int argc, char ** argv)
         for(j = 0;j<31000;j++)
             for(k = 0;k<31000;k++)
                 ; 
+    return 0;
 }
 
 /*Para probar si anda el realloc del stack.*/
@@ -108,7 +110,6 @@ Recursivo(int argc,char**argv)
 int 
 Fortune(int argc, char **argv)
 {
-    int randNum;
 
     static char fortunes[3][600] = {
         "\nSon las 4 de la maniana y yo programando este fortune...\n",
@@ -116,6 +117,7 @@ Fortune(int argc, char **argv)
         "\nRTFM\n\n\t Fernando Zunino y muchos mas"
     };
     printf("%s\n", fortunes[random(3)]);
+    return 0;
 }
 
 /* Testeo de Exception Handlers
@@ -125,6 +127,7 @@ DividirPorCero(int argc, char **argv)
 {
     int i = 0,j;
     j = NUMERO_PRIMO/i;
+    return 0;
 }
 
 int
@@ -134,5 +137,5 @@ PageFaultTest(int argc, char **argv)
     int i = 0;
     while( i < 99999)
 	a[i++] = 'a';
-
+    return 0;
 }

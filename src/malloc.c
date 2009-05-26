@@ -1,6 +1,7 @@
 #include "../include/defs.h"
 #include "../include/kc.h"
 #include "../include/paging.h"
+#include "../include/string.h"
 
 extern int veces;
 extern int pidActual;
@@ -64,7 +65,7 @@ KRealloc(proceso_t * proc, int cantPaginas)
     resp = (void *)(FIRST_USER_PAGE + pos * PAGE_SIZE);
     for(i=0;i<cantPaginas-1;i++)
         mem[pos+i] = proc->pid;
-    memcpy(resp+cantPaginas*PAGE_SIZE-proc->stacksize,proc->stackstart,proc->stacksize);
+    //memcpy(resp+cantPaginas*PAGE_SIZE-proc->stacksize,proc->stackstart,proc->stacksize);
     //deshabilitarPagina(proc);
     KFree(marca, (int)(proc->stacksize/PAGE_SIZE));
     

@@ -68,4 +68,6 @@ void deshabilitarPagina(proceso_t * proc);
 
 void MatarHijos(int pid);
 void Matrix(void);
+
+void sleep(int segundos);
 #endif
