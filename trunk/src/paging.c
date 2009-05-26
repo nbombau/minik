@@ -80,12 +80,14 @@ InitPaging(void)
     write_cr0 (read_cr0 () | 0x80000000);
 }
 
+
 /*Habilito las paginas pertenecientes a un proceso.*/
 void
-habilitarPagina(proceso_t * proc)
+HabilitarPaginaNuevo(proceso_t * proc)
 {
     int i;
-    for(i=0;i<MAX_PAGES;i++)
+
+    for(i=0;i<MAX_PAGES-1;i++)
     {
 	if(mem[i]==proc->pid)
 	{
@@ -96,10 +98,10 @@ habilitarPagina(proceso_t * proc)
 
 /*Deshabilito las paginas pertenecientes a un proceso.*/
 void
-deshabilitarPagina(proceso_t * proc)
+DeshabilitarPaginaNuevo(proceso_t * proc)
 {
     int i;
-    for(i=0;i<MAX_PAGES;i++)
+    for(i=0;i<MAX_PAGES-1;i++)
     {
 	if(mem[i]==proc->pid)
 	{
@@ -108,3 +110,57 @@ deshabilitarPagina(proceso_t * proc)
     }
 }
 
+
+
+static void
+HabilitarPaginasAux(proceso_t * proc)
+{
+    int i;
+    proceso_t * procAux;
+
+    for(i=0;i<MAX_PAGES-1;i++)
+    {
+	if(mem[i]==proc->pid)
+	{
+	    page_table1[i]=page_table1[i] | 0xFFFFFFFD;
+	    //page_directory[2]=(int)page_table1;
+	    //page_directory[2]=page_directory[2]|1;
+	}
+    }
+    if(proc->pid==0)
+	return;
+    procAux=TraerProcesoPorPid(proc->padre);
+    HabilitarPaginasAux(procAux);
+}
+
+void
+HabilitarPaginas(proceso_t * proc)
+{
+    int i;
+    proceso_t * procAux;
+
+    for(i=0;i<MAX_PAGES-1;i++)
+    {
+	if(mem[i]==proc->pid)
+	{
+	    page_table1[i]=page_table1[i] | 3;
+	    //page_directory[2]=(int)page_table1;
+	    //page_directory[2]=page_directory[2]|3;
+	}
+    }
+    if(proc->pid==0)
+	return;
+    procAux=TraerProcesoPorPid(proc->padre);
+    HabilitarPaginasAux(procAux);
+}
+
+/*Deshabilito las paginas pertenecientes a un proceso.*/
+void
+DeshabilitarPaginas(proceso_t * proc)
+{
+    int i;
+    for(i=0;i<MAX_PAGES-1;i++)
+    {
+	    page_table1[i]=page_table1[i] & 0xFFFFFFFE;
+    }
+}

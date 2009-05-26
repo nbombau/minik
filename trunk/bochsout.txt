@@ -34,52 +34,52 @@
 00000000000i[     ]   SB16 support: yes
 00000000000i[     ]   USB support: yes
 00000000000i[     ]   VGA extension support: vbe 
-00000000000i[MEM0 ] allocated memory at 0xb3b40008. after alignment, vector=0xb3b41000
+00000000000i[MEM0 ] allocated memory at 0xb3a3e008. after alignment, vector=0xb3a3f000
 00000000000i[MEM0 ] 32.00MB
 00000000000i[MEM0 ] rom at 0xfffe0000/131072 ('/usr/share/bochs/BIOS-bochs-latest')
 00000000000i[MEM0 ] rom at 0xc0000/39936 ('/usr/share/vgabios/vgabios.bin')
 00000000000i[APIC?] set APIC ID to 0
 00000000000i[APIC0] 80686
 00000000000i[APIC0] local apic in CPU apicid=00 initializing
-00000000000i[     ] lt_dlhandle is 0x9ce7770
+00000000000i[     ] lt_dlhandle is 0x97c9e28
 00000000000i[PLGIN] loaded plugin libbx_unmapped.la
-00000000000i[     ] lt_dlhandle is 0x9ce77e8
+00000000000i[     ] lt_dlhandle is 0x97ca308
 00000000000i[PLGIN] loaded plugin libbx_biosdev.la
-00000000000i[     ] lt_dlhandle is 0x9ce81b0
+00000000000i[     ] lt_dlhandle is 0x97ca920
 00000000000i[PLGIN] loaded plugin libbx_cmos.la
-00000000000i[     ] lt_dlhandle is 0x9ce82c0
+00000000000i[     ] lt_dlhandle is 0x97caa78
 00000000000i[PLGIN] loaded plugin libbx_dma.la
-00000000000i[     ] lt_dlhandle is 0xb3900a90
+00000000000i[     ] lt_dlhandle is 0x97caff0
 00000000000i[PLGIN] loaded plugin libbx_pic.la
-00000000000i[     ] lt_dlhandle is 0xb3900ff8
+00000000000i[     ] lt_dlhandle is 0x97cb9d8
 00000000000i[PLGIN] loaded plugin libbx_vga.la
-00000000000i[     ] lt_dlhandle is 0xb39014c8
+00000000000i[     ] lt_dlhandle is 0x97cbef0
 00000000000i[PLGIN] loaded plugin libbx_floppy.la
-00000000000i[     ] lt_dlhandle is 0xb3901ca8
+00000000000i[     ] lt_dlhandle is 0x97cc6d0
 00000000000i[PLGIN] loaded plugin libbx_harddrv.la
-00000000000i[     ] lt_dlhandle is 0xb3901e38
+00000000000i[     ] lt_dlhandle is 0x97cc860
 00000000000i[PLGIN] loaded plugin libbx_keyboard.la
-00000000000i[     ] lt_dlhandle is 0xb3913a38
+00000000000i[     ] lt_dlhandle is 0x94807a8
 00000000000i[PLGIN] loaded plugin libbx_serial.la
-00000000000i[     ] lt_dlhandle is 0xb3914d08
+00000000000i[     ] lt_dlhandle is 0x97df638
 00000000000i[PLGIN] loaded plugin libbx_parallel.la
-00000000000i[     ] lt_dlhandle is 0xb3914d80
+00000000000i[     ] lt_dlhandle is 0x97df7b8
 00000000000i[PLGIN] loaded plugin libbx_extfpuirq.la
-00000000000i[     ] lt_dlhandle is 0xb3915858
+00000000000i[     ] lt_dlhandle is 0x97e00a8
 00000000000i[PLGIN] loaded plugin libbx_gameport.la
-00000000000i[     ] lt_dlhandle is 0xb3915998
+00000000000i[     ] lt_dlhandle is 0x97e05c0
 00000000000i[PLGIN] loaded plugin libbx_speaker.la
-00000000000i[     ] lt_dlhandle is 0xb39161a8
+00000000000i[     ] lt_dlhandle is 0x97e0ac0
 00000000000i[PLGIN] loaded plugin libbx_pci.la
-00000000000i[     ] lt_dlhandle is 0xb39163b8
+00000000000i[     ] lt_dlhandle is 0x97e1270
 00000000000i[PLGIN] loaded plugin libbx_pci2isa.la
-00000000000i[     ] lt_dlhandle is 0xb3916240
+00000000000i[     ] lt_dlhandle is 0x97e18a8
 00000000000i[PLGIN] loaded plugin libbx_pci_ide.la
 00000000000i[IOAP ] initializing I/O APIC
 00000000000i[IOAP ] set APIC ID to 1
 00000000000i[MEM0 ] Register memory access handlers: 0xfec00000 - 0xfec00fff
 00000000000i[CMOS ] Using local time for initial clock
-00000000000i[CMOS ] Setting initial clock to: Mon May 25 00:37:25 2009 (time0=1243222645)
+00000000000i[CMOS ] Setting initial clock to: Tue May 26 03:56:43 2009 (time0=1243321003)
 00000000000i[DMA  ] channel 4 used by cascade
 00000000000i[DMA  ] channel 2 used by Floppy Drive
 00000000000i[FDD  ] fd0: './img/tpe.img' ro=0, h=2,t=80,spt=18
@@ -167,34 +167,34 @@
 00012390849i[BIOS ] int13_harddisk: function 41, unmapped device for ELDL=80
 00012395630i[BIOS ] int13_harddisk: function 08, unmapped device for ELDL=80
 00012400287i[BIOS ] *** int 15h function AX=00c0, BX=0000 not yet supported!
-00178986000p[WX   ] >>PANIC<< POWER button turned off.
-00178986000i[CPU0 ] CPU is in protected mode (active)
-00178986000i[CPU0 ] CS.d_b = 32 bit
-00178986000i[CPU0 ] SS.d_b = 32 bit
-00178986000i[CPU0 ] EFER   = 0x00000000
-00178986000i[CPU0 ] | RAX=0000000000000001  RBX=0000000000000001
-00178986000i[CPU0 ] | RCX=0000000000801e76  RDX=0000000000000016
-00178986000i[CPU0 ] | RSP=0000000000801eef  RBP=0000000000801f17
-00178986000i[CPU0 ] | RSI=000000000002be90  RDI=000000000002be91
-00178986000i[CPU0 ] |  R8=0000000000000000   R9=0000000000000000
-00178986000i[CPU0 ] | R10=0000000000000000  R11=0000000000000000
-00178986000i[CPU0 ] | R12=0000000000000000  R13=0000000000000000
-00178986000i[CPU0 ] | R14=0000000000000000  R15=0000000000000000
-00178986000i[CPU0 ] | IOPL=0 id vip vif ac vm rf nt of df IF tf sf zf af pf cf
-00178986000i[CPU0 ] | SEG selector     base    limit G D
-00178986000i[CPU0 ] | SEG sltr(index|ti|rpl)     base    limit G D
-00178986000i[CPU0 ] |  CS:0008( 0001| 0|  0) 00000000 000fffff 1 1
-00178986000i[CPU0 ] |  DS:0010( 0002| 0|  0) 00000000 000fffff 1 1
-00178986000i[CPU0 ] |  SS:0010( 0002| 0|  0) 00000000 000fffff 1 1
-00178986000i[CPU0 ] |  ES:0010( 0002| 0|  0) 00000000 000fffff 1 1
-00178986000i[CPU0 ] |  FS:0010( 0002| 0|  0) 00000000 000fffff 1 1
-00178986000i[CPU0 ] |  GS:0010( 0002| 0|  0) 00000000 000fffff 1 1
-00178986000i[CPU0 ] |  MSR_FS_BASE:0000000000000000
-00178986000i[CPU0 ] |  MSR_GS_BASE:0000000000000000
-00178986000i[CPU0 ] | RIP=0000000000102b7a (0000000000102b7a)
-00178986000i[CPU0 ] | CR0=0xe0000011 CR1=0x0 CR2=0x0000000000000000
-00178986000i[CPU0 ] | CR3=0x00400000 CR4=0x00000000
-00178986000i[CPU0 ] >> movzx eax, byte ptr ss:[ebp+0xfffffff7] : 0FB645F7
-00178986000i[CMOS ] Last time is 1243222734 (Mon May 25 00:38:54 2009)
-00178986000i[     ] restoring default signal behavior
-00178986000i[CTRL ] quit_sim called with exit code 1
+00220410000p[WX   ] >>PANIC<< POWER button turned off.
+00220410000i[CPU0 ] CPU is in protected mode (active)
+00220410000i[CPU0 ] CS.d_b = 32 bit
+00220410000i[CPU0 ] SS.d_b = 32 bit
+00220410000i[CPU0 ] EFER   = 0x00000000
+00220410000i[CPU0 ] | RAX=0000000000000036  RBX=0000000000000005
+00220410000i[CPU0 ] | RCX=00000000000000d8  RDX=00000000ffffffff
+00220410000i[CPU0 ] | RSP=0000000000836e77  RBP=0000000000836e8f
+00220410000i[CPU0 ] | RSI=000000000002be90  RDI=000000000002be91
+00220410000i[CPU0 ] |  R8=0000000000000000   R9=0000000000000000
+00220410000i[CPU0 ] | R10=0000000000000000  R11=0000000000000000
+00220410000i[CPU0 ] | R12=0000000000000000  R13=0000000000000000
+00220410000i[CPU0 ] | R14=0000000000000000  R15=0000000000000000
+00220410000i[CPU0 ] | IOPL=0 id vip vif ac vm rf nt of df if tf SF zf af PF cf
+00220410000i[CPU0 ] | SEG selector     base    limit G D
+00220410000i[CPU0 ] | SEG sltr(index|ti|rpl)     base    limit G D
+00220410000i[CPU0 ] |  CS:0008( 0001| 0|  0) 00000000 000fffff 1 1
+00220410000i[CPU0 ] |  DS:0010( 0002| 0|  0) 00000000 000fffff 1 1
+00220410000i[CPU0 ] |  SS:0010( 0002| 0|  0) 00000000 000fffff 1 1
+00220410000i[CPU0 ] |  ES:0010( 0002| 0|  0) 00000000 000fffff 1 1
+00220410000i[CPU0 ] |  FS:0010( 0002| 0|  0) 00000000 000fffff 1 1
+00220410000i[CPU0 ] |  GS:0010( 0002| 0|  0) 00000000 000fffff 1 1
+00220410000i[CPU0 ] |  MSR_FS_BASE:0000000000000000
+00220410000i[CPU0 ] |  MSR_GS_BASE:0000000000000000
+00220410000i[CPU0 ] | RIP=000000000010495e (000000000010495e)
+00220410000i[CPU0 ] | CR0=0xe0000011 CR1=0x0 CR2=0x0000000000000000
+00220410000i[CPU0 ] | CR3=0x00400000 CR4=0x00000000
+00220410000i[CPU0 ] >> jnz .+0x00000025 (0x00104985) : 7525
+00220410000i[CMOS ] Last time is 1243321113 (Tue May 26 03:58:33 2009)
+00220410000i[     ] restoring default signal behavior
+00220410000i[CTRL ] quit_sim called with exit code 1

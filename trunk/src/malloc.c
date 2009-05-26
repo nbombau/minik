@@ -60,12 +60,12 @@ KRealloc(proceso_t * proc, int cantPaginas)
     if(pos == -1)
         return 0x0;
    /*levantar nuevas*/
-   habilitarPagina(proc);
+   //habilitarPagina(proc);
     resp = (void *)(FIRST_USER_PAGE + pos * PAGE_SIZE);
     for(i=0;i<cantPaginas-1;i++)
         mem[pos+i] = proc->pid;
     memcpy(resp+cantPaginas*PAGE_SIZE-proc->stacksize,proc->stackstart,proc->stacksize);
-    deshabilitarPagina(proc);
+    //deshabilitarPagina(proc);
     KFree(marca, (int)(proc->stacksize/PAGE_SIZE));
     
     /*bajar paginas viejas*/
