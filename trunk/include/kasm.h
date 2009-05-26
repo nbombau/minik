@@ -13,6 +13,13 @@ Funciones de bajo nivel
 
 unsigned int    _read_msw();
 
+int             read_cr0();
+void            write_cr0(unsigned long * ptr);
+
+int             read_cr3();
+void            write_cr3(unsigned long * ptr);
+
+
 void            _lidt (IDTR *idtr);
 void            _lgdt (void);
 void		_getgdt(void);
@@ -52,7 +59,7 @@ void snoPresent_hand(void);
 void ssf_hand(void);
 void generalPfault_hand(void);
 void pageFault_hand(void);
-    
+void switch_manual(void);
     
 void		_Fault();
 

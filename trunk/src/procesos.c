@@ -1,7 +1,7 @@
 #include "../include/defs.h"
 #include "../include/kc.h"
 #include "../include/string.h"
-
+#include "../include/paging.h"
 
 #define STACK_USUARIOS  0x1000
 #define DEF_PRIORITY    3

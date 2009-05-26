@@ -47,7 +47,7 @@ InitPaging(void)
 	
 	for (j = 0; j < 1024; j++) {
 	    /*Marco la pagina como no presente*/
-            page_table1[j] = address |3;
+            page_table1[j] = address & 0xFFFFFFFE;
             address = address + 4096;
         }
 	/*Lleno la tabla de directorio de paginas con la informacion pertinente.*/
@@ -77,7 +77,7 @@ InitPaging(void)
     /*En el registro CR3 guardo cual es el directorio de paginas.
       Seteo el bie correspondiente en CR0 para habilitar la paginacion.*/
     write_cr3 (page_directory);
-    write_cr0 (read_cr0 () | 0x80000000);
+    write_cr0 ((unsigned long *)(read_cr0 () | 0x80000000));
 }
 
 
@@ -117,7 +117,6 @@ HabilitarPaginasAux(proceso_t * proc)
 {
     int i;
     proceso_t * procAux;
-
     for(i=0;i<MAX_PAGES-1;i++)
     {
 	if(mem[i]==proc->pid)
@@ -138,7 +137,6 @@ HabilitarPaginas(proceso_t * proc)
 {
     int i;
     proceso_t * procAux;
-
     for(i=0;i<MAX_PAGES-1;i++)
     {
 	if(mem[i]==proc->pid)

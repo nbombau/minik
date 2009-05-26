@@ -3,6 +3,7 @@
 
 #include "../include/defs.h"
 #include "../include/kc.h"
+#include "../include/kasm.h"
 
 void InicializarMemUsuario(void);
 

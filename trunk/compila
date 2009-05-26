@@ -3,23 +3,23 @@ rm -rf *
 nasm -f aout ../src/libasm.asm -o32 -o libasm.o
 nasm -f aout ../src/kstart.asm -o32 -o kstart.o
 nasm -f aout ../src/loader.asm -o32 -o kstart.o
-gcc -g -c -m32 ../src/kernel.c -o kernel.o -fno-builtin -fno-stack-protector
-gcc -g -c -m32 ../src/libc.c  -o libc.o -fno-builtin
-gcc -g -c -m32 ../src/ints.c -o ints.o -fno-builtin
-gcc -g -c -m32 ../src/video.c -o video.o -fno-builtin -fno-stack-protector
-gcc -g -c -m32 ../src/shell.c -o shell.o -fno-builtin -fno-stack-protector
-gcc -g -c -m32 ../src/video.c -o video.o -fno-builtin -fno-stack-protector
-gcc -g -c -m32 ../src/keyboardLAT.c -o keyboardLAT.o -fno-builtin
-gcc -g -c -m32 ../src/keyboardUS.c -o keyboardUS.o -fno-builtin
-gcc -g -c -m32 ../src/buffer.c -o buffer.o -fno-builtin
-gcc -g -c -m32 ../src/pci.c -o pci.o -fno-builtin
-gcc -g -c -m32 ../src/procesos.c -o procesos.o -fno-builtin -fno-stack-protector
-gcc -g -c -m32 ../src/excepciones.c -o excepciones.o -fno-builtin
-gcc -g -c -m32 ../src/string.c -o string.o -fno-builtin -fno-stack-protector
-gcc -g -c -m32 ../src/sched_prio.c -o sched_round.o -fno-builtin
-gcc -g -c -m32 ../src/programas.c -o programas.o -fno-builtin 
-gcc -g -c -m32 ../src/stdio.c -o stdio.o -fno-builtin -fno-stack-protector
-gcc -g -c -m32 ../src/random.c -o random.o -fno-builtin 
-gcc -g -c -m32 ../src/malloc.c -o malloc.o -fno-builtin
-gcc -g -c -m32 ../src/paging.c -o paging.o -fno-builtin
+gcc -Wall -g -c -m32 ../src/kernel.c -o kernel.o -fno-builtin -fno-stack-protector
+gcc -Wall -g -c -m32 ../src/libc.c  -o libc.o -fno-builtin
+gcc -Wall -g -c -m32 ../src/ints.c -o ints.o -fno-builtin
+gcc -Wall -g -c -m32 ../src/video.c -o video.o -fno-builtin -fno-stack-protector
+gcc -Wall -g -c -m32 ../src/shell.c -o shell.o -fno-builtin -fno-stack-protector
+gcc -Wall -g -c -m32 ../src/video.c -o video.o -fno-builtin -fno-stack-protector
+gcc -Wall -g -c -m32 ../src/keyboardLAT.c -o keyboardLAT.o -fno-builtin
+gcc -Wall -g -c -m32 ../src/keyboardUS.c -o keyboardUS.o -fno-builtin
+gcc -Wall -g -c -m32 ../src/buffer.c -o buffer.o -fno-builtin
+gcc -Wall -g -c -m32 ../src/pci.c -o pci.o -fno-builtin
+gcc -Wall -g -c -m32 ../src/procesos.c -o procesos.o -fno-builtin -fno-stack-protector
+gcc -Wall -g -c -m32 ../src/excepciones.c -o excepciones.o -fno-builtin
+gcc -Wall -g -c -m32 ../src/string.c -o string.o -fno-builtin -fno-stack-protector
+gcc -Wall -g -c -m32 ../src/sched_prio.c -o sched_round.o -fno-builtin
+gcc -Wall -g -c -m32 ../src/programas.c -o programas.o -fno-builtin 
+gcc -Wall -g -c -m32 ../src/stdio.c -o stdio.o -fno-builtin -fno-stack-protector
+gcc -Wall -g -c -m32 ../src/random.c -o random.o -fno-builtin 
+gcc -Wall -g -c -m32 ../src/malloc.c -o malloc.o -fno-builtin
+gcc -Wall -g -c -m32 ../src/paging.c -o paging.o -fno-builtin
 ld  -T ../src/link.ld -melf_i386 -o kernel.bin kernel.o kstart.o stdio.o malloc.o programas.o libc.o random.o libasm.o ints.o shell.o video.o buffer.o procesos.o string.o excepciones.o sched_round.o keyboardLAT.o keyboardUS.o pci.o paging.o
