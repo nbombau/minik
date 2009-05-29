@@ -106,12 +106,12 @@ typedef enum { SCREEN, KEYBOARD, PCI, CURSOR1, CURSOR2,  SCREENNL, PIC, PICM1, P
 #define FALSE  0
 #define ERROR -1
 
-/* Maxima cantidad de paginas. Se mapean 8 MB
+/* Maxima cantidad de paginas. Se mapean 4 MB
 */
 
 #define MAX_PAGES 1024
 
-#define FIRST_USER_PAGE 8388608
+#define FIRST_USER_PAGE 4194304
 
 #define PAGE_SIZE 4096
 
