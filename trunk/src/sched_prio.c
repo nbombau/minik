@@ -36,12 +36,14 @@ GuardarESP (int ESP)
 
     proceso_t *temporal;
     temporal = TraerProcesoPorPid(pidActual);
-/*    if((ESP - (temporal->stackstart - temporal->stacksize))<500)
+    if((ESP - (temporal->stackstart - temporal->stacksize))<500)
     {
 
-        ESP =(int) KRealloc(temporal, temporal->stacksize/PAGE_SIZE + 1);
-    }*/
-    temporal->ESP = ESP;
+        temporal->stackstart  =(int) KRealloc(temporal, temporal->stacksize/PAGE_SIZE + 1);
+        
+    }
+    else
+        temporal->ESP = ESP;
     return;
 }
 
@@ -100,6 +102,7 @@ SiguienteTarea (void) {
 void
 IniciarMultiTarea (void) {
     int i;
+
     /*Marco todos los slots como libres*/
     for (i = 0; i < MAXPROCESOS; i++)
         procesos[i].free_slot = TRUE;

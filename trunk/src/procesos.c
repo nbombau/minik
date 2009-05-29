@@ -185,20 +185,20 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
     procesos[i].pid = NuevoPid ();
     procesos[i].stacksize = PAGE_SIZE;
     stack = (void *)KMalloc (&procesos[i]);
-
+    stack = (void *)KRealloc(&procesos[i], 2);
     procesos[i].background = enBackground;
     procesos[i].prioridad = prioridad;
     
     procesos[i].estado = LISTO;
 
-    procesos[i].stackstart = (int) (stack +PAGE_SIZE -1);
+    procesos[i].stackstart = (int) (stack +2*PAGE_SIZE -1);
     procesos[i].sleep = 0;
     
-    HabilitarPaginaNuevo(&procesos[i]);
+  //  HabilitarPaginaNuevo(&procesos[i]);
     
     procesos[i].ESP = ArmaStackFrame (proceso, procesos[i].stackstart, Limpia);
 
-    DeshabilitarPaginaNuevo(&procesos[i]);
+  //  DeshabilitarPaginaNuevo(&procesos[i]);
    
     procesos[i].padre = pidActual;
 

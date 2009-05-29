@@ -203,18 +203,18 @@ ArmaStackFrame:
 
 
 _int_08_hand:
-    cli
-    pusha
-    push esp
+;    cli
+;    pusha
+;    push esp
     
-    call SiguienteProceso
+;    call SiguienteProceso
     
-    pop esp
-    mov esp, eax
-    mov al, 20h
-    out 20h, al
-    popa
-    sti
+;    pop esp
+;    mov esp, eax
+;    mov al, 20h
+;    out 20h, al
+;    popa
+;    sti
    iret
 
 _lgdt:
