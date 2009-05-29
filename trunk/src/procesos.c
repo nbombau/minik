@@ -68,7 +68,6 @@ proceso_t *
 TraerProcesoPorPid (int pid)
 {
     int i;
-
     for (i = 0; i < MAXPROCESOS; i++) {
         if (procesos[i].pid == pid && !procesos[i].free_slot)
             return &procesos[i];
@@ -119,7 +118,6 @@ int
 NoHayProcesos (void)
 {
     int i;
-
     for (i = 0; i < MAXPROCESOS; i++) {
         if (procesos[i].pid == INIT)
             continue;
@@ -154,17 +152,20 @@ Limpia (void) {
     proceso_t *temporal;
     proceso_t *padre;
     _Cli();
+    
     temporal = TraerProcesoPorPid (pidActual);
-
+    
     if (temporal->padre != INIT) {
 	padre = TraerProcesoPorPid (temporal->padre);
 	padre->estado = LISTO;
     }
     temporal->free_slot = TRUE;
+
     _Sti();
     while (1) {
 	asm volatile ("hlt");
     }
+    
 }
 
     
@@ -185,7 +186,7 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
     procesos[i].pid = NuevoPid ();
     procesos[i].stacksize = PAGE_SIZE;
     stack = (void *)KMalloc (&procesos[i]);
-    stack = (void *)KRealloc(&procesos[i], 2);
+    //stack = (void *)KRealloc(&procesos[i], 2);
     procesos[i].background = enBackground;
     procesos[i].prioridad = prioridad;
     

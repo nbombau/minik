@@ -8,11 +8,10 @@ static void ImprimirCaracter(char c);
 int
 printf(const char * format, ...)
 {
-    _Cli();
     va_list ap;
     const char * p, * sval;
     int ival, pchars = 0;
-
+    _Cli();
     if (format == 0x0)
         return 0;
 

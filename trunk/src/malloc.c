@@ -41,6 +41,28 @@ KMalloc (proceso_t * proc) {
     return resp;
 }
 
+typedef struct
+{
+    int EDI, ESI, EBP, ESP, EBX, EDX, ECX, EAX,  EIP, CS, EFLAGS;
+    void*retaddr;
+    int argc;
+    char** argv;
+} STACK_FRAME;
+
+void labEBP(int * in, int * out, int offset, int old_ind)
+{
+    if(*out == 0)
+    {
+        *in = *out;
+        return;
+    }
+
+    *in = (*out % 4096)+ offset + (4096 * ((((*out)/4096) - 1024) - old_ind));
+
+    labEBP((int*)*in, (int*)*out, offset, old_ind);
+    return ;
+}
+
 
 void *
 KRealloc(proceso_t * proc, int cantPaginas)
@@ -85,7 +107,7 @@ KRealloc(proceso_t * proc, int cantPaginas)
     for(i=0;i<cantPaginas;i++)
         mem[pos+i] = proc->pid;
     
-   // memcpy(resp+cantPaginas*PAGE_SIZE-proc->stacksize,proc->stackstart,proc->stacksize);
+   // 
     //deshabilitarPagina(proc);
     printf("mem antes de free \n");
     for(i = 0; i < 6; i = i+5)
@@ -95,8 +117,18 @@ KRealloc(proceso_t * proc, int cantPaginas)
     
     KFree(marca, (int)(proc->stacksize/PAGE_SIZE));
 
-    proc->stackstart = resp + cantPaginas* PAGE_SIZE -1;
-    proc->ESP = (proc->ESP % PAGE_SIZE) + (int)resp;
+    memcpy(resp+cantPaginas*PAGE_SIZE-1-proc->stacksize,proc->stackstart,proc->stacksize);
+
+    proc->stackstart =(int) resp + cantPaginas* PAGE_SIZE -1;
+    proc->ESP = (proc->ESP % PAGE_SIZE) + (int)resp+PAGE_SIZE;
+    proc->stacksize = cantPaginas*PAGE_SIZE;
+
+    ((STACK_FRAME *) proc->ESP)->EBP = (((STACK_FRAME *)(proc->ESP))->EBP % 4096)+ (int)proc->stackstart;
+
+
+    labEBP((int *)(((STACK_FRAME *) proc->ESP)->EBP),
+            (int *)(((STACK_FRAME *) proc->ESP)->EBP), (int)proc->stackstart, marca);
+
     /*bajar paginas viejas*/
     /*i=0;
     while(i<pos&&mem[i]!=-1)
@@ -120,7 +152,7 @@ KRealloc(proceso_t * proc, int cantPaginas)
     {
       printf( "%d * %d  *  %d  *  %d  * %d\n", mem[i],mem[i+1],mem[i+2],mem[i+3], mem[i+4]);
     }
-    printf("stack realloc= ***%d*** - dir=***%d***", (int)proc->stackstart, resp);
+    printf("stack realloc= ***%d*** - dir=***%d*** - ESP: %d", (int)proc->stackstart, resp,proc->ESP);
    // _debug();
     printf("\nREALLOQUIE!\n");
 

@@ -155,6 +155,7 @@ resto (int *num, int divisor) {
 void * 
 memcpy(void * dest, const void * src, unsigned int n)
 {
+    _Cli();
     int i;
     unsigned char * current;
 
@@ -172,9 +173,10 @@ memcpy(void * dest, const void * src, unsigned int n)
 
         /* escribe sobre esa posicion de memoria */
         *current = *((unsigned char *)src + i * sizeof(char));
+	
     }
-
-    return dest;
+    
+	return dest;
 }
 
 
