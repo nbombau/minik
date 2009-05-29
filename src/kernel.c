@@ -83,7 +83,7 @@ kmain()
         gdtr->limit += 16;
         _lgdt();*/
 
-	//InitPaging();
+	InitPaging();
 	
 	CrearProceso("INIT", Init, 0, (char **)0, 2, 0, 0x1000);
 
