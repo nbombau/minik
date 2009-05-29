@@ -85,7 +85,7 @@ kmain()
 
 	//InitPaging();
 	
-	//CrearProceso("INIT", Init, 0, (char **)0, 2, 0, 0x1000);
+	CrearProceso("INIT", Init, 0, (char **)0, 2, 0, 0x1000);
 
         CrearProceso ("shell", shell, 0, (char **) 0, 2, 0, 0x1000);
 _debug();

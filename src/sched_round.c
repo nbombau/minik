@@ -1,6 +1,6 @@
 #include "../include/defs.h"
 #include "../include/kc.h"
-
+#include "../include/paging.h"
 #define CUANTUM_MAX 6
 
 extern proceso_t procesos[];
@@ -28,7 +28,6 @@ ActualizarPorcentajesCPU(void)
 void
 GuardarESP (int ESP)
 {
-
     proceso_t *temporal;
     temporal = TraerProcesoPorPid(pidActual);
     temporal->ESP = ESP;
@@ -49,7 +48,7 @@ SiguienteProceso (int esp)
     temporal = SiguienteTarea();
     
     DeshabilitarPaginas(TraerProcesoPorPid(pidActual));
-
+    _Cli();
     pidActual = temporal->pid;
     
     HabilitarPaginas(temporal);
@@ -62,7 +61,6 @@ SiguienteTarea (void) {
     int i;
     int tengoProceso = 0;
     int cant = 0;
-
     /* Se decrementa el tiempo a dormir de los procesos*/
     for(i = 1; i < MAXPROCESOS; i++)
     {

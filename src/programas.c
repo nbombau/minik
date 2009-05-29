@@ -1,5 +1,6 @@
 #include "../include/programas.h"
 
+extern int mem[MAX_PAGES];
 int
 Top(int argc, char ** argv)
 {
@@ -62,7 +63,6 @@ int
 ImprimeLetras(int argc, char ** argv)
 {
     long i = 0;
-
     for(i = 0; i < 10; i++)
     {
 
@@ -95,6 +95,7 @@ Calcula(int argc, char ** argv)
     return 0;
 }
 
+
 /*Para probar si anda el realloc del stack.*/
 int
 Recursivo(int argc,char**argv)
@@ -103,7 +104,7 @@ Recursivo(int argc,char**argv)
     for(i = 0;i<31;i++)
         for(j = 0;j<31;j++)
             ;
-    return Recursivo(argc, argv);
+    return Recursivo(argc,argv);
 }
 
 /*El clasico.*/
@@ -139,3 +140,23 @@ PageFaultTest(int argc, char **argv)
 	a[i++] = 'a';
     return 0;
 }
+
+int
+Paginas(int argc, char **argv)
+{
+    int i;
+    for(i=0;i<35;i++)
+    {
+	printf("(%d)*",mem[i]);
+    }
+    printf("(%d)",mem[i]);
+    return 0;
+}
+
+int
+LlenarStack(int argc, char **argv)
+{
+    _StackFill();
+    //printf("Sali\n");
+}
+

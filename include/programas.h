@@ -22,5 +22,9 @@ int Fortune(int argc, char **argv);
 int DividirPorCero(int argc, char **argv);
 
 int PageFaultTest(int argc, char **argv);
+
+int Paginas(int argc, char **argv);
+
+int LlenarStack(int argc, char **argv);
 #endif
 
