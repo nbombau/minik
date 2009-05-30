@@ -57,7 +57,6 @@ void
 HabilitarPaginaNuevo(proceso_t * proc)
 {
     int i;
-    return;
     for(i=0;i<MAX_PAGES-1;i++)
     {
 	if(mem[i]==proc->pid)
@@ -72,7 +71,6 @@ void
 DeshabilitarPaginaNuevo(proceso_t * proc)
 {
     int i;
-    return;
     for(i=0;i<MAX_PAGES-1;i++)
     {
 	if(mem[i]==proc->pid)
@@ -109,7 +107,6 @@ void
 HabilitarPaginas(proceso_t * proc)
 {
     int i;
-    return;
     proceso_t * procAux;
     for(i=0;i<MAX_PAGES-1;i++)
     {
@@ -120,10 +117,10 @@ HabilitarPaginas(proceso_t * proc)
 	    //page_directory[2]=page_directory[2]|3;
 	}
     }
-    if(proc->pid==0)
-	return;
-    procAux=TraerProcesoPorPid(proc->padre);
-    HabilitarPaginasAux(procAux);
+    //if(proc->pid==0)
+	//return;
+    //procAux=TraerProcesoPorPid(proc->padre);
+    //HabilitarPaginasAux(procAux);
 }
 
 /*Deshabilito las paginas pertenecientes a un proceso.*/
@@ -131,9 +128,12 @@ void
 DeshabilitarPaginas(proceso_t * proc)
 {
     int i;
-    return;
+    //return;
     for(i=0;i<MAX_PAGES-1;i++)
     {
+	if(mem[i]==proc->pid)
+	{
 	    page_table2[i]=page_table2[i] & 0xFFFFFFFE;
+	}
     }
 }

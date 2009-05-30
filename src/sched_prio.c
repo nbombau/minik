@@ -37,10 +37,10 @@ GuardarESP (int ESP)
     proceso_t *temporal;
     temporal = TraerProcesoPorPid(pidActual);
     temporal->ESP = ESP;
-    if((ESP - (temporal->stackstart - temporal->stacksize))<500 && pidActual!=INIT)
+    /*if((ESP - (temporal->stackstart - temporal->stacksize))<500 && pidActual!=INIT)
     {
         temporal->stackstart  =(int) KRealloc(temporal, temporal->stacksize/PAGE_SIZE + 1);
-    }
+    }*/
 
     return;
 }
@@ -49,17 +49,22 @@ int
 SiguienteProceso (int esp)
 {
     proceso_t *temporal;
+
     GuardarESP (esp);
     temporal = SiguienteTarea();
+
     DeshabilitarPaginas(TraerProcesoPorPid(pidActual));
 
     pidActual = temporal->pid;
+
     HabilitarPaginas(temporal);
+
     return temporal->ESP;
 }
 
 proceso_t *
-SiguienteTarea (void) {
+SiguienteTarea (void)
+{
     int i;
     int tickets;
     int ganador;
@@ -98,7 +103,8 @@ SiguienteTarea (void) {
 }
 
 void
-IniciarMultiTarea (void) {
+IniciarMultiTarea (void)
+{
     int i;
 
     /*Marco todos los slots como libres*/
