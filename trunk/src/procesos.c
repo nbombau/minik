@@ -12,6 +12,8 @@ extern int pidActual;
 extern int proxPid;
 int veces = 0;
 
+extern unsigned long *page_table2;
+extern int mem[MAX_PAGES];
 
 int probarMemoria(int argc, char **argv)
 { 
@@ -173,7 +175,7 @@ void
 CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
               int argc, char **argv, int prioridad, int enBackground,
               int stacksize) {
-    int i;
+    int i,j;
     _Cli();
     void *stack;
     for (i = 0; i < MAXPROCESOS; i++) {
@@ -192,14 +194,29 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
     
     procesos[i].estado = LISTO;
 
-    procesos[i].stackstart = (int) (stack +2*PAGE_SIZE -1);
+    procesos[i].stackstart = (int) (stack +PAGE_SIZE -1);
     procesos[i].sleep = 0;
     
-  //  HabilitarPaginaNuevo(&procesos[i]);
+    //HabilitarPaginaNuevo(&procesos[i]);
+    for(j=0;j<MAX_PAGES-1;j++)
+    {
+	if(mem[j]==procesos[i].pid)
+	{
+	    page_table2[j]=page_table2[j] | 3;
+	}
+    }
     
     procesos[i].ESP = ArmaStackFrame (proceso, procesos[i].stackstart, Limpia);
 
-  //  DeshabilitarPaginaNuevo(&procesos[i]);
+    for(j=0;j<MAX_PAGES-1;j++)
+    {
+	if(mem[j]==procesos[i].pid)
+	{
+	    page_table2[j]=page_table2[j] & 0xFFFFFFFE;
+	}
+    }
+    //_debug();
+    //DeshabilitarPaginaNuevo(&procesos[i]);
    
     procesos[i].padre = pidActual;
 
