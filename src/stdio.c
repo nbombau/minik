@@ -11,7 +11,7 @@ printf(const char * format, ...)
     va_list ap;
     const char * p, * sval;
     int ival, pchars = 0;
-    _Cli();
+    //_Cli();
     if (format == 0x0)
         return 0;
 
@@ -51,7 +51,7 @@ printf(const char * format, ...)
         }
     }
     va_end(ap);
-    _Sti();
+    //_Sti();
     return pchars;
 }
 

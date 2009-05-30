@@ -198,23 +198,24 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
     procesos[i].sleep = 0;
     
     //HabilitarPaginaNuevo(&procesos[i]);
-    for(j=0;j<MAX_PAGES-1;j++)
+    /*for(j=0;j<MAX_PAGES-1;j++)
     {
 	if(mem[j]==procesos[i].pid)
 	{
 	    page_table2[j]=page_table2[j] | 3;
 	}
-    }
+    }*/
     
     procesos[i].ESP = ArmaStackFrame (proceso, procesos[i].stackstart, Limpia);
-
-    for(j=0;j<MAX_PAGES-1;j++)
+    printf("***DIR EBP*** %d\n", (int)(&(((STACK_FRAME *)(procesos[i].ESP))->EBP )));
+    printf("***ESP**** %d",procesos[i].ESP);
+    /*for(j=0;j<MAX_PAGES-1;j++)
     {
 	if(mem[j]==procesos[i].pid)
 	{
 	    page_table2[j]=page_table2[j] & 0xFFFFFFFE;
 	}
-    }
+    }*/
     //_debug();
     //DeshabilitarPaginaNuevo(&procesos[i]);
    
