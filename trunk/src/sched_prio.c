@@ -37,10 +37,11 @@ GuardarESP (int ESP)
     proceso_t *temporal;
     temporal = TraerProcesoPorPid(pidActual);
     temporal->ESP = ESP;
-    /*if((ESP - (temporal->stackstart - temporal->stacksize))<500 && pidActual!=INIT)
+    if((ESP - (temporal->stackstart - temporal->stacksize))<425 /*&& (ESP - (temporal->stackstart - temporal->stacksize)) >0*/ && pidActual!=INIT)
     {
         temporal->stackstart  =(int) KRealloc(temporal, temporal->stacksize/PAGE_SIZE + 1);
-    }*/
+//_debug();
+    }
 
     return;
 }

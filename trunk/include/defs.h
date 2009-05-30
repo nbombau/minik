@@ -172,5 +172,10 @@ typedef struct
 typedef int FileDesc;
 
 
+typedef struct
+{
+    int EDI, ESI, EBP, ESP, EBX, EDX, ECX, EAX;
+} STACK_FRAME;
+
 #endif
 

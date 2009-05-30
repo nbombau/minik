@@ -51,28 +51,49 @@ msg db "Pase por aca",0
 
 msg2 db "Termine los ciclos",0
 
+pint db "%d\n",0
+
 SECTION .text
 
+_miwait:
+	mov eax,0
+primero:
+	mov edx,0
+segundo:inc edx
+	cmp edx,7530h
+	jnz segundo
+	inc eax
+	cmp eax,7530h
+	jnz primero
+	jp devuelta
+
+
+
 _StackFill:
+	push ebp
+	mov ebp,esp
 	;cli
 	;push    ds
 	;push    es
 	;pusha
 	;cli
 devuelta:
-	mov edx,0190h
+	mov edx,0065h
 	mov eax,0
 sigo456:   push eax
 	inc eax
 	cmp eax,edx
 	jnz sigo456
-	;sti
-	push 10
-	call sleep
-	push msg
-	call printf
 
+	;push 1
+	;call sleep
+
+	;push msg
+	;call printf
+
+	jp _miwait
 	jp devuelta
+
 	;mov edx,0080h
 	;mov eax,0
 ;sigo457:   push eax
@@ -247,7 +268,10 @@ ArmaStackFrame:
     push cs
     push eax
     ; resto de los registros
+    mov edi,ebp
+    mov ebp,0
     pusha
+    mov ebp,edi
     ; devolver el nuevo esp
     mov eax, esp
     ; y restaurar el original
@@ -262,7 +286,11 @@ _int_08_hand:
     cli
     pusha
     push esp
-   
+    ;push esp
+    ;push pint
+    ;call printf
+    ;pop eax
+    ;pop esp
     call SiguienteProceso
    
     pop esp
