@@ -14,7 +14,7 @@ int veces = 0;
 
 extern unsigned long *page_table2;
 extern int mem[MAX_PAGES];
-
+extern int termina;
 int probarMemoria(int argc, char **argv)
 { 
    char * a = (char *) 0xF00000;
@@ -164,6 +164,7 @@ Limpia (void) {
     temporal->free_slot = TRUE;
 
     _Sti();
+    termina=1;
     while (1) {
 	asm volatile ("hlt");
     }

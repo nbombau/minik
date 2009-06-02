@@ -6,7 +6,7 @@
 extern proceso_t procesos[];
 extern int pidActual;
 extern  int maxmem;
-
+int termina=0;
 int tiempoEsperaConsola = 0;
 
 int posiblesGanadores[1600] = {0};
@@ -37,11 +37,11 @@ GuardarESP (int ESP)
     proceso_t *temporal;
     temporal = TraerProcesoPorPid(pidActual);
     temporal->ESP = ESP;
-    if((ESP - (temporal->stackstart - temporal->stacksize))<500 && pidActual!=INIT)
+    if((ESP - (temporal->stackstart - temporal->stacksize))<500 && pidActual!=INIT && !termina)
     {
         temporal->stackstart  =(int) KRealloc(temporal, temporal->stacksize/PAGE_SIZE + 1);
     }
-
+    termina=0;
     return;
 }
 

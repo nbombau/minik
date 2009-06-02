@@ -83,7 +83,7 @@ kmain()
         write(PICM2,&aux,1 );
 
 	/*Inicializo la paginacion*/
-//	InitPaging();
+	InitPaging();
 	
 	CrearProceso("INIT", Init, 0, (char **)0, 2, 0, 0x1000);
 	
