@@ -85,13 +85,13 @@ sigo456:   push eax
 	cmp eax,edx
 	jnz sigo456
 
-	;push 1
-	;call sleep
+	push 1
+	call sleep
 
-	;push msg
-	;call printf
+	push msg
+	call printf
 
-	jp _miwait
+	;jp _miwait
 	jp devuelta
 
 	;mov edx,0080h

@@ -58,21 +58,15 @@ void labEBP(int * in, int * out, int offset, int old_ind)
     return ;
 }
 
-
+int prueba=0;
 void *
 KRealloc(proceso_t * proc, int cantPaginas)
 {
-  void * resp = 0x0;
-  int i,j,k,salgo=0,pos=-1, libere= FALSE;
-  int marca,nuevoESP;
-  /*printf("mem antes de realloc\n");
-  for(i = 0; i < 6; i = i+5)
-  {
-    printf( "%d * %d  *  %d  *  %d  * %d\n", mem[i],mem[i+1],mem[i+2],mem[i+3], mem[i+4]);
-  }*/
+    void * resp = 0x0,*ret=0x0;
+    int i,j,k,salgo=0,pos=-1, libere= FALSE;
+    int marca,nuevoESP;
+    clear_screen();
 
-    /* primero buscamos las paginas del proceso
-    */
 
     for(i = 0; i < MAX_PAGES && !libere; i++)
     {
@@ -85,26 +79,20 @@ KRealloc(proceso_t * proc, int cantPaginas)
 
     for(j=0;j<(MAX_PAGES - cantPaginas) && pos==-1;j++)
     {
-        for(k=0,salgo=0; /*mem[j]==-1 &&*/ k<cantPaginas && !salgo ;k++)
+        for(k=0,salgo=0; k<cantPaginas && !salgo ;k++)
         {
             if(mem[j+k]!=-1)
                 salgo=1;
         }
-        if(!salgo)
+        if(!salgo && mem[j]==-1)
             pos=j;
     }
-   // if(pos == -1)
-     //   return 0x0;
-   /*levantar nuevas*/
-   //habilitarPagina(proc);
+
     resp = (void *)(FIRST_USER_PAGE + pos * PAGE_SIZE);
     
     for(i=0;i<cantPaginas;i++)
         mem[pos+i] = proc->pid;
-    
-   // 
-    //deshabilitarPagina(proc);
-    /*printf("mem antes de free \n");
+
     for(i = 0; i < 6; i = i+5)
     {
       printf( "%d * %d  *  %d  *  %d  * %d\n", mem[i],mem[i+1],mem[i+2],mem[i+3], mem[i+4]);
@@ -112,10 +100,10 @@ KRealloc(proceso_t * proc, int cantPaginas)
     
     KFree(marca, (int)(proc->stacksize/PAGE_SIZE));
 
-    //memcpy(resp+cantPaginas*PAGE_SIZE-1-proc->stacksize,(void *)proc->stackstart-proc->stacksize,proc->stacksize);
     printf("\n%d - %d - %d\n",resp+cantPaginas*PAGE_SIZE-proc->stacksize,(void *)proc->stackstart-(cantPaginas-1)*PAGE_SIZE,(cantPaginas-1)*PAGE_SIZE);
-    memcpy(resp+cantPaginas*PAGE_SIZE-proc->stacksize,(void *)proc->stackstart-(cantPaginas-1)*PAGE_SIZE+1,(cantPaginas-1)*PAGE_SIZE);
-
+    
+    ret=memcpy(resp+cantPaginas*PAGE_SIZE-proc->stacksize,(void *)proc->stackstart-(cantPaginas-1)*PAGE_SIZE+1,(cantPaginas-1)*PAGE_SIZE);
+    Paginas(NULL,NULL);
     proc->stackstart =(int) resp + cantPaginas* PAGE_SIZE -1;
     printf("ESP Antes: %d - Contenido: %d\n",proc->ESP,*((int *)proc->ESP));
     nuevoESP = (proc->ESP % PAGE_SIZE) + (int)resp+PAGE_SIZE;
@@ -124,39 +112,14 @@ KRealloc(proceso_t * proc, int cantPaginas)
 
     ((STACK_FRAME *) nuevoESP)->EBP = (((STACK_FRAME *)(proc->ESP))->EBP % PAGE_SIZE) + (int)resp+PAGE_SIZE;
     
-    
-    /*((STACK_FRAME *) proc->ESP)->EBP = (((STACK_FRAME *)(proc->ESP))->EBP % 4096)+ (int)proc->stackstart;*/
-
     printf("EBP viejo %d - EBP nuevo %d\n",((STACK_FRAME *)(proc->ESP))->EBP,((STACK_FRAME *) nuevoESP)->EBP);
     labEBP( (int *)(((STACK_FRAME *) nuevoESP)->EBP) , (int *)(((STACK_FRAME *) proc->ESP)->EBP), (int)resp, marca );
-    //_debug();
     proc->ESP=nuevoESP;
 
-    /*bajar paginas viejas*/
-    /*i=0;
-    while(i<pos&&mem[i]!=-1)
-    {
-	if(mem[i]==proc->pid)
-	    deshabilitarPagina(proc);
-	i++;
-    }*/
-    
-    /*bajar paginas recien creadas*/
-    /*i=pos;
-    while(i<MAX_PAGES && mem[i]!=-1)
-    {
-	if(mem[i]==proc->pid)
-	    deshabilitarPagina(proc);
-	i++;
-    }*/
-
-    /*printf("mem despues de free\n");
-    for(i = 0; i < 6; i = i+5)
-    {
-      printf( "%d * %d  *  %d  *  %d  * %d\n", mem[i],mem[i+1],mem[i+2],mem[i+3], mem[i+4]);
-    }*/
+    prueba++;
+        
     printf("stack realloc= ***%d*** - dir=***%d*** - ESP: %d", (int)proc->stackstart, resp,proc->ESP);
-   // _debug();
+
     printf("\nREALLOQUIE!\n");
 
     return resp+cantPaginas*PAGE_SIZE-1;
