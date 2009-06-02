@@ -96,7 +96,7 @@ KRealloc(proceso_t * proc, int cantPaginas)
     for(i = 0; i < 6; i = i+5)
     {
       printf( "%d * %d  *  %d  *  %d  * %d\n", mem[i],mem[i+1],mem[i+2],mem[i+3], mem[i+4]);
-    }*/
+    }
     
     KFree(marca, (int)(proc->stacksize/PAGE_SIZE));
 
