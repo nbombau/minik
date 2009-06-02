@@ -69,6 +69,13 @@ kmain()
 	
 	LoadIDT();
 
+	_getgdt();
+	setup_GDT_entry ((DESCR_SEG*)(gdtr->base + gdtr->limit + 1), ((dword)0x10)<<4, 0x00FF, ACS_STACK, 0xC0);
+	setup_GDT_entry ((DESCR_SEG*)(gdtr->base + gdtr->limit + 9), 0, 0xFFFFF, ACS_STACK & 0x7F, 0xC0);
+	/* Carga de GDTR */
+	gdtr->limit += 16;
+	_lgdt();
+
         /*Seteo la mascara del PIC para habilitar las interrupciones.*/
         byte aux = 0xFC;
         write(PICM1,&aux,1 );
