@@ -57,7 +57,7 @@ void
 HabilitarPaginaNuevo(proceso_t * proc)
 {
     int i;
-    return;
+    //return;
     for(i=0;i<MAX_PAGES-1;i++)
     {
 	if(mem[i]==proc->pid)
@@ -72,7 +72,7 @@ void
 DeshabilitarPaginaNuevo(proceso_t * proc)
 {
     int i;
-    return;
+    //return;
     for(i=0;i<MAX_PAGES-1;i++)
     {
 	if(mem[i]==proc->pid)
@@ -107,7 +107,7 @@ void
 HabilitarPaginas(proceso_t * proc)
 {
     int i;
-    return;
+    //return;
     proceso_t * procAux;
     for(i=0;i<MAX_PAGES-1;i++)
     {
@@ -127,7 +127,7 @@ void
 DeshabilitarPaginas(proceso_t * proc)
 {
     int i;
-    return;
+    //return;
     for(i=0;i<MAX_PAGES-1;i++)
     {
 	if(mem[i]==proc->pid && proc->pid!=INIT)
