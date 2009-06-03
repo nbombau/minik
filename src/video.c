@@ -170,12 +170,12 @@ help()
 void
 print(char *string)
 {
-	_Cli();
+	//_Cli();
 	while( *string != '\0' ) {
 		putchar(*string);
 		string++;
 	}
-	_Sti();
+	//_Sti();
 }
 
 void

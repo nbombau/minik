@@ -139,20 +139,16 @@ bash(char *line  )
 	case REBOOT: reboot();
     
         case IMPRIMELETRA: 
-                CrearProceso ("ImprimeLetra", ImprimeLetras, 0,
-                    (char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
+                CrearProceso ("ImprimeLetra", ImprimeLetras, 0,(char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
                 break;
         case IMPRIMELETRA_BK:
-                 CrearProceso ("ImprimeLetra", ImprimeLetras, 0, 
-                      (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+                 CrearProceso ("ImprimeLetra", ImprimeLetras, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
                  break;
       case IMPRIME4EVER: 
-	    //Paginas(NULL,NULL);
             CrearProceso ("ImprimeLetra4ever", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
         break;
     case IMPRIME4EVER_BK:
 		CrearProceso ("ImprimeLetra4ever", LlenarStack, 0,(char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
-		//Paginas(NULL,NULL);
                 break;
     case TOP:
 		CrearProceso("Top", Top, 0, (char**)0, 1, FALSE, DEF_STACKSIZE);

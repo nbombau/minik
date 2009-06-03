@@ -14,13 +14,13 @@ extern int mem[MAX_PAGES];
   pagina con el pid del proceso dueño.*/
 void *
 KMalloc (proceso_t * proc) {
-  void * resp = 0x0;
-  int i;
-  /*printf("mem antes de malloc\n");
-  for(i = 0; i < 6; i = i+5)
-  {
-    printf( "%d * %d  *  %d  *  %d  * %d\n", mem[i],mem[i+1],mem[i+2],mem[i+3], mem[i+4]);
-  }*/
+    void * resp = 0x0;
+    int i;
+    /*printf("mem antes de malloc\n");
+    for(i = 0; i < 6; i = i+5)
+    {
+	printf( "%d * %d  *  %d  *  %d  * %d\n", mem[i],mem[i+1],mem[i+2],mem[i+3], mem[i+4]);
+    }*/
 
     for(i = 0; i < MAX_PAGES; i++)
     {
@@ -33,7 +33,7 @@ KMalloc (proceso_t * proc) {
             {
               printf( "%d * %d  *  %d  *  %d  * %d\n", mem[i],mem[i+1],mem[i+2],mem[i+3], mem[i+4]);
             }*/
-            printf("stack malloc= ***%d*** -   dir=***%d***\n", (int)resp + PAGE_SIZE -1,(int)resp);
+            //printf("stack malloc= ***%d*** -   dir=***%d***\n", (int)resp + PAGE_SIZE -1,(int)resp);
             return resp;
         }
     }
@@ -47,7 +47,7 @@ void labEBP(int * in, int * out, int offset, int old_ind)
 
     if(*out == 0)
     {
-	printf("ebp final   %d\n", out );
+	//printf("ebp final   %d\n", out );
         *in = *out;
         return;
     }
@@ -84,7 +84,7 @@ KRealloc(proceso_t * proc, int cantPaginas)
             if(mem[j+k]!=-1)
                 salgo=1;
         }
-        if(!salgo && mem[j]==-1)
+        if(!salgo/* && mem[j]==-1*/)
             pos=j;
     }
 
@@ -93,22 +93,21 @@ KRealloc(proceso_t * proc, int cantPaginas)
     for(i=0;i<cantPaginas;i++)
         mem[pos+i] = proc->pid;
 
-    for(i = 0; i < 6; i = i+5)
+    /*for(i = 0; i < 6; i = i+5)
     {
       printf( "%d * %d  *  %d  *  %d  * %d\n", mem[i],mem[i+1],mem[i+2],mem[i+3], mem[i+4]);
-    }
-    
-    KFree(marca, (int)(proc->stacksize/PAGE_SIZE));
+    }*/
+    HabilitarPaginas(proc);
 
     printf("\n%d - %d - %d\n",resp+cantPaginas*PAGE_SIZE-proc->stacksize,(void *)proc->stackstart-(cantPaginas-1)*PAGE_SIZE,(cantPaginas-1)*PAGE_SIZE);
     
     ret=memcpy(resp+cantPaginas*PAGE_SIZE-proc->stacksize,(void *)proc->stackstart-(cantPaginas-1)*PAGE_SIZE+1,(cantPaginas-1)*PAGE_SIZE);
-    Paginas(NULL,NULL);
+    
     proc->stackstart =(int) resp + cantPaginas* PAGE_SIZE -1;
     printf("ESP Antes: %d - Contenido: %d\n",proc->ESP,*((int *)proc->ESP));
     nuevoESP = (proc->ESP % PAGE_SIZE) + (int)resp+PAGE_SIZE;
     printf("ESP Despues: %d - Contenido: %d\n",proc->ESP,*((int *)proc->ESP));
-    proc->stacksize = cantPaginas*PAGE_SIZE;
+    
 
     ((STACK_FRAME *) nuevoESP)->EBP = (((STACK_FRAME *)(proc->ESP))->EBP % PAGE_SIZE) + (int)resp+PAGE_SIZE;
     
@@ -117,7 +116,13 @@ KRealloc(proceso_t * proc, int cantPaginas)
     proc->ESP=nuevoESP;
 
     prueba++;
-        
+    
+
+    //DeshabilitarPaginas(proc);
+    KFree(marca, (int)(proc->stacksize/PAGE_SIZE));
+    Paginas(NULL,NULL);
+    proc->stacksize = cantPaginas*PAGE_SIZE;
+    //HabilitarPaginas(proc);
     printf("stack realloc= ***%d*** - dir=***%d*** - ESP: %d", (int)proc->stackstart, resp,proc->ESP);
 
     printf("\nREALLOQUIE!\n");

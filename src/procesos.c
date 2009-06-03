@@ -141,12 +141,7 @@ NuevoPid (void)
 {
     return proxPid++;
 }
-/*
-void
-exec (char *nombre, int (*proceso) (int argc, char **argv), int enBackground) {
-    CrearProceso (nombre, proceso, 0, (char **) 0,
-                  DEF_PRIORITY, enBackground, STACK_USUARIOS);
-}*/
+
 
 void
 Limpia (void) {
@@ -198,27 +193,11 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
     procesos[i].stackstart = (int) (stack +PAGE_SIZE -1);
     procesos[i].sleep = 0;
     
-    //HabilitarPaginaNuevo(&procesos[i]);
-    /*for(j=0;j<MAX_PAGES-1;j++)
-    {
-	if(mem[j]==procesos[i].pid)
-	{
-	    page_table2[j]=page_table2[j] | 3;
-	}
-    }*/
-    
+    HabilitarPaginaNuevo(&procesos[i]);
+
     procesos[i].ESP = ArmaStackFrame (proceso, procesos[i].stackstart, Limpia);
-    printf("***DIR EBP*** %d\n", (int)(&(((STACK_FRAME *)(procesos[i].ESP))->EBP )));
-    printf("***ESP**** %d",procesos[i].ESP);
-    /*for(j=0;j<MAX_PAGES-1;j++)
-    {
-	if(mem[j]==procesos[i].pid)
-	{
-	    page_table2[j]=page_table2[j] & 0xFFFFFFFE;
-	}
-    }*/
-    //_debug();
-    //DeshabilitarPaginaNuevo(&procesos[i]);
+
+    DeshabilitarPaginaNuevo(&procesos[i]);
    
     procesos[i].padre = pidActual;
 
@@ -235,14 +214,14 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
 void
 sleep(int segundos)
 {
-    _Cli();
+    //_Cli();
     long ticks = (long)(segundos * TIMER_TICK);    
     proceso_t * tmp = TraerProcesoPorPid(pidActual);
     tmp->sleep = ticks;
     tmp->estado = BLOQUEADO;
 
     switch_manual();
-    _Sti();
+    //_Sti();
 }
 
 void
@@ -297,13 +276,6 @@ MatarHijos(int pid)
     }
 }
 /*
-int
-Nada (int argc, char **argv) {
-    while (1)
-    {
-        asm volatile ("hlt");
-    }
-}
 
 int
 estaBloqueado(int pid)

@@ -21,7 +21,7 @@ void            write_cr3(unsigned long * ptr);
 
 
 void            _lidt (IDTR *idtr);
-void            _lgdt (void);
+void            _lgdt (IDTR *gdtr);
 void		_getgdt(void);
 
 void		_mascaraPIC1 (byte mascara);  /* Escribe mascara de PIC1 */

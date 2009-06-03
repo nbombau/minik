@@ -9,7 +9,7 @@ Top(int argc, char ** argv)
     int salgo = FALSE;
     while(!salgo)
     {
-        _Sti();
+        //_Sti();
         clear_screen();
 
         ActualizarPorcentajesCPU();
@@ -26,14 +26,15 @@ Top(int argc, char ** argv)
                 printf("\t\t     %d            %s             %d%%\n",proc->pid, proc->nombre, proc->cpu );
             }
         }
-        _Cli();
+        //_Cli();
         sleep(1);
-
+	
 	if(!EstoyEnBackground())
 	{
 	    if(!BufferIsEmpty())
 		salgo = TRUE;
 	}
+	
     }
     return 0;
 }
