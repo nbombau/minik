@@ -6,7 +6,7 @@
 extern proceso_t procesos[];
 extern int pidActual;
 extern int maxmem;
-
+int termina=0;
 int indice = 0;
 int ultimos100[100] = { 0 };
 int nivelActual = 0;
@@ -28,9 +28,15 @@ ActualizarPorcentajesCPU(void)
 void
 GuardarESP (int ESP)
 {
+
     proceso_t *temporal;
     temporal = TraerProcesoPorPid(pidActual);
     temporal->ESP = ESP;
+    if((ESP - (temporal->stackstart - temporal->stacksize))<500 && pidActual!=INIT && !termina)
+    {
+        temporal->stackstart  =(int) KRealloc(temporal, temporal->stacksize/PAGE_SIZE + 1);
+    }
+    termina=0;
     return;
 }
 
@@ -44,11 +50,12 @@ int
 SiguienteProceso (int esp)
 {
     proceso_t *temporal;
+    temporal=TraerProcesoPorPid(pidActual);
+    DeshabilitarPaginas(temporal);
     GuardarESP (esp);
+
     temporal = SiguienteTarea();
     
-    DeshabilitarPaginas(TraerProcesoPorPid(pidActual));
-    _Cli();
     pidActual = temporal->pid;
     
     HabilitarPaginas(temporal);

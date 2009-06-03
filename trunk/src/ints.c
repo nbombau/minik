@@ -90,37 +90,37 @@ s_write(const void* buff, int size)
     int i;
     //char *video = (char *) 0xb8000;
 
-    _Cli();
+    //_Cli();
     for(i = 0; i < size; i++)
     {
         video[screen_pos++]= *((char*)buff+i);
         video[screen_pos++]= WHITE_TXT;
     }
-    _Sti();
+    //_Sti();
 }
 
 static void
 l_write(int p, const void *buff, int size)
 {
 	int i;
-    _Cli();
+    //_Cli();
 
     for(i = 0; i < size; i++) {
     	myoutl( p , ( (int *) buff )[i] );
     }
-    _Sti();
+    //_Sti();
 }
 
 static void
 b_write(int p, const void *buff, int size)
 {
 	int i;
-    _Cli();
+    //_Cli();
 
     for(i = 0; i < size; i++) {
     	myout( p , ( (byte *) buff )[i] );
     }
-    _Sti();
+    //_Sti();
 }
 
 
@@ -144,14 +144,14 @@ static void
 k_read(char *buff, int size)
 {
 	int i=0;
-	_Cli();
+	//_Cli();
 	while( !BufferIsEmpty() && i< size ) {
 
 		buff[i] = GetFromBuffer() ;
 		i++;
 	}
 
-	_Sti();
+	//_Sti();
 
 }
 
@@ -161,7 +161,7 @@ s_read(char *buff, int size) {
 
 	char * video;
 	video = (char *) 0xb8000;
-	_Cli();
+	//_Cli();
 
 	while( i< size ) {
 
@@ -170,7 +170,7 @@ s_read(char *buff, int size) {
 
 	}
 
-	_Sti();
+	//_Sti();
 }
 
 static void

@@ -16,6 +16,10 @@ IDTR idtr;				/* IDTR */
 proceso_t procesos[MAXPROCESOS];
 proceso_t init;
 GDTR* gdtr = (GDTR*)0x1234;
+/*
+DESCR_SEG gdt[0x05];
+GDTR gdtr;*/
+
 
 int pidActual = 0;
 int proxPid = 0;
@@ -69,12 +73,12 @@ kmain()
 	
 	LoadIDT();
 
-	_getgdt();
+	/*_getgdt();
 	setup_GDT_entry ((DESCR_SEG*)(gdtr->base + gdtr->limit + 1), ((dword)0x10)<<4, 0x00FF, ACS_STACK, 0xC0);
 	setup_GDT_entry ((DESCR_SEG*)(gdtr->base + gdtr->limit + 9), 0, 0xFFFFF, ACS_STACK & 0x7F, 0xC0);
-	/* Carga de GDTR */
 	gdtr->limit += 16;
-	_lgdt();
+	_lgdt(&gdtr);*/
+
 
         /*Seteo la mascara del PIC para habilitar las interrupciones.*/
         byte aux = 0xFC;
@@ -88,7 +92,7 @@ kmain()
 	CrearProceso("INIT", Init, 0, (char **)0, 2, 0, 0x1000);
 	
         CrearProceso ("shell", shell, 0, (char **) 0, 2, 0, 0x1000);
-
+	
 	_Sti();
 
         while (1) {
