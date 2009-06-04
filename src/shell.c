@@ -69,7 +69,7 @@ int
 command(char *line )
 {
   char * comlist[] = { "clear", "loadkeys la", "loadkeys us", "lspci", "?", "reboot", "imprime", "imprime&", "imprime4ever", "imprime4ever&", "kill", "top", "top&", "calcula1",
-    "calcula1&", "calcula2", "calcula2&", "calcula3", "calcula3&","recursivo", "recursivo&",
+    "calcula1&", "calcula2", "calcula2&", "calcula3", "calcula3&","llenastack", "llenastack&",
 "dividirporcero","fortune","pagefault"};
 
         int pid;
@@ -125,76 +125,83 @@ bash(char *line  )
 	fnumber = command(line);
 	switch(fnumber)
 	{
-	case VOID: break;
-	case CLEAR: clear_screen();
-				break;
-	case HELP:  help();
-				break;
-	case LISTPCI:	lspci();
-					break;
-	case KEYSLA: loadkeysla();
-				 break;
-	case KEYSUS: loadkeysus();
-		         break;
-	case REBOOT: reboot();
+	    case VOID:
+			break;
+	    case CLEAR:
+			clear_screen();
+			break;
+	    case HELP:
+			help();
+			break;
+	    case LISTPCI:
+			lspci();
+			break;
+	    case KEYSLA:
+			loadkeysla();
+			break;
+	    case KEYSUS:
+			loadkeysus();
+		        break;
+	    case REBOOT:
+			reboot();
     
-        case IMPRIMELETRA: 
-                CrearProceso ("ImprimeLetra", ImprimeLetras, 0,(char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
-                break;
-        case IMPRIMELETRA_BK:
-                 CrearProceso ("ImprimeLetra", ImprimeLetras, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
-                 break;
-      case IMPRIME4EVER: 
-            CrearProceso ("ImprimeLetra4ever", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
-        break;
-    case IMPRIME4EVER_BK:
-		CrearProceso ("ImprimeLetra4ever", LlenarStack, 0,(char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
-                break;
-    case TOP:
-		CrearProceso("Top", Top, 0, (char**)0, 1, FALSE, DEF_STACKSIZE);
-		break;
-    case TOP_BK:
-		CrearProceso("Top", Top, 0, (char**)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
-		break;
-    case KILL:
-		printf("Kill: Kill expects arg0 valid process_id\n");
-                break;
-    case CALCULA1:
-                CrearProceso("calculaLowPrio", Calcula, 0,(char**)0, 4, FALSE, DEF_STACKSIZE);
-                break;
-    case CALCULA1_BK:
-                CrearProceso("calculaLowPrio", Calcula, 0,(char**)0, 4, TRUE, DEF_STACKSIZE);
-                break;
-    case CALCULA2:
-                CrearProceso("calculaMedPrio", Calcula, 0,(char**)0, 2, FALSE, DEF_STACKSIZE);
-                break;
-    case CALCULA2_BK:
-                CrearProceso("calculaMedPrio", Calcula, 0,(char**)0, 2, TRUE, DEF_STACKSIZE);
-                break;
-    case CALCULA3:
-                CrearProceso("calculaHiPrio", Calcula, 0,(char**)0, 0, FALSE, DEF_STACKSIZE);
-                break;
-    case CALCULA3_BK:
-                CrearProceso("calculaHiPrio", Calcula, 0,(char**)0, 0, TRUE, DEF_STACKSIZE);
-                break;
-    case RECURSIVO:
-                CrearProceso("recursivo", LlenarStack, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
-                break;
-    case RECURSIVO_BK:
-                CrearProceso("recursivo", Recursivo, 0,(char**)0, 1, TRUE, DEF_STACKSIZE);
-                break;
-    case FORTUNE:
-		CrearProceso("Fortune", Fortune, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
-                break;
-    case DIVIDIRCERO:
-		CrearProceso("DividirPorCero", DividirPorCero, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
-                break;
-    case PAGEFAULT:
-		CrearProceso("PageFault", PageFaultTest, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
-		break;
-    default: 	printf("bash: ");
-		printf(line);
-		printf(": command not found -- Try ? for help\n");
+	    case IMPRIMELETRA: 
+			CrearProceso ("ImprimeLetra", ImprimeLetras, 0,(char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
+			break;
+	    case IMPRIMELETRA_BK:
+			CrearProceso ("ImprimeLetra", ImprimeLetras, 0, (char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+			break;
+	    case IMPRIME4EVER: 
+			CrearProceso ("ImprimeLetra4ever", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
+			break;
+	    case IMPRIME4EVER_BK:
+			CrearProceso ("ImprimeLetra4ever", LlenarStack, 0,(char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+			break;
+	    case TOP:
+			CrearProceso("Top", Top, 0, (char**)0, 1, FALSE, DEF_STACKSIZE);
+			break;
+	    case TOP_BK:
+			CrearProceso("Top", Top, 0, (char**)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+			break;
+	    case KILL:
+			printf("Kill: Kill expects arg0 valid process_id\n");
+			break;
+	    case CALCULA1:
+			CrearProceso("calculaLowPrio", Calcula, 0,(char**)0, 4, FALSE, DEF_STACKSIZE);
+			break;
+	    case CALCULA1_BK:
+			CrearProceso("calculaLowPrio", Calcula, 0,(char**)0, 4, TRUE, DEF_STACKSIZE);
+			break;
+	    case CALCULA2:
+			CrearProceso("calculaMedPrio", Calcula, 0,(char**)0, 2, FALSE, DEF_STACKSIZE);
+			break;
+	    case CALCULA2_BK:
+			CrearProceso("calculaMedPrio", Calcula, 0,(char**)0, 2, TRUE, DEF_STACKSIZE);
+			break;
+	    case CALCULA3:
+			CrearProceso("calculaHiPrio", Calcula, 0,(char**)0, 0, FALSE, DEF_STACKSIZE);
+			break;
+	    case CALCULA3_BK:
+			CrearProceso("calculaHiPrio", Calcula, 0,(char**)0, 0, TRUE, DEF_STACKSIZE);
+			break;
+	    case RECURSIVO:
+			CrearProceso("recursivo", LlenarStack, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
+			break;
+	    case RECURSIVO_BK:
+			CrearProceso("recursivo", Recursivo, 0,(char**)0, 1, TRUE, DEF_STACKSIZE);
+			break;
+	    case FORTUNE:
+			CrearProceso("Fortune", Fortune, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
+			break;
+	    case DIVIDIRCERO:
+			CrearProceso("DividirPorCero", DividirPorCero, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
+			break;
+	    case PAGEFAULT:
+			CrearProceso("PageFault", PageFaultTest, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
+			break;
+	    default: 	printf("bash: ");
+			printf(line);
+			printf(": command not found -- Try ? for help\n");
 	}
 
 }

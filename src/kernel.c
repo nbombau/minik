@@ -15,11 +15,6 @@ DESCR_INT idt[0x81];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
 proceso_t procesos[MAXPROCESOS];
 proceso_t init;
-GDTR* gdtr = (GDTR*)0x1234;
-/*
-DESCR_SEG gdt[0x05];
-GDTR gdtr;*/
-
 
 int pidActual = 0;
 int proxPid = 0;
@@ -72,13 +67,6 @@ kmain()
         InicializarMemUsuario();
 	
 	LoadIDT();
-
-	/*_getgdt();
-	setup_GDT_entry ((DESCR_SEG*)(gdtr->base + gdtr->limit + 1), ((dword)0x10)<<4, 0x00FF, ACS_STACK, 0xC0);
-	setup_GDT_entry ((DESCR_SEG*)(gdtr->base + gdtr->limit + 9), 0, 0xFFFFF, ACS_STACK & 0x7F, 0xC0);
-	gdtr->limit += 16;
-	_lgdt(&gdtr);*/
-
 
         /*Seteo la mascara del PIC para habilitar las interrupciones.*/
         byte aux = 0xFC;

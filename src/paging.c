@@ -21,7 +21,6 @@ InitPaging(void)
 {
     unsigned long address = 0;
     unsigned int i;
-    //return;
     for(i=0; i<1024; i++)
     {
       page_table1[i] = address | 3;
@@ -57,7 +56,6 @@ void
 HabilitarPaginaNuevo(proceso_t * proc)
 {
     int i;
-    //return;
     for(i=0;i<MAX_PAGES-1;i++)
     {
 	if(mem[i]==proc->pid)
@@ -72,7 +70,6 @@ void
 DeshabilitarPaginaNuevo(proceso_t * proc)
 {
     int i;
-    //return;
     for(i=0;i<MAX_PAGES-1;i++)
     {
 	if(mem[i]==proc->pid)
@@ -83,26 +80,6 @@ DeshabilitarPaginaNuevo(proceso_t * proc)
 }
 
 
-
-static void
-HabilitarPaginasAux(proceso_t * proc)
-{
-    int i;
-    //return;
-    proceso_t * procAux;
-    for(i=0;i<MAX_PAGES-1;i++)
-    {
-	if(mem[i]==proc->pid)
-	{
-	    page_table2[i]=page_table2[i] & 0xFFFFFFFD;
-	}
-    }
-    if(proc->pid==0)
-	return;
-    procAux=TraerProcesoPorPid(proc->padre);
-    HabilitarPaginasAux(procAux);
-}
-
 void
 HabilitarPaginas(proceso_t * proc)
 {
@@ -110,15 +87,11 @@ HabilitarPaginas(proceso_t * proc)
     proceso_t * procAux;
     for(i=0;i<MAX_PAGES-1;i++)
     {
-	if(mem[i]==proc->pid)
+	if(mem[i]==proc->pid || mem[i]==proc->padre )
 	{
 	    page_table2[i]=page_table2[i] | 3;
 	}
     }
-    //if(proc->pid==INIT)
-	//return;
-    //procAux=TraerProcesoPorPid(proc->padre);
-    //HabilitarPaginasAux(procAux);
 }
 
 
@@ -126,10 +99,9 @@ void
 DeshabilitarPaginas(proceso_t * proc)
 {
     int i;
-    //return;
     for(i=0;i<MAX_PAGES-1;i++)
     {
-	if(mem[i]==proc->pid && proc->pid!=INIT && proc->pid!=1)
+	if(mem[i]==proc->pid && (proc->pid!=INIT && mem[i]==proc->padre))
 	{
 	    page_table2[i]=page_table2[i] & 0xFFFFFFFE;
 	}
