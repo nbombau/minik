@@ -29,7 +29,7 @@ ActualizarPorcentajesCPU(void)
         procesos[ultimos100[i]].cpu++;
     }
 }
-int num=0;
+
 void
 GuardarESP (int ESP)
 {
@@ -40,9 +40,6 @@ GuardarESP (int ESP)
     if((ESP - (temporal->stackstart - temporal->stacksize))<500 && pidActual!=INIT && !termina)
     {
         temporal->stackstart  =(int) KRealloc(temporal, temporal->stacksize/PAGE_SIZE + 1);
-	num++;
-	/*if(num==2)
-	    _debug();*/
     }
     termina=0;
     return;

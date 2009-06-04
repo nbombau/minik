@@ -160,6 +160,7 @@ help()
         printf(" calcula3         : hace calculos. proceso con alta prioridad.  \n");
 	printf(" imprime          : imprime 10 mensajes en pantalla espaciados un tiempo fijo.\n");
 	printf(" imprime4ever     : imprime mensajes en pantalla indefinidamente.  \n");
+	printf(" llenastack	  : llena el stack y hace realloc.   \n");
 	printf(" pagefault	  : Testea el manejo de la excepcion del tipo Page Fault. \n");
 	printf(" dividirporcero	  : Testea el manejo de la excepcion del tipo Crto Divide. \n");
 	printf(" reboot           : reinicia el sistema  \n");
@@ -170,12 +171,10 @@ help()
 void
 print(char *string)
 {
-	//_Cli();
 	while( *string != '\0' ) {
 		putchar(*string);
 		string++;
 	}
-	//_Sti();
 }
 
 void

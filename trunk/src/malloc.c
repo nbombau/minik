@@ -118,11 +118,11 @@ KRealloc(proceso_t * proc, int cantPaginas)
     prueba++;
     
 
-    //DeshabilitarPaginas(proc);
+    DeshabilitarPaginas(proc);
     KFree(marca, (int)(proc->stacksize/PAGE_SIZE));
     Paginas(NULL,NULL);
     proc->stacksize = cantPaginas*PAGE_SIZE;
-    //HabilitarPaginas(proc);
+    HabilitarPaginas(proc);
     printf("stack realloc= ***%d*** - dir=***%d*** - ESP: %d", (int)proc->stackstart, resp,proc->ESP);
 
     printf("\nREALLOQUIE!\n");
