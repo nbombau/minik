@@ -68,7 +68,7 @@ ImprimeLetras(int argc, char ** argv)
     {
 
 	printf("imprimiendo lalala\n");
-	sleep(25);
+	sleep(3);
     }
     return 0;
 }
@@ -80,11 +80,19 @@ ImprimeLetras4Ever(int argc, char ** argv)
     { 
         printf("\n\nasdfqwerty\n\n");
 
-        sleep(50);
+        sleep(10);
     }
     return 0;
 }
 
+int
+Vacio(int argc, char ** argv)
+{
+    while(1)
+	sleep(100);
+
+    return 0;
+}
 int
 Calcula(int argc, char ** argv)
 {
@@ -158,6 +166,6 @@ int
 LlenarStack(int argc, char **argv)
 {
     _StackFill();
-    //printf("Sali\n");
+    return 0;
 }
 

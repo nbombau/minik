@@ -84,7 +84,6 @@ void
 HabilitarPaginas(proceso_t * proc)
 {
     int i;
-    proceso_t * procAux;
     for(i=0;i<MAX_PAGES-1;i++)
     {
 	if(mem[i]==proc->pid || mem[i]==proc->padre )

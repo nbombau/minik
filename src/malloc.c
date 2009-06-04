@@ -8,6 +8,8 @@ extern int pidActual;
 extern int maxmem;
 extern int mem[MAX_PAGES];
 
+void KFreeAux(int nPagina, int cantPaginas);
+
 /*Asigna a un proceso una pagina en memoria para que pueda almacenar su stack.
   maxmem permite saber que pagina de memoria ( a partir de lo 8MB, que son las
   asignadas a los procesos usuario ) corresponde a cada proceso. Se marca cada
@@ -16,11 +18,6 @@ void *
 KMalloc (proceso_t * proc) {
     void * resp = 0x0;
     int i;
-    /*printf("mem antes de malloc\n");
-    for(i = 0; i < 6; i = i+5)
-    {
-	printf( "%d * %d  *  %d  *  %d  * %d\n", mem[i],mem[i+1],mem[i+2],mem[i+3], mem[i+4]);
-    }*/
 
     for(i = 0; i < MAX_PAGES; i++)
     {
@@ -28,12 +25,7 @@ KMalloc (proceso_t * proc) {
         {
             resp = (void *)(FIRST_USER_PAGE + i * PAGE_SIZE);
             mem[i] = proc->pid;
-            /*printf("mem despues de malloc\n");
-            for(i = 0; i <6; i = i+5)
-            {
-              printf( "%d * %d  *  %d  *  %d  * %d\n", mem[i],mem[i+1],mem[i+2],mem[i+3], mem[i+4]);
-            }*/
-            //printf("stack malloc= ***%d*** -   dir=***%d***\n", (int)resp + PAGE_SIZE -1,(int)resp);
+
             return resp;
         }
     }
@@ -42,19 +34,18 @@ KMalloc (proceso_t * proc) {
 }
 
 
-void labEBP(int * in, int * out, int offset, int old_ind)
+void ActualizaEBP(int * in, int * out, int offset, int old_ind)
 {
 
     if(*out == 0)
     {
-	//printf("ebp final   %d\n", out );
         *in = *out;
         return;
     }
 
     *in = (*out % 4096)+ offset + (4096 * ((((*out)/4096) - 1024) - old_ind +1));
 
-    labEBP((int*)*in, (int*)*out, offset, old_ind);
+    ActualizaEBP((int*)*in, (int*)*out, offset, old_ind);
     return ;
 }
 
@@ -87,22 +78,21 @@ KRealloc(proceso_t * proc, int cantPaginas)
         if(!salgo/* && mem[j]==-1*/)
             pos=j;
     }
+    if(pos==-1)
+	return 0x0;
 
     resp = (void *)(FIRST_USER_PAGE + pos * PAGE_SIZE);
     
     for(i=0;i<cantPaginas;i++)
         mem[pos+i] = proc->pid;
 
-    /*for(i = 0; i < 6; i = i+5)
-    {
-      printf( "%d * %d  *  %d  *  %d  * %d\n", mem[i],mem[i+1],mem[i+2],mem[i+3], mem[i+4]);
-    }*/
     HabilitarPaginas(proc);
 
     printf("\n%d - %d - %d\n",resp+cantPaginas*PAGE_SIZE-proc->stacksize,(void *)proc->stackstart-(cantPaginas-1)*PAGE_SIZE,(cantPaginas-1)*PAGE_SIZE);
     
     ret=memcpy(resp+cantPaginas*PAGE_SIZE-proc->stacksize,(void *)proc->stackstart-(cantPaginas-1)*PAGE_SIZE+1,(cantPaginas-1)*PAGE_SIZE);
-    
+    if(ret==0x0)
+	return 0x0;
     proc->stackstart =(int) resp + cantPaginas* PAGE_SIZE -1;
     printf("ESP Antes: %d - Contenido: %d\n",proc->ESP,*((int *)proc->ESP));
     nuevoESP = (proc->ESP % PAGE_SIZE) + (int)resp+PAGE_SIZE;
@@ -112,14 +102,14 @@ KRealloc(proceso_t * proc, int cantPaginas)
     ((STACK_FRAME *) nuevoESP)->EBP = (((STACK_FRAME *)(proc->ESP))->EBP % PAGE_SIZE) + (int)resp+PAGE_SIZE;
     
     printf("EBP viejo %d - EBP nuevo %d\n",((STACK_FRAME *)(proc->ESP))->EBP,((STACK_FRAME *) nuevoESP)->EBP);
-    labEBP( (int *)(((STACK_FRAME *) nuevoESP)->EBP) , (int *)(((STACK_FRAME *) proc->ESP)->EBP), (int)resp, marca );
+    ActualizaEBP( (int *)(((STACK_FRAME *) nuevoESP)->EBP) , (int *)(((STACK_FRAME *) proc->ESP)->EBP), (int)resp, marca );
     proc->ESP=nuevoESP;
 
     prueba++;
     
 
     DeshabilitarPaginas(proc);
-    KFree(marca, (int)(proc->stacksize/PAGE_SIZE));
+    KFreeAux(marca, (int)(proc->stacksize/PAGE_SIZE));
     Paginas(NULL,NULL);
     proc->stacksize = cantPaginas*PAGE_SIZE;
     HabilitarPaginas(proc);
@@ -130,13 +120,27 @@ KRealloc(proceso_t * proc, int cantPaginas)
     return resp+cantPaginas*PAGE_SIZE-1;
 }
 
-/*Setea las paginas como libres. Cuando se solicite malloc podra otorgar estas paginas.*/
+
 void
-KFree(int nPagina, int cantPaginas)
+KFreeAux(int nPagina, int cantPaginas)
 {
     int i;
     for(i = 0; i < cantPaginas; i++)
     {
         mem[nPagina+i] = -1;
+    }
+}
+
+void
+KFree(proceso_t * proc)
+{
+    int i;
+    for(i=0;i<MAX_PAGES;i++)
+    {
+	if(mem[i]==proc->pid)
+	{
+	    DeshabilitarPaginas(proc);
+	    mem[i]=-1;
+	}
     }
 }

@@ -26,5 +26,7 @@ int PageFaultTest(int argc, char **argv);
 int Paginas(int argc, char **argv);
 
 int LlenarStack(int argc, char **argv);
+
+int Vacio(int argc, char ** argv);
 #endif
 

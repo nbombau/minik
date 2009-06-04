@@ -157,7 +157,7 @@ Limpia (void) {
 	padre->estado = LISTO;
     }
     temporal->free_slot = TRUE;
-
+    KFree(temporal);
     _Sti();
     termina=1;
     while (1) {
@@ -178,13 +178,25 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
         if (procesos[i].free_slot)
             break;
     }
-
+    if(i==MAXPROCESOS)
+    {
+	printf("El maximo numero de procesos a sido alcanzado. El proceso %s no puede ser creado.\n",nombre);
+	_Sti();
+	return;
+    }
     veces++;
     strncpy (procesos[i].nombre, nombre, strlen (nombre)+1);
-    procesos[i].pid = NuevoPid ();
+    procesos[i].pid = i/*NuevoPid ()*/;
     procesos[i].stacksize = PAGE_SIZE;
     stack = (void *)KMalloc (&procesos[i]);
-    //stack = (void *)KRealloc(&procesos[i], 2);
+    if(stack==0x0)
+    {
+	printf("Se produjo un error al alocar memoria. El proceso %s no puede ser creado.\n",nombre);
+	procesos[i].pid=-1;
+	_Sti();	
+	return;
+    }
+
     procesos[i].background = enBackground;
     procesos[i].prioridad = prioridad;
     
@@ -234,6 +246,7 @@ Kill (int pid) {
             printf ("El proceso ", 11);
             printf (proc->nombre, strlen (proc->nombre));
             printf (" fue eliminado.\n", 16);
+	    KFree(proc);
             proc->free_slot = 1;
             proc->estado = 0;
             proc->pid = -1;

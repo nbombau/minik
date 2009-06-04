@@ -27,14 +27,16 @@ enum {  VOID=-1,
         CALCULA2_BK,
         CALCULA3,
         CALCULA3_BK,
-        RECURSIVO,
-        RECURSIVO_BK,
+        LLENASTACK,
+        LLENASTACK_BK,
         DIVIDIRCERO,
         FORTUNE,
 	PAGEFAULT,
+	PAGINAS,
+	MUCHOSPROC,
 	NOTFOUND,
      };
-#define NCOM 24
+#define NCOM 26
 
 int
 strcmp(char* s1, char* s2)
@@ -70,7 +72,7 @@ command(char *line )
 {
   char * comlist[] = { "clear", "loadkeys la", "loadkeys us", "lspci", "?", "reboot", "imprime", "imprime&", "imprime4ever", "imprime4ever&", "kill", "top", "top&", "calcula1",
     "calcula1&", "calcula2", "calcula2&", "calcula3", "calcula3&","llenastack", "llenastack&",
-"dividirporcero","fortune","pagefault"};
+"dividirporcero","fortune","pagefault","paginas","muchosprocesos"};
 
         int pid;
 	if( line[0] == '\0' )
@@ -121,7 +123,7 @@ void
 bash(char *line  )
 {
 	int fnumber;
-
+	int i;
 	fnumber = command(line);
 	switch(fnumber)
 	{
@@ -155,7 +157,7 @@ bash(char *line  )
 			CrearProceso ("ImprimeLetra4ever", ImprimeLetras4Ever, 0, (char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
 			break;
 	    case IMPRIME4EVER_BK:
-			CrearProceso ("ImprimeLetra4ever", LlenarStack, 0,(char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
+			CrearProceso ("ImprimeLetra4ever", ImprimeLetras4Ever, 0,(char **)0, DEF_PRIO, TRUE, DEF_STACKSIZE);
 			break;
 	    case TOP:
 			CrearProceso("Top", Top, 0, (char**)0, 1, FALSE, DEF_STACKSIZE);
@@ -184,11 +186,11 @@ bash(char *line  )
 	    case CALCULA3_BK:
 			CrearProceso("calculaHiPrio", Calcula, 0,(char**)0, 0, TRUE, DEF_STACKSIZE);
 			break;
-	    case RECURSIVO:
+	    case LLENASTACK:
 			CrearProceso("recursivo", LlenarStack, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
 			break;
-	    case RECURSIVO_BK:
-			CrearProceso("recursivo", Recursivo, 0,(char**)0, 1, TRUE, DEF_STACKSIZE);
+	    case LLENASTACK_BK:
+			CrearProceso("recursivo", LlenarStack, 0,(char**)0, 1, TRUE, DEF_STACKSIZE);
 			break;
 	    case FORTUNE:
 			CrearProceso("Fortune", Fortune, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
@@ -198,6 +200,15 @@ bash(char *line  )
 			break;
 	    case PAGEFAULT:
 			CrearProceso("PageFault", PageFaultTest, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
+			break;
+	    case PAGINAS:
+			CrearProceso("Paginas", Paginas, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
+			break;
+	    case MUCHOSPROC:
+			for(i=0;i<60;i++)
+			{
+			    CrearProceso("Proceso vacio", Vacio, 0,(char**)0, 1, TRUE, DEF_STACKSIZE);
+			}
 			break;
 	    default: 	printf("bash: ");
 			printf(line);
