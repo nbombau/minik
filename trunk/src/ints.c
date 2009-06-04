@@ -2,13 +2,14 @@
 #include "../include/kasm.h"
 #include "../include/ints.h"
 #include "../include/buffer.h"
-
+#include "../include/keyboardUS.h"
+#include "../include/keyboardLAT.h"
 #define CANT_KEYS 104
 #define ALTGR 0x38
 #define IS_NUMPAD_KEY(c) ((c)>=0x47 && (c)<=0x53)
 #define IS_VALID_ASCII(c) (c)!=0
 
-extern screen_pos;
+extern int screen_pos;
 
 /* mapeo de los estados del teclado */
 int numlock=0,caps=0,scrolllock=0,shift=0,altgr=0;
@@ -193,8 +194,6 @@ b_in(int p, byte *buff, int size)
 void
 int_80r(FileDesc fd, void * buff, int size)
 {
-	int i = 0;
-
 	switch(fd)
 	{
 	case KEYBOARD: 	k_read((char *)buff,size); break;
@@ -208,7 +207,7 @@ char
 read_key(void)
 {
 	byte aux[1];
-	read(KEYBOARD_IN,aux,1);
+	read(KEYBOARD_IN,(char *)aux,1);
 
 	return aux[0];
 }

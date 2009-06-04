@@ -3,6 +3,7 @@
 #include "../include/ints.h"
 #include "../include/kasm.h"
 #include "../include/buffer.h"
+#include "../include/stdio.h"
 
 /* Variable global de la posicion en pantalla */
 int screen_pos = 0;
@@ -85,7 +86,6 @@ void
 getline(char *buffer, int max)
 {
     char c[1];
-    int timer=0;
     int last = EMPTY;
 
     do {
@@ -160,12 +160,11 @@ help()
         printf(" calcula3         : hace calculos. proceso con alta prioridad.  \n");
 	printf(" imprime          : imprime 10 mensajes en pantalla espaciados un tiempo fijo.\n");
 	printf(" imprime4ever     : imprime mensajes en pantalla indefinidamente.  \n");
-	printf(" llenastack	  : llena el stack y hace realloc.   \n");
-	printf(" paginas	    : Muestra los procesos que ocupan las primeras 35 paginas.");
-	printf(" muchosprocesos   : Crea 60 procesos que se quedan bloqueados.");
-	printf(" pagefault	  : Testea el manejo de la excepcion del tipo Page Fault. \n");
-	printf(" dividirporcero	  : Testea el manejo de la excepcion del tipo Crto Divide. \n");
-	printf(" reboot           : reinicia el sistema  \n");
+	printf(" llenastack	     : llena el stack y hace realloc.   \n");
+	printf(" paginas	        : Muestra los procesos que ocupan las primeras 35 paginas.\n");
+	printf(" muchosprocesos   : Crea 60 procesos que se quedan bloqueados.\n");
+	printf(" pagefault	      : Testea el manejo de la excepcion del tipo Page Fault. \n");
+	printf(" dividirporcero	 : Testea el manejo de la excepcion del tipo Crto Divide. \n");
 	printf("_______________________________________________________________________________\n");
 	printf("\n");
 }

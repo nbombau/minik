@@ -1,9 +1,8 @@
 #include <stdarg.h>
 #include "../include/stdio.h"
-
+#include "../include/video.h"
 static void ImprimirString(const char * string, int * qttyPrinted);
 static void ImprimirEntero(int num, int * qttyPrinted);
-static void ImprimirCaracter(char c);
 
 int
 printf(const char * format, ...)
@@ -53,11 +52,6 @@ printf(const char * format, ...)
     return pchars;
 }
 
-static void
-ImprimirCaracter(char c)
-{
-	writeWrapper(&c,1);
-}
 
 static void
 ImprimirString(const char * string, int * qttyPrinted)
@@ -65,7 +59,7 @@ ImprimirString(const char * string, int * qttyPrinted)
     if (string == 0x0)
         return;
 
-    for (string ; *string ; string++, *qttyPrinted++)
+    for ( ; *string ; string++, (*qttyPrinted)++)
         putchar(*string);
 
     return;
@@ -79,14 +73,14 @@ ImprimirEntero(int num, int * qttyPrinted)
     {
         putchar('-');
         num = -num;
-        *qttyPrinted++;
+        (*qttyPrinted)++;
     }
 
     if ( (num / 10) > 0 )
         ImprimirEntero(num/10, qttyPrinted);
 
     putchar(num % 10 + '0');
-    *qttyPrinted++;
+    (*qttyPrinted)++;
 
     return;
 }

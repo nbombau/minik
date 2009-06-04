@@ -98,15 +98,3 @@ loadkeysus(void)
 {
 	setup_IDT_entry (&idt[0x09], 0x08, (dword)&_int_09_hand_US,ACS_INT, 0);
 }
-
-void
-reboot(void)
-{
-	int i;
-	/* Blanqueo el idt */
-	for (i=0; i<10; i++)
-	        setup_IDT_entry (&idt[i], 0x08, 0, ACS_INT, 0);
-
-	_Fault();
-}
-

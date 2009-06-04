@@ -72,11 +72,7 @@ segundo:inc edx
 _StackFill:
 	push ebp
 	mov ebp,esp
-	;cli
-	;push    ds
-	;push    es
-	;pusha
-	;cli
+
 devuelta:
 	mov edx,0065h
 	mov eax,0
@@ -93,20 +89,7 @@ sigo456:   push eax
 
 	;jp _miwait
 	jp devuelta
-
-	;mov edx,0080h
-	;mov eax,0
-;sigo457:   push eax
-	;inc eax
-	;cmp eax,edx
-	;jnz sigo457
-	;push msg2
-	;call printf
 	call _debug
-	;popa
-        ;pop     es
-        ;pop     ds
-	;sti
 	ret
 
 ;-----------------------------------------------
@@ -307,13 +290,6 @@ _int_08_hand:
     sti
    iret
 
-_lgdt:
-	lgdt [0x1234]
-	retn
-
-_getgdt:
-	sgdt [0x1234]
-	retn
 
 switch_manual:
     cli
@@ -526,8 +502,6 @@ myinl:
 
 ; Debug para el BOCHS, detiene la ejecució; Para continuar colocar en el BOCHSDBG: set $eax=0
 ;
-
-
 _debug:
         push    bp
         mov     bp, sp

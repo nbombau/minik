@@ -179,7 +179,7 @@ ToAsciiLAT(char code)
         	else
         	{
         		ascii=tecladoLAT[shift][code];
-           		if( (!caps && !shift) || (caps && shift) && ES_VOCAL_MIN(ascii) )
+           		if( (!caps && !shift) || ((caps && shift) && ES_VOCAL_MIN(ascii)) )
               		ascii=GetAccent(ascii,accent);
            		accent=0;/*Una vez que tengo la vocal acentuada seteo el flag de vuelta a 0*/
         	}

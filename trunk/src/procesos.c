@@ -3,6 +3,7 @@
 #include "../include/string.h"
 #include "../include/paging.h"
 
+
 #define STACK_USUARIOS  0x1000
 #define DEF_PRIORITY    3
 
@@ -15,16 +16,6 @@ int veces = 0;
 extern unsigned long *page_table2;
 extern int mem[MAX_PAGES];
 extern int termina;
-int probarMemoria(int argc, char **argv)
-{ 
-   char * a = (char *) 0xF00000;
-   int i = 0;
-   while( i < 99999)
-        a[i++] = 'a';
-return 0;
-
-}
-
 
 int
 ProcesoExiste(int pid)
@@ -144,7 +135,8 @@ NuevoPid (void)
 
 
 void
-Limpia (void) {
+Limpia (void)
+{
     /* deberia matar al proceso y toda la bola */
     proceso_t *temporal;
     proceso_t *padre;
@@ -152,7 +144,8 @@ Limpia (void) {
     
     temporal = TraerProcesoPorPid (pidActual);
     
-    if (temporal->padre != INIT) {
+    if (temporal->padre != INIT)
+    {
 	padre = TraerProcesoPorPid (temporal->padre);
 	padre->estado = LISTO;
     }
@@ -171,7 +164,7 @@ void
 CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
               int argc, char **argv, int prioridad, int enBackground,
               int stacksize) {
-    int i,j;
+    int i;
     _Cli();
     void *stack;
     for (i = 0; i < MAXPROCESOS; i++) {
@@ -206,7 +199,7 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
     procesos[i].sleep = 0;
     
     HabilitarPaginaNuevo(&procesos[i]);
-
+    
     procesos[i].ESP = ArmaStackFrame (proceso, procesos[i].stackstart, Limpia);
 
     DeshabilitarPaginaNuevo(&procesos[i]);
@@ -226,23 +219,45 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
 void
 sleep(int segundos)
 {
-    //_Cli();
     long ticks = (long)(segundos * TIMER_TICK);    
     proceso_t * tmp = TraerProcesoPorPid(pidActual);
     tmp->sleep = ticks;
     tmp->estado = BLOQUEADO;
 
     switch_manual();
-    //_Sti();
+}
+
+int
+desbloqueaProceso (int pid)
+{
+    int i;
+
+    for (i = 0; i < MAXPROCESOS; i++)
+    {
+	if (procesos[i].pid == pid && !procesos[i].free_slot)
+	{
+	    if(procesos[i].estado == ESPERANDO_HIJO || procesos[i].estado == BLOQUEADO)
+		procesos[i].estado = LISTO;
+	    break;
+	}
+    }
+
+    if (i == MAXPROCESOS)
+	return -1;
+
+    return 0;
 }
 
 void
-Kill (int pid) {
+Kill (int pid)
+{
     proceso_t * proc;
     proceso_t * padre;
-    if (pid != INIT && pid !=1) {
+    if (pid != INIT && pid !=1)
+    {
         proc = (proceso_t*)TraerProcesoPorPid (pid);
-        if (proc != 0) {
+        if (proc != 0)
+	{
             printf ("El proceso ", 11);
             printf (proc->nombre, strlen (proc->nombre));
             printf (" fue eliminado.\n", 16);
@@ -288,58 +303,5 @@ MatarHijos(int pid)
             Kill(procesos[i].pid);
     }
 }
-/*
 
-int
-estaBloqueado(int pid)
-{
-  int i;
 
-  for (i = 0; i < MAXPROCESOS; i++) {
-    if (procesos[i].pid == pid && !procesos[i].free_slot) {
-    
-      if(procesos[i].estado !=BLOQUEADO && procesos[i].estado !=ESPERANDO_HIJO)
-        return 1;
-      else
-        return 0;
-    
-    }
-  }
-  if (i == MAXPROCESOS)
-    return -1;
-}
-
-int
-bloqueaProceso (int pid, int bloqCode) {
-  int i;
-
-  for (i = 0; i < MAXPROCESOS; i++) {
-    if (procesos[i].pid == pid && !procesos[i].free_slot) {
-      procesos[i].estado = bloqCode;
-      break;
-    }
-  }
-
-  if (i == MAXPROCESOS)
-    return -1;
-
-  return 0;
-    }*/
-
-int
-desbloqueaProceso (int pid) {
-    int i;
-
-    for (i = 0; i < MAXPROCESOS; i++) {
-    if (procesos[i].pid == pid && !procesos[i].free_slot) {
-      if(procesos[i].estado == ESPERANDO_HIJO || procesos[i].estado == BLOQUEADO)
-            procesos[i].estado = LISTO;
-        break;
-    }
-    }
-
-    if (i == MAXPROCESOS)
-    return -1;
-
-    return 0;
-}

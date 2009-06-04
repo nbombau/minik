@@ -100,7 +100,7 @@ DeshabilitarPaginas(proceso_t * proc)
     int i;
     for(i=0;i<MAX_PAGES-1;i++)
     {
-	if(mem[i]==proc->pid && (proc->pid!=INIT && mem[i]==proc->padre))
+	if(mem[i]==proc->pid || (proc->pid!=INIT && mem[i]==proc->padre))
 	{
 	    page_table2[i]=page_table2[i] & 0xFFFFFFFE;
 	}

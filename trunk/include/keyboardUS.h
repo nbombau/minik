@@ -1,5 +1,5 @@
-#ifndef KEYBOARD_H
-#define KEYBOARD_H
+#ifndef KEYBOARD_US_H
+#define KEYBOARD_US_H
 
 
 #define CANT_KEYS 104
@@ -23,6 +23,6 @@
  *breakcode=scancode|0x0080*/
 #define MASK 0x0080
 
-char ToAsciiLAT(char code);
+char ToAsciiUS(char code);
 
 #endif
