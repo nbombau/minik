@@ -56,8 +56,6 @@ KRealloc(proceso_t * proc, int cantPaginas)
     void * resp = 0x0,*ret=0x0;
     int i,j,k,salgo=0,pos=-1, libere= FALSE;
     int marca,nuevoESP;
-    //clear_screen();
-
 
     for(i = 0; i < MAX_PAGES && !libere; i++)
     {

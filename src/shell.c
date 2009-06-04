@@ -184,10 +184,10 @@ bash(char *line  )
 			CrearProceso("calculaHiPrio", Calcula, 0,(char**)0, 0, TRUE, DEF_STACKSIZE);
 			break;
 	    case LLENASTACK:
-			CrearProceso("recursivo", LlenarStack, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
+			CrearProceso("LlenaStack", LlenarStack, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
 			break;
 	    case LLENASTACK_BK:
-			CrearProceso("recursivo", LlenarStack, 0,(char**)0, 1, TRUE, DEF_STACKSIZE);
+			CrearProceso("LlenaStack", LlenarStack, 0,(char**)0, 1, TRUE, DEF_STACKSIZE);
 			break;
 	    case FORTUNE:
 			CrearProceso("Fortune", Fortune, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
