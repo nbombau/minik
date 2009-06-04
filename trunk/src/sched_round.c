@@ -28,13 +28,17 @@ ActualizarPorcentajesCPU(void)
 void
 GuardarESP (int ESP)
 {
-
     proceso_t *temporal;
     temporal = TraerProcesoPorPid(pidActual);
     temporal->ESP = ESP;
     if((ESP - (temporal->stackstart - temporal->stacksize))<500 && pidActual!=INIT && !termina)
     {
         temporal->stackstart  =(int) KRealloc(temporal, temporal->stacksize/PAGE_SIZE + 1);
+	if(temporal->stackstart==0)
+	{
+	    Kill(pidActual);
+	    switch_manual();
+	}
     }
     termina=0;
     return;
@@ -51,14 +55,25 @@ SiguienteProceso (int esp)
 {
     proceso_t *temporal;
     temporal=TraerProcesoPorPid(pidActual);
-    DeshabilitarPaginas(temporal);
-    GuardarESP (esp);
+    if(temporal->pid<0)
+    {
+	temporal = SiguienteTarea();
+	
+	pidActual = temporal->pid;
 
-    temporal = SiguienteTarea();
-    
-    pidActual = temporal->pid;
-    
-    HabilitarPaginas(temporal);
+	HabilitarPaginas(temporal);
+    }
+    else
+    {
+	GuardarESP (esp);
+	temporal = SiguienteTarea();
+
+	DeshabilitarPaginas(TraerProcesoPorPid(pidActual));
+
+	pidActual = temporal->pid;
+
+	HabilitarPaginas(temporal);
+    }
 
     return temporal->ESP;
 }

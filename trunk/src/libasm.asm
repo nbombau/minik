@@ -111,6 +111,7 @@ sigo456:   push eax
 
 ;-----------------------------------------------
 div0_hand:              ; Handler de excepxi�n "Divide by zero"
+    cli
     push ds
     push es             ; Se salvan los registros
     pusha               ; Carga de DS y ES con el valor del selector
@@ -125,10 +126,12 @@ div0_hand:              ; Handler de excepxi�n "Divide by zero"
     popa
     pop es
     pop ds
+    sti
     jmp $
     iret
 
 bounds_hand:                    ; Handler de excepci�n "BOUND range exceeded"
+    cli
     push ds
     push es             ; Se salvan los registros
     pusha               ; Carga de DS y ES con el valor del selector
@@ -143,10 +146,12 @@ bounds_hand:                    ; Handler de excepci�n "BOUND range exceeded"
     popa
     pop es
     pop ds
+    sti
     jmp $
     iret
 
 opCode_hand:                            ; Handler de excepci�n "Invalid opcode"
+    cli
     push ds
     push es             ; Se salvan los registros
     pusha               ; Carga de DS y ES con el valor del selector
@@ -161,10 +166,12 @@ opCode_hand:                            ; Handler de excepci�n "Invalid opcode
     popa
     pop ax
     pop ax
+    sti
     jmp $
     iret
 
 snoPresent_hand:            ; Handler de excepci�n "Segment not present"
+    cli
     push ds
     push es             ; Se salvan los registros
     pusha               ; Carga de DS y ES con el valor del selector
@@ -179,10 +186,12 @@ snoPresent_hand:            ; Handler de excepci�n "Segment not present"
     popa
     pop ax
     pop ax
+    sti
     jmp $
     iret
 
 ssf_hand:               ; Handler de excepci�n "Stack exception"
+    cli
     push ds
     push es             ; Se salvan los registros
     pusha               ; Carga de DS y ES con el valor del selector
@@ -197,10 +206,12 @@ ssf_hand:               ; Handler de excepci�n "Stack exception"
     popa
     pop ax
     pop ax
+    sti
     jmp $
     iret
 
 generalPfault_hand:         ; Handler de excepci�n "General protection exception"
+    cli
     push ds
     push es             ; Se salvan los registros
     pusha               ; Carga de DS y ES con el valor del selector
@@ -215,11 +226,13 @@ generalPfault_hand:         ; Handler de excepci�n "General protection excepti
     popa
     pop ax
     pop ax
+    sti
     jmp $
     iret
 
 
 pageFault_hand:
+    cli
     push ds
     push es             ; Se salvan los registros
     pusha               ; Carga de DS y ES con el valor del selector
@@ -234,6 +247,7 @@ pageFault_hand:
     popa
     pop es
     pop ds
+    sti
     jmp $
     iret
     

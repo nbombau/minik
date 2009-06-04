@@ -59,7 +59,7 @@ void IniciarMultiTarea (void) ;
 int EstoyEnBackground();
 int TraerIndiceProceso(int pid);
 
-void KFree(int nPagina, int cantPaginas);
+void KFree(proceso_t * proc);
 void * KRealloc(proceso_t * proc, int cantPaginas);
 void * KMalloc (proceso_t * proc);
 
