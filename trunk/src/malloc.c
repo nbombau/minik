@@ -7,6 +7,7 @@ extern int veces;
 extern int pidActual;
 extern int maxmem;
 extern int mem[MAX_PAGES];
+extern unsigned long *page_table2;
 
 void KFreeAux(int nPagina, int cantPaginas);
 
@@ -65,7 +66,7 @@ KRealloc(proceso_t * proc, int cantPaginas)
             libere = TRUE;
         }
     }
-
+    /*Busca cantPaginas contiguas libres para poder realocar el stack del proceso.*/
     for(j=0;j<(MAX_PAGES - cantPaginas) && pos==-1;j++)
     {
         for(k=0,salgo=0; k<cantPaginas && !salgo ;k++)
@@ -73,7 +74,7 @@ KRealloc(proceso_t * proc, int cantPaginas)
             if(mem[j+k]!=-1)
                 salgo=1;
         }
-        if(!salgo/* && mem[j]==-1*/)
+        if(!salgo)
             pos=j;
     }
     if(pos==-1)
@@ -83,44 +84,35 @@ KRealloc(proceso_t * proc, int cantPaginas)
     
     for(i=0;i<cantPaginas;i++)
         mem[pos+i] = proc->pid;
-
-    HabilitarPaginas(proc);
-
-    //printf("\n%d - %d - %d\n",resp+cantPaginas*PAGE_SIZE-proc->stacksize,(void *)proc->stackstart-(cantPaginas-1)*PAGE_SIZE,(cantPaginas-1)*PAGE_SIZE);
+    /*Habilita todas las paginas. Tanto las viejas como las recien asignadas.*/
+    HabilitarPaginaNuevo(proc);
     
     ret=memcpy(resp+cantPaginas*PAGE_SIZE-proc->stacksize,(void *)proc->stackstart-(cantPaginas-1)*PAGE_SIZE+1,(cantPaginas-1)*PAGE_SIZE);
     if(ret==0x0)
 	return 0x0;
-    proc->stackstart =(int) resp + cantPaginas* PAGE_SIZE -1;
-    //printf("ESP Antes: %d - Contenido: %d\n",proc->ESP,*((int *)proc->ESP));
-    nuevoESP = (proc->ESP % PAGE_SIZE) + (int)resp+PAGE_SIZE;
-    //printf("ESP Despues: %d - Contenido: %d\n",proc->ESP,*((int *)proc->ESP));
     
+    /*Actualizo valores correspondientes al stack y actualizo los valores que que habian sido pusheados al stack.*/
+    proc->stackstart =(int) resp + cantPaginas* PAGE_SIZE -1;
+
+    nuevoESP = (proc->ESP % PAGE_SIZE) + (int)resp+PAGE_SIZE;
 
     ((STACK_FRAME *) nuevoESP)->EBP = (((STACK_FRAME *)(proc->ESP))->EBP % PAGE_SIZE) + (int)resp+PAGE_SIZE;
     
-    //printf("EBP viejo %d - EBP nuevo %d\n",((STACK_FRAME *)(proc->ESP))->EBP,((STACK_FRAME *) nuevoESP)->EBP);
     ActualizaEBP( (int *)(((STACK_FRAME *) nuevoESP)->EBP) , (int *)(((STACK_FRAME *) proc->ESP)->EBP), (int)resp, marca );
     proc->ESP=nuevoESP;
 
     prueba++;
     
+
     _Cli();
-    //DeshabilitarPaginas(proc);
     KFreeAux(marca, (int)(proc->stacksize/PAGE_SIZE));
     proc->stacksize = cantPaginas*PAGE_SIZE;
-    HabilitarPaginas(proc);
-    
-    //Paginas(NULL,NULL);
-    //_debug();
-    //printf("stack realloc= ***%d*** - dir=***%d*** - ESP: %d", (int)proc->stackstart, resp,proc->ESP);
-
-    //printf("\nREALLOQUIE!\n");
+    HabilitarPaginaNuevo(proc);
 
     return resp+cantPaginas*PAGE_SIZE-1;
 }
 
-
+/*Marca las paginas como libres cuando un proceso deja de usarlas.*/
 void
 KFreeAux(int nPagina, int cantPaginas)
 {
@@ -131,6 +123,7 @@ KFreeAux(int nPagina, int cantPaginas)
     }
 }
 
+/*Libera la memoria alocada por un proceso*/
 void
 KFree(proceso_t * proc)
 {

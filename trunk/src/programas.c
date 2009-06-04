@@ -158,7 +158,7 @@ Paginas(int argc, char **argv)
     {
 	printf("(%d)*",mem[i]);
     }
-    printf("(%d)",mem[i]);
+    printf("(%d)\n\n\n",mem[i]);
     return 0;
 }
 

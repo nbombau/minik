@@ -162,7 +162,6 @@ help()
 	printf(" imprime4ever     : imprime mensajes en pantalla indefinidamente.  \n");
 	printf(" llenastack	     : llena el stack y hace realloc.   \n");
 	printf(" paginas	        : Muestra los procesos que ocupan las primeras 35 paginas.\n");
-	printf(" muchosprocesos   : Crea 60 procesos que se quedan bloqueados.\n");
 	printf(" pagefault	      : Testea el manejo de la excepcion del tipo Page Fault. \n");
 	printf(" dividirporcero	 : Testea el manejo de la excepcion del tipo Crto Divide. \n");
 	printf("_______________________________________________________________________________\n");
