@@ -4,7 +4,6 @@ unsigned long *page_directory = (unsigned long *) 0x9C000;
 unsigned long *page_table1 = (unsigned long *) 0x9D000;
 unsigned long *page_table2 = (unsigned long *) 0x9E000;
 
-
 void
 InicializarMemUsuario(void)
 {
@@ -56,7 +55,7 @@ void
 HabilitarPaginaNuevo(proceso_t * proc)
 {
     int i;
-    for(i=0;i<MAX_PAGES-1;i++)
+    for(i=0;i<MAX_PAGES;i++)
     {
 	if(mem[i]==proc->pid)
 	{
@@ -70,7 +69,7 @@ void
 DeshabilitarPaginaNuevo(proceso_t * proc)
 {
     int i;
-    for(i=0;i<MAX_PAGES-1;i++)
+    for(i=0;i<MAX_PAGES;i++)
     {
 	if(mem[i]==proc->pid)
 	{
@@ -84,7 +83,7 @@ void
 HabilitarPaginas(proceso_t * proc)
 {
     int i;
-    for(i=0;i<MAX_PAGES-1;i++)
+    for(i=0;i<MAX_PAGES;i++)
     {
 	if(mem[i]==proc->pid || mem[i]==proc->padre )
 	{
@@ -98,7 +97,7 @@ void
 DeshabilitarPaginas(proceso_t * proc)
 {
     int i;
-    for(i=0;i<MAX_PAGES-1;i++)
+    for(i=0;i<MAX_PAGES;i++)
     {
 	if(mem[i]==proc->pid || (proc->pid!=INIT && mem[i]==proc->padre))
 	{

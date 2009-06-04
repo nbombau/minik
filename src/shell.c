@@ -28,12 +28,10 @@ enum {  VOID=-1,
         CALCULA3,
         CALCULA3_BK,
         LLENASTACK,
-        LLENASTACK_BK,
         DIVIDIRCERO,
         FORTUNE,
 	PAGEFAULT,
 	PAGINAS,
-	MUCHOSPROC,
 	NOTFOUND,
      };
 #define NCOM 25
@@ -72,8 +70,8 @@ int
 command(char *line )
 {
   char * comlist[] = { "clear", "loadkeys la", "loadkeys us", "lspci", "?", "imprime", "imprime&", "imprime4ever", "imprime4ever&", "kill", "top", "top&", "calcula1",
-    "calcula1&", "calcula2", "calcula2&", "calcula3", "calcula3&","llenastack", "llenastack&",
-"dividirporcero","fortune","pagefault","paginas","muchosprocesos"};
+    "calcula1&", "calcula2", "calcula2&", "calcula3", "calcula3&","llenastack",
+"dividirporcero","fortune","pagefault","paginas"};
 
         int pid;
 	if( line[0] == '\0' )
@@ -186,9 +184,6 @@ bash(char *line  )
 	    case LLENASTACK:
 			CrearProceso("LlenaStack", LlenarStack, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
 			break;
-	    case LLENASTACK_BK:
-			CrearProceso("LlenaStack", LlenarStack, 0,(char**)0, 1, TRUE, DEF_STACKSIZE);
-			break;
 	    case FORTUNE:
 			CrearProceso("Fortune", Fortune, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
 			break;
@@ -200,12 +195,6 @@ bash(char *line  )
 			break;
 	    case PAGINAS:
 			CrearProceso("Paginas", Paginas, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
-			break;
-	    case MUCHOSPROC:
-			for(i=0;i<60;i++)
-			{
-			    CrearProceso("Proceso vacio", Vacio, 0,(char**)0, 1, TRUE, DEF_STACKSIZE);
-			}
 			break;
 	    default: 	printf("bash: ");
 			printf(line);

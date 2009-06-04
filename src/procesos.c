@@ -151,8 +151,8 @@ Limpia (void)
     }
     temporal->free_slot = TRUE;
     KFree(temporal);
-    _Sti();
     termina=1;
+    _Sti();
     while (1) {
 	asm volatile ("hlt");
     }
@@ -219,12 +219,14 @@ CrearProceso (char *nombre, int (*proceso) (int argc, char **argv),
 void
 sleep(int segundos)
 {
+    _Cli();
     long ticks = (long)(segundos * TIMER_TICK);    
     proceso_t * tmp = TraerProcesoPorPid(pidActual);
     tmp->sleep = ticks;
     tmp->estado = BLOQUEADO;
 
     switch_manual();
+    _Sti();
 }
 
 int
@@ -253,6 +255,7 @@ Kill (int pid)
 {
     proceso_t * proc;
     proceso_t * padre;
+    _Cli();
     if (pid != INIT && pid !=1)
     {
         proc = (proceso_t*)TraerProcesoPorPid (pid);
@@ -290,6 +293,7 @@ Kill (int pid)
     else {
         printf ("Acceso denegado (lero lero).\n", 19);
     }
+    _Sti();
     return;
 }
 

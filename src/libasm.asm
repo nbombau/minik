@@ -44,7 +44,7 @@ EXTERN  SiguienteProceso
 EXTERN sleep
 EXTERN printf
 GLOBAL _StackFill
-
+EXTERN Paginas
 SECTION .data
 
 msg db "Pase por aca",0
@@ -74,8 +74,10 @@ _StackFill:
 	mov ebp,esp
 
 devuelta:
-	mov edx,0065h
+	mov ecx,0
+ciclo32:	mov edx,0065h
 	mov eax,0
+	inc ecx
 sigo456:   push eax
 	inc eax
 	cmp eax,edx
@@ -83,11 +85,15 @@ sigo456:   push eax
 
 	push 1
 	call sleep
+	pop ebx
+    
+	cmp ecx,000Ah
+	jnz ciclo32
 
 	push msg
-	call printf
-
-	;jp _miwait
+	call Paginas
+	pop ebx
+	
 	jp devuelta
 	call _debug
 	ret
