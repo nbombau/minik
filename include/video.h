@@ -34,4 +34,5 @@ void set_screen(void);
 
 void move_cursor(unsigned short int pos);
 
+void help();
 #endif

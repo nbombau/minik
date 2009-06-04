@@ -11,4 +11,5 @@ int getLine(char * buffer, int cant);
 void    itoa( int num,char* number);
 void * memcpy(void * dest, const void * src, unsigned int n);
 void * memset(void * s, int c, unsigned int n);
+int strlen(char *s);
 #endif

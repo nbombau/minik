@@ -60,7 +60,11 @@ void ssf_hand(void);
 void generalPfault_hand(void);
 void pageFault_hand(void);
 void switch_manual(void);
-    
-void		_Fault();
+
+int ArmaStackFrame(int (*)(int argc, char **argv),int,void (*)(void));
+
+/*Llena el stack. Para probar el realloc.*/
+void _StackFill(void);
+void _Fault();
 
 #endif

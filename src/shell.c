@@ -5,6 +5,7 @@
 #include "../include/kasm.h"
 #include "../include/programas.h"
 #include "../include/string.h"
+#include "../include/kernel.h"
 
 
 enum {  VOID=-1, 
@@ -13,7 +14,6 @@ enum {  VOID=-1,
         KEYSUS, 
         LISTPCI, 
         HELP, 
-        REBOOT, 
         IMPRIMELETRA,
         IMPRIMELETRA_BK,
         IMPRIME4EVER,
@@ -36,7 +36,7 @@ enum {  VOID=-1,
 	MUCHOSPROC,
 	NOTFOUND,
      };
-#define NCOM 26
+#define NCOM 25
 
 int
 strcmp(char* s1, char* s2)
@@ -56,6 +56,7 @@ strcmp(char* s1, char* s2)
 		return -1;
 	if( *s2 == '\0')
 		return 1;
+	return 0;
 }
 
 int 
@@ -70,7 +71,7 @@ ParsearArgumentos(char * line)
 int
 command(char *line )
 {
-  char * comlist[] = { "clear", "loadkeys la", "loadkeys us", "lspci", "?", "reboot", "imprime", "imprime&", "imprime4ever", "imprime4ever&", "kill", "top", "top&", "calcula1",
+  char * comlist[] = { "clear", "loadkeys la", "loadkeys us", "lspci", "?", "imprime", "imprime&", "imprime4ever", "imprime4ever&", "kill", "top", "top&", "calcula1",
     "calcula1&", "calcula2", "calcula2&", "calcula3", "calcula3&","llenastack", "llenastack&",
 "dividirporcero","fortune","pagefault","paginas","muchosprocesos"};
 
@@ -105,7 +106,6 @@ shell(int argc, char ** argv)
 {
 	/* Buffer de almacenamiento de caracteres */
 	char in_buffer[MAX_CHARS];
-	char caca[2];
 	set_screen();
 	clear_screen();
 	welcome();
@@ -143,10 +143,7 @@ bash(char *line  )
 			break;
 	    case KEYSUS:
 			loadkeysus();
-		        break;
-	    case REBOOT:
-			reboot();
-    
+		        break;    
 	    case IMPRIMELETRA: 
 			CrearProceso ("ImprimeLetra", ImprimeLetras, 0,(char **)0, DEF_PRIO, FALSE, DEF_STACKSIZE);
 			break;

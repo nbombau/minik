@@ -1,5 +1,5 @@
-#ifndef KEYBOARD_H
-#define KEYBOARD_H
+#ifndef KEYBOARD_LAT_H
+#define KEYBOARD_LAT_H
 
 
 #define CANT_KEYS 104

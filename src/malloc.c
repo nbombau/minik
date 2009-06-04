@@ -56,7 +56,7 @@ KRealloc(proceso_t * proc, int cantPaginas)
     void * resp = 0x0,*ret=0x0;
     int i,j,k,salgo=0,pos=-1, libere= FALSE;
     int marca,nuevoESP;
-    clear_screen();
+    //clear_screen();
 
 
     for(i = 0; i < MAX_PAGES && !libere; i++)
@@ -88,34 +88,36 @@ KRealloc(proceso_t * proc, int cantPaginas)
 
     HabilitarPaginas(proc);
 
-    printf("\n%d - %d - %d\n",resp+cantPaginas*PAGE_SIZE-proc->stacksize,(void *)proc->stackstart-(cantPaginas-1)*PAGE_SIZE,(cantPaginas-1)*PAGE_SIZE);
+    //printf("\n%d - %d - %d\n",resp+cantPaginas*PAGE_SIZE-proc->stacksize,(void *)proc->stackstart-(cantPaginas-1)*PAGE_SIZE,(cantPaginas-1)*PAGE_SIZE);
     
     ret=memcpy(resp+cantPaginas*PAGE_SIZE-proc->stacksize,(void *)proc->stackstart-(cantPaginas-1)*PAGE_SIZE+1,(cantPaginas-1)*PAGE_SIZE);
     if(ret==0x0)
 	return 0x0;
     proc->stackstart =(int) resp + cantPaginas* PAGE_SIZE -1;
-    printf("ESP Antes: %d - Contenido: %d\n",proc->ESP,*((int *)proc->ESP));
+    //printf("ESP Antes: %d - Contenido: %d\n",proc->ESP,*((int *)proc->ESP));
     nuevoESP = (proc->ESP % PAGE_SIZE) + (int)resp+PAGE_SIZE;
-    printf("ESP Despues: %d - Contenido: %d\n",proc->ESP,*((int *)proc->ESP));
+    //printf("ESP Despues: %d - Contenido: %d\n",proc->ESP,*((int *)proc->ESP));
     
 
     ((STACK_FRAME *) nuevoESP)->EBP = (((STACK_FRAME *)(proc->ESP))->EBP % PAGE_SIZE) + (int)resp+PAGE_SIZE;
     
-    printf("EBP viejo %d - EBP nuevo %d\n",((STACK_FRAME *)(proc->ESP))->EBP,((STACK_FRAME *) nuevoESP)->EBP);
+    //printf("EBP viejo %d - EBP nuevo %d\n",((STACK_FRAME *)(proc->ESP))->EBP,((STACK_FRAME *) nuevoESP)->EBP);
     ActualizaEBP( (int *)(((STACK_FRAME *) nuevoESP)->EBP) , (int *)(((STACK_FRAME *) proc->ESP)->EBP), (int)resp, marca );
     proc->ESP=nuevoESP;
 
     prueba++;
     
-
-    DeshabilitarPaginas(proc);
+    _Cli();
+    //DeshabilitarPaginas(proc);
     KFreeAux(marca, (int)(proc->stacksize/PAGE_SIZE));
-    Paginas(NULL,NULL);
     proc->stacksize = cantPaginas*PAGE_SIZE;
     HabilitarPaginas(proc);
-    printf("stack realloc= ***%d*** - dir=***%d*** - ESP: %d", (int)proc->stackstart, resp,proc->ESP);
+    
+    //Paginas(NULL,NULL);
+    //_debug();
+    //printf("stack realloc= ***%d*** - dir=***%d*** - ESP: %d", (int)proc->stackstart, resp,proc->ESP);
 
-    printf("\nREALLOQUIE!\n");
+    //printf("\nREALLOQUIE!\n");
 
     return resp+cantPaginas*PAGE_SIZE-1;
 }

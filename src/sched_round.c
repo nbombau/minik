@@ -16,8 +16,7 @@ int vuelta = 0;
 void
 ActualizarPorcentajesCPU(void)
 {
-    int i,j;
-    proceso_t * proceso;
+    int i;
     ReiniciarPorcentajes();
     for(i = 0;i<100;i++)
     {

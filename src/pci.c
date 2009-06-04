@@ -1,7 +1,7 @@
 #include "../include/pci.h"
 #include "../include/pcilist.h"
 #include "../include/pcidevlist.h"
-
+#include "../include/stdio.h"
 #define  PCIBIOS_SUCCESSFUL                0x00
 
 extern PCI_VENTABLE	PciVenTable [];
@@ -17,7 +17,7 @@ static int
 pcibios_read (unsigned long dato, unsigned int *value)
 {
 	write(PCI,&dato, 1);
-	read(PCI, value, 1);
+	read(PCI, (char *)value, 1);
     return PCIBIOS_SUCCESSFUL;
 }
 
@@ -63,7 +63,6 @@ lspci (void)
 	unsigned char hdr_type = 0;
 	unsigned short vendor, device;
 	unsigned long dato;
-	unsigned short tmp = 0;
 
 	unsigned short arr[8];
 	int arrind = 0;
@@ -95,7 +94,7 @@ lspci (void)
 					vendor = l & 0xffff;
 					device = (l >> 16) & 0xffff;
 					flag = 0;
-					for (i = 0; flag ==0, i < arrind; i++)
+					for (i = 0; flag ==0 && i < arrind; i++)
 					{
 						if (device == arr[i])
 						{
@@ -121,6 +120,7 @@ lspci (void)
 			} /* end for devfn */
 		} /* end for bus */
 	printf("\n");
+	return 0;
 }
 
 static unsigned long
