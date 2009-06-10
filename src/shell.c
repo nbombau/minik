@@ -28,13 +28,14 @@ enum {  VOID=-1,
         CALCULA3,
         CALCULA3_BK,
         LLENASTACK,
+	LLENASTACK_BK,
         DIVIDIRCERO,
         FORTUNE,
 	PAGEFAULT,
 	PAGINAS,
 	NOTFOUND,
      };
-#define NCOM 25
+#define NCOM 26
 
 int
 strcmp(char* s1, char* s2)
@@ -70,7 +71,7 @@ int
 command(char *line )
 {
   char * comlist[] = { "clear", "loadkeys la", "loadkeys us", "lspci", "?", "imprime", "imprime&", "imprime4ever", "imprime4ever&", "kill", "top", "top&", "calcula1",
-    "calcula1&", "calcula2", "calcula2&", "calcula3", "calcula3&","llenastack",
+    "calcula1&", "calcula2", "calcula2&", "calcula3", "calcula3&","llenastack","llenastack&",
 "dividirporcero","fortune","pagefault","paginas"};
 
         int pid;
@@ -183,6 +184,9 @@ bash(char *line  )
 			break;
 	    case LLENASTACK:
 			CrearProceso("LlenaStack", LlenarStack, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
+			break;
+	    case LLENASTACK_BK:
+			CrearProceso("LlenaStack", LlenarStack, 0,(char**)0, 1, TRUE, DEF_STACKSIZE);
 			break;
 	    case FORTUNE:
 			CrearProceso("Fortune", Fortune, 0,(char**)0, 1, FALSE, DEF_STACKSIZE);
